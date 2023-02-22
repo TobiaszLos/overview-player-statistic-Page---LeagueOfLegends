@@ -9,5 +9,5 @@ export const useDarkMode = () => {
     isDark === 'dark' ? setStoredValue('white') : setStoredValue('dark')
   }
 
-  return [storedValue, setDarkTheme] as [string, typeof setDarkTheme]
+  return [storedValue, setDarkTheme] as [('default' | 'dark' | 'white'), typeof setDarkTheme]
 }

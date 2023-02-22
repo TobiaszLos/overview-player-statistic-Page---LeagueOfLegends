@@ -8,7 +8,7 @@ export const App = () => {
     <HelmetProvider>
       <div>
         <Helmet>
-          <body className={darkTheme === 'dark' ? 'dark' : 'white'} />
+          <body className={darkTheme} />
         </Helmet>
 
         <button
@@ -22,4 +22,4 @@ export const App = () => {
   )
 }
 
-// [isDarkTheme, setDarkTheme] = useDarkMode
+
