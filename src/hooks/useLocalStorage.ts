@@ -7,13 +7,16 @@ export const useLocalStorage = (key: string) => {
     return item ? JSON.parse(item) : 'default'
   })
 
-  const setValue = (value: ('dark' | 'white') | Function) => {
+  const setValue = (value: string | Function) => {
     const valueToStorage: string =
       value instanceof Function ? value(storedValue) : value
 
-    setStoredValue(valueToStorage)
+      setStoredValue(valueToStorage)                                                                                                                    
     window.localStorage.setItem(key, JSON.stringify(valueToStorage))
   }
 
   return [storedValue, setValue] as [string, typeof setValue]
 }
+
+
+       
