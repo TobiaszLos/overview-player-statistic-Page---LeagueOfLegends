@@ -1,20 +1,17 @@
 import { useDarkMode } from './hooks/useDarkMode'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { HomeSearch } from './components/HomeSearch'
-import { fetchSummonersData } from './services'
-import { useEffect } from 'react'
+import { HomeSearch } from './components/Home'
+
+
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
+import { SummonerPage } from './components/SummonerPage'
+
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
 
-  useEffect(() => {
-    fetchSummonersData().then((data) => {
-      console.log(data)
-    })
-  }, [])
 
   return (
     <HelmetProvider>
@@ -26,7 +23,7 @@ export const App = () => {
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
           <Route path="/" element={<HomeSearch />} />
-          
+          <Route path="/:region/:summoner" element={<SummonerPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

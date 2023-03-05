@@ -1,5 +1,5 @@
 import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 interface LayoutProps {
   darkTheme: 'dark' | 'default' | 'white'
@@ -9,7 +9,13 @@ interface LayoutProps {
 export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
   return (
     <main className="bg-slate-100 dark:bg-slate-900 dark:text-white ">
-      <nav>
+      <nav className="flex justify-between items-center px-8 bg-slate-600">
+        <Link to="/">
+          <div className="text-lg font-bold">
+            <span className="text-orange-600">LOL</span>
+            <span className=" text-slate-100">SEARCH</span>
+          </div>
+        </Link>
         <div className="flex justify-end p-4">
           <input
             type="checkbox"
@@ -28,7 +34,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </label>
         </div>
       </nav>
-      <section className=" max-w-3xl m-auto min-h-screen ">
+      <section className="max-w-3xl m-auto min-h-screen ">
         <Outlet />
       </section>
     </main>
