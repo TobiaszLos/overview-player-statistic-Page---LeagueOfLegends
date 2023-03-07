@@ -27,10 +27,6 @@ const options: Options = [
   { value: 'VN2', label: ' VN' },
 ]
 
-interface PropsSearch {
-  onSearch: (name: string, region: RegionName) => void
-} //{ onSearch }: PropsSearch
-
 export const HomeSearch = () => {
   const navigate = useNavigate()
 
