@@ -4,7 +4,9 @@ import { fetchSummonerDataByName } from '../services'
 import { RegionName, SummonerBasic } from '../types'
 
 export const SummonerPage = () => {
-  const [summonerData, setSummonerData] = useState<SummonerBasic>()
+  const [summonerData, setSummonerData] = useState<
+    SummonerBasic | null | undefined
+  >(undefined)
   const { summoner, region } = useParams()
 
   useEffect(() => {
@@ -14,26 +16,30 @@ export const SummonerPage = () => {
   }, [])
 
   const searchSummonerByName = (name: string, region: RegionName) => {
-    fetchSummonerDataByName(name, region).then((data) => setSummonerData(data))
+    fetchSummonerDataByName(region, name).then((data) => setSummonerData(data))
   }
-  console.log(summonerData, 'POZA')
+  console.log(summonerData, 'summonerData _+_+_')
   return (
     <div>
-      <h1>
-        Summoner Page{' '}
-        {!summonerData ? (
-          'Loading'
-        ) : (
+      <div>
+        {summonerData === undefined && <div>Loading...</div>}
+
+        {summonerData === null && (<div className='mt-20 text-center '>
+          <h5 className='text-2xl font-bold'>Its look like this player can't be find.Please check spelling.</h5>
+          <p className='mt-10 text-sm text-gray-800 dark:text-white'>Did you select the right server? Try searching for the summoner in another region</p>
+          </div>)}
+
+        {summonerData && (
           <div>
+            <h2>{summonerData.name}</h2>
             <img
               src={`http://ddragon.leagueoflegends.com/cdn/13.4.1/img/profileicon/${summonerData.profileIconId}.png`}
               alt="No image"
             />
-            <h2 className='text-2xl'>{summonerData.name}</h2>
-            <p className='font-bold'>{summonerData.summonerLevel}</p>
+            <p className="font-bold">{summonerData.summonerLevel}</p>
           </div>
         )}
-      </h1>
+      </div>
     </div>
   )
 }
