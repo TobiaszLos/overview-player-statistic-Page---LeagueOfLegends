@@ -26,3 +26,12 @@ export type RegionName =
   }
 
 
+  export type TopSoloQPlayers = {
+    leaguePoints: number
+    summonerId: string
+    summonerName: string
+    rank: string
+    wins: number
+    losses: number
+  }
+  
