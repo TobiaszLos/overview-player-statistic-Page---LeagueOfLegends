@@ -2,6 +2,16 @@ import { RegionName, SummonerBasic, TopSoloQPlayers } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
 
+export const getLatestPathVersion = async (): Promise<string> => {
+  const response = await fetch(
+    'https://ddragon.leagueoflegends.com/api/versions.json'
+  )
+
+  const data: Array<string> = await response.json()
+  return data[0]
+}
+
+
 export const fetchSummonerDataByName = async (
   region: RegionName,
   name: string
@@ -32,3 +42,5 @@ export const fetchBestPlayersOfServer = async (
     throw error
   }
 }
+
+// fetchBestPlayersOfServer('EUW1')

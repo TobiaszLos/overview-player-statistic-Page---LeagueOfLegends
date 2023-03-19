@@ -18,16 +18,23 @@ export const SummonerPage = () => {
   const searchSummonerByName = (name: string, region: RegionName) => {
     fetchSummonerDataByName(region, name).then((data) => setSummonerData(data))
   }
-  console.log(summonerData, 'summonerData _+_+_')
+  console.log(summonerData, '  SummonerPage {summonerData}')
   return (
     <div>
       <div>
         {summonerData === undefined && <div>Loading...</div>}
 
-        {summonerData === null && (<div className='mt-20 text-center '>
-          <h5 className='text-2xl font-bold'>Its look like this player can't be find.Please check spelling.</h5>
-          <p className='mt-10 text-sm text-gray-800 dark:text-white'>Did you select the right server? Try searching for the summoner in another region</p>
-          </div>)}
+        {summonerData === null && (
+          <div className="mt-20 text-center ">
+            <h5 className="text-2xl font-bold">
+              Its look like this player can't be find.Please check spelling.
+            </h5>
+            <p className="mt-10 text-sm text-gray-800 dark:text-white">
+              Did you select the right server? Try searching for the summoner in
+              another region
+            </p>
+          </div>
+        )}
 
         {summonerData && (
           <div>

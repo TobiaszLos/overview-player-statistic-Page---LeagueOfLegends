@@ -1,7 +1,14 @@
-import { FormEvent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
-import { RegionName } from '../types'
+import {
+  fetchBestPlayersOfServer,
+  fetchSummonerDataByName,
+  getLatestPathVersion,
+} from '../services'
+import { RegionName, TopSoloQPlayers } from '../types'
+import { quickSort } from '../utilities/quickSort'
+import { TopPlayerSection } from './TopPlayersSection'
 
 type Options = {
   value: RegionName
@@ -27,8 +34,21 @@ const options: Options = [
   { value: 'VN2', label: ' VN' },
 ]
 
-export const HomeSearch = () => {
+export const Home = () => {
+  const [playersList, setPlayersList] = useState<TopSoloQPlayers[]>([])
+  const [versionPath, setVersionPath] = useState('')
+  const [playerDetails, setPlayerDetails] = useState()
+  const [region, setRegion] = useState<RegionName>('EUW1')
+
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const getVersion = async () => {
+      const version = await getLatestPathVersion()
+      setVersionPath(version)
+    }
+    getVersion()
+  }, [])
 
   const handleChange = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,12 +59,22 @@ export const HomeSearch = () => {
     let region = formData.get('region')
 
     if (typeof summonerName === 'string' && typeof region === 'string') {
-      // onSearch(summonerName, region as RegionName)
       navigate(`/${region}/${summonerName}`)
     } else {
       console.error('Invalid summoner name or region')
     }
   }
+
+  const fetchTopPlayersList = async (region: RegionName) => {
+    const fetchedPlayers = await fetchBestPlayersOfServer(region)
+    const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints')
+
+    setPlayersList(sortByRanking.slice(0, 10))
+  }
+
+  useEffect(() => {
+    fetchTopPlayersList(region)
+  }, [region])
 
   return (
     <div className="flex flex-col items-center">
@@ -67,6 +97,10 @@ export const HomeSearch = () => {
         >
           <select
             name="region"
+            defaultValue={region}
+            onChange={(e) => {
+              setRegion(e.currentTarget.value as RegionName)
+            }}
             className="border rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4"
           >
             {options.map((option) => (
@@ -87,8 +121,20 @@ export const HomeSearch = () => {
         </form>
       </div>
 
-      <div className='mt-20'>
-        <h2 className='font-bold text-slate-800 dark:text-slate-100'>Top 5 accounts</h2>
+      <div className=" ">
+        <h2 className="pt-24 text-center font-semibold">
+          Top {region} server players
+        </h2>
+        <ul className="grid grid-cols-4 gap-8 mt-8">
+          {!!playersList.length &&
+            playersList.map((player) => (
+              <TopPlayerSection
+                player={player}
+                versionPath={versionPath}
+                region={region}
+              />
+            ))}
+        </ul>
       </div>
     </div>
   )

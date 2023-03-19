@@ -34,9 +34,40 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </label>
         </div>
       </nav>
+      
       <section className="max-w-3xl m-auto min-h-screen ">
         <Outlet />
       </section>
+
+      <footer className="bg-gray-900 mt-24">
+        <div className="max-w-screen-xl mx-auto py-4 px-2 sm:px-4 lg:py-6 lg:px-8 flex justify-center items-center">
+          <a
+            href="#"
+            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
+          >
+            About
+          </a>
+          <a
+            href="#"
+            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
+          >
+            Contact
+          </a>
+   
+          <a
+            href="#"
+            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
+          >
+            Privacy
+          </a>
+          <a
+            href="#"
+            className="text-base leading-6 text-gray-400 hover:text-white"
+          >
+            Terms
+          </a>
+        </div>
+      </footer>
     </main>
   )
 }
