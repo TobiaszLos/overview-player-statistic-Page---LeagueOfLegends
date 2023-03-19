@@ -1,6 +1,6 @@
 import { useDarkMode } from './hooks/useDarkMode'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { HomeSearch } from './components/Home'
+import { Home } from './components/Home'
 
 
 import { Route, Routes } from 'react-router-dom'
@@ -22,7 +22,7 @@ export const App = () => {
         <Route
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
-          <Route path="/" element={<HomeSearch />} />
+          <Route path="/" element={<Home />} />
           <Route path="/:region/:summoner" element={<SummonerPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
