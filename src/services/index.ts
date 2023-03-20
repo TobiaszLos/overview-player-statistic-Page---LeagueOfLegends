@@ -43,4 +43,19 @@ export const fetchBestPlayersOfServer = async (
   }
 }
 
-// fetchBestPlayersOfServer('EUW1')
+
+export const fetchSummonerDataById = async (
+  region: RegionName,
+  summonerId: string
+): Promise<SummonerBasic | null> => {
+  try {
+    const url  = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}?api_key=${API_KEY}`
+    const response = await fetch(url)
+
+    const data: SummonerBasic = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching summoner data:', error)
+    return null
+  }
+}

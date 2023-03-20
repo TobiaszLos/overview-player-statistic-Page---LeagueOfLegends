@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchSummonerDataByName } from '../services'
+import { fetchSummonerDataById, fetchSummonerDataByName } from '../services'
 import { RegionName, TopSoloQPlayers } from '../types'
 
 interface TopPlayerSectionProps {
   versionPath: string
   region: RegionName
   player: TopSoloQPlayers
+  rank: number
 }
 
 export const TopPlayerSection = ({
   versionPath,
   region,
+  rank,
   player,
 }: TopPlayerSectionProps) => {
   const [loading, setLoading] = useState(true)
@@ -20,10 +22,11 @@ export const TopPlayerSection = ({
 
   const getLevelAndSummonerIcon = async () => {
     setLoading(true)
-    const fetchedByName = await fetchSummonerDataByName(
-      region,
-      player.summonerName
-    )
+    const fetchedByName = await fetchSummonerDataById(region, player.summonerId)
+    // const fetchedByName = await fetchSummonerDataByName(
+    //   region,
+    //   player.summonerName
+    // )
     if (fetchedByName) {
       setIcon(fetchedByName.profileIconId)
       setLevel(fetchedByName.summonerLevel)
@@ -40,17 +43,24 @@ export const TopPlayerSection = ({
       {loading ? (
         <div>loading</div>
       ) : (
-        <Link to={`${region}/${player.summonerName}`}>
-         <li key={player.summonerId}>
-          <img
-            src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${icon}.png`}
-            alt=""
-          />
-          <div>{player.summonerName}</div>
-          <span>{level}</span>
-        </li>
-         </Link>
-       
+        <Link
+          to={`${region}/${player.summonerName}`}
+          className="hover:border-2 p-4 duration-100"
+        >
+          <li>
+          <div className='text-sm'>Rank. {rank + 1}</div>
+            <img
+              src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${icon}.png`}
+              alt=""
+              className='w-full'
+            />
+            <div className="font-medium text-cyan-700 dark:text-cyan-500 pt-2">
+              {player.summonerName}
+            </div>
+            
+            <div className='text-sm'>{player.leaguePoints} LP</div>
+          </li>
+        </Link>
       )}
     </>
   )

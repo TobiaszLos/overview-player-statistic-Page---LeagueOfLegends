@@ -69,7 +69,7 @@ export const Home = () => {
     const fetchedPlayers = await fetchBestPlayersOfServer(region)
     const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints')
 
-    setPlayersList(sortByRanking.slice(0, 10))
+    setPlayersList(sortByRanking.slice(0, 8))
   }
 
   useEffect(() => {
@@ -93,15 +93,11 @@ export const Home = () => {
       <div className="w-11/12">
         <form
           onSubmit={(e) => handleChange(e)}
-          className="mt-5 h-12 flex w-full justify-center"
+          className="mt-5 h-12 flex w-full justify-center "
         >
           <select
             name="region"
-            defaultValue={region}
-            onChange={(e) => {
-              setRegion(e.currentTarget.value as RegionName)
-            }}
-            className="border rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4"
+            className="border  border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4"
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -113,7 +109,7 @@ export const Home = () => {
             id="summonerName"
             name="summonerName"
             type="text"
-            className="border focus:outline-none w-full pl-3 text-sm text-slate-600 font-bold"
+            className="border border-slate-400  focus:outline-none w-full pl-3 text-sm text-slate-600 font-bold"
           />
           <button className="text-white bg-orange-600 w-16 rounded-r-lg hover:bg-orange-500">
             <BiSearch size={'24px'} className="mx-auto" />
@@ -121,14 +117,29 @@ export const Home = () => {
         </form>
       </div>
 
-      <div className=" ">
-        <h2 className="pt-24 text-center font-semibold">
-          Top {region} server players
+      <div>
+        <h2 className=" mt-28 mb-8 text-center text-slate-700 dark:text-slate-300 font-semibold text-2xl my-auto">
+          The best summoners of the region
         </h2>
-        <ul className="grid grid-cols-4 gap-8 mt-8">
+        <select
+          name="region"
+          onChange={(e) => {
+            setRegion(e.currentTarget.value as RegionName)
+          }}
+          className="border-2 dark:border-red-50 border-slate-400 rounded-2xl bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <ul className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-8">
           {!!playersList.length &&
-            playersList.map((player) => (
+            playersList.map((player, index) => (
               <TopPlayerSection
+                key={player.summonerId}
+                rank={index}
                 player={player}
                 versionPath={versionPath}
                 region={region}
