@@ -45,7 +45,7 @@ export const TopPlayerSection = ({
       ) : (
         <Link
           to={`${region}/${player.summonerName}`}
-          className="hover:border-2 p-4 duration-100"
+          className="hover:border-2 p-4 duration-100 hover:border-slate-300"
         >
           <li>
           <div className='text-sm'>Rank. {rank + 1}</div>
