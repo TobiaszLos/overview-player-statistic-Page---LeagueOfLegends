@@ -40,36 +40,18 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
       <section className="max-w-3xl m-auto min-h-screen ">
         <Outlet />
       </section>
-      
+
       {/* ------------------------*/}
 
       <footer className="bg-gray-900 mt-24">
-        <div className="max-w-screen-xl mx-auto py-4 px-2 sm:px-4 lg:py-6 lg:px-8 flex justify-center items-center">
-          <a
-            href="#"
-            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
-          >
-            About
-          </a>
-          <a
-            href="#"
-            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
-          >
-            Contact
-          </a>
-
-          <a
-            href="#"
-            className="text-base leading-6 text-gray-400 hover:text-white mr-4"
-          >
-            Privacy
-          </a>
-          <a
-            href="#"
-            className="text-base leading-6 text-gray-400 hover:text-white"
-          >
-            Terms
-          </a>
+        <div className="text-base leading-6 text-gray-400  mr-4 pl-4 py-4">
+          <span className="font-bold">LOLSEARCH</span> © 2023 |{' '}
+          <span className="hover:text-slate-200">
+            <a href="https://github.com/tobiaszlos">GitHub</a>
+          </span> | {' '}
+          <span className="hover:text-slate-200">
+            <a href="https://github.com/TobiaszLos/League-of-Legends---player-searcher">Project</a>
+          </span>
         </div>
       </footer>
     </main>
