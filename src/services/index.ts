@@ -1,6 +1,8 @@
-import { RegionName, SummonerBasic, TopSoloQPlayers } from '../types'
+import { SummonerLeague, RegionName, SummonerBasic, TopSoloQPlayers, SummonerRankedLeagues } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
+
+// Summoner means the same as player.
 
 export const getLatestPathVersion = async (): Promise<string> => {
   const response = await fetch(
@@ -11,13 +13,28 @@ export const getLatestPathVersion = async (): Promise<string> => {
   return data[0]
 }
 
-
 export const fetchSummonerDataByName = async (
   region: RegionName,
   name: string
 ): Promise<SummonerBasic | null> => {
   try {
     const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${API_KEY}`
+    const response = await fetch(url)
+
+    const data: SummonerBasic = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching summoner data:', error)
+    return null
+  }
+}
+
+export const fetchSummonerDataById = async (
+  region: RegionName,
+  summonerId: string
+): Promise<SummonerBasic | null> => {
+  try {
+    const url = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}?api_key=${API_KEY}`
     const response = await fetch(url)
 
     const data: SummonerBasic = await response.json()
@@ -43,19 +60,28 @@ export const fetchBestPlayersOfServer = async (
   }
 }
 
-
-export const fetchSummonerDataById = async (
-  region: RegionName,
-  summonerId: string
-): Promise<SummonerBasic | null> => {
+export const fetchSummonerLeagueDetails = async (
+  summonerId: string,
+  region: RegionName
+): Promise<SummonerRankedLeagues> => {
   try {
-    const url  = `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}?api_key=${API_KEY}`
+    const url = `https://${region}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`
     const response = await fetch(url)
 
-    const data: SummonerBasic = await response.json()
-    return data
+    const data: SummonerLeague[] = await response.json()
+
+    const transformData = () => {
+      return data.reduce((acc, currentValue: SummonerLeague) => {
+        return {
+          ...acc,
+          [currentValue.queueType]: currentValue,
+        }
+      }, {})
+    }
+
+    return transformData() as SummonerRankedLeagues
   } catch (error) {
-    console.error('Error fetching summoner data:', error)
-    return null
+    throw error
   }
 }
+
