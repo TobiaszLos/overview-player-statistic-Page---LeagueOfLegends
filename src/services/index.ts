@@ -3,7 +3,6 @@ import {
   RegionName,
   SummonerBasic,
   TopSoloQPlayers,
-  SummonerRankedLeagues,
 } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
@@ -30,7 +29,7 @@ export const fetchSummonerDataByName = async (
     const data: SummonerBasic = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching summoner data:', error)
+    console.error('Error fetching summoner data:', {error})
     return null
   }
 }
@@ -46,7 +45,7 @@ export const fetchSummonerDataById = async (
     const data: SummonerBasic = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching summoner data:', error)
+    console.error('Error fetching summoner data:', {error})
     return null
   }
 }
@@ -82,13 +81,3 @@ export const fetchSummonerLeagueDetails = async (
   }
 }
 
-// const transformData = () => {
-//   return data.reduce((acc, currentValue: SummonerLeague) => {
-//     return {
-//       ...acc,
-//       [currentValue.queueType]: currentValue,
-//     }
-//   }, {})
-// }
-
-// return transformData() as SummonerRankedLeagues

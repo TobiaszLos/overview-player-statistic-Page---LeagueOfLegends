@@ -16,6 +16,17 @@ export type RegionName =
   | 'TW2'
   | 'VN2'
 
+  export type Tier =
+  | 'CHALLENGER'
+  | 'GRANDMASTER'
+  | 'MASTER'
+  | 'DIAMOND'
+  | 'PLATINUM'
+  | 'GOLD'
+  | 'SILVER'
+  | 'BRONZE'
+  | 'IRON'
+
 
   export type SummonerBasic = {
     id: string,
@@ -39,7 +50,7 @@ export type RegionName =
   export type SummonerLeague = {
     leagueId: string;
     queueType: "RANKED_FLEX_SR" | "RANKED_SOLO_5x5";
-    tier: string;
+    tier: Tier;
     rank: string;
     summonerId: string;
     summonerName: string;
@@ -59,8 +70,8 @@ export type RegionName =
   };
   
   export type SummonerRankedLeagues = {
-    RANKED_FLEX_SR: SummonerLeague;
-    RANKED_SOLO_5x5: SummonerLeague;
+    RANKED_FLEX_SR?: SummonerLeague;
+    RANKED_SOLO_5x5?: SummonerLeague;
   };
 
 

@@ -4,14 +4,23 @@ import {
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
 } from '../services'
-import { RegionName, SummonerBasic, SummonerLeague } from '../types'
+import {
+  RegionName,
+  SummonerBasic,
+  SummonerLeague,
+  SummonerRankedLeagues,
+} from '../types'
+
+import { IconByTier } from '../utilities/IconsComponent'
 
 export const SummonerPage = () => {
   const [summonerData, setSummonerData] = useState<
     SummonerBasic | null | undefined
   >(undefined)
 
-  const [summonerLeagues, setSummonerLeagues] = useState<SummonerLeague[]>([])
+  const [summonerLeagues, setSummonerLeagues] = useState<SummonerRankedLeagues>(
+    {}
+  )
 
   const { summoner, region } = useParams()
 
@@ -34,9 +43,19 @@ export const SummonerPage = () => {
     summonerId: string,
     region: RegionName
   ) => {
-    await fetchSummonerLeagueDetails(summonerId, region).then((data) =>
-      setSummonerLeagues(data)
-    )
+    await fetchSummonerLeagueDetails(summonerId, region).then((data) => {
+      const transformData = () => {
+        return data.reduce((acc, currentVal: SummonerLeague) => {
+          return {
+            ...acc,
+            [currentVal.queueType]: currentVal,
+          }
+        }, {})
+      }
+      console.log('transformData: ', transformData())
+
+      setSummonerLeagues(transformData() as SummonerRankedLeagues)
+    })
   }
 
   console.log('summonerLeagues: ', summonerLeagues)
@@ -75,19 +94,43 @@ export const SummonerPage = () => {
               <h2 className=" text-2xl font-semibold">{summonerData.name}</h2>
             </div>
           </article>
-          <article className="p-4 gap-8 ">
-            <section>
-              <div>
+          <article className="p-4  grid-cols-3 gap-4 md:grid">
+            <section className="">
+              <div className="mb-4 border-2">
                 <div>Ranked Solo</div>
-                <div>content</div>
+                <div>
+                  {summonerLeagues.RANKED_SOLO_5x5 === undefined ? (
+                    'unranked'
+                  ) : (
+                    <div>
+                      <div>
+                        POINTS: {summonerLeagues.RANKED_SOLO_5x5.leaguePoints}
+                      </div>
+                      <div>RANK: {summonerLeagues.RANKED_SOLO_5x5.rank} </div>
+
+                      <div> TIER: {summonerLeagues.RANKED_SOLO_5x5.tier} </div>
+                      <IconByTier tier={summonerLeagues.RANKED_SOLO_5x5.tier} />
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div>
+              <div className="mb-4 border-2">
                 <div>Ranked flex</div>
-                <div>content</div>
+                <div>
+                  {summonerLeagues.RANKED_FLEX_SR === undefined ? (
+                    'unranked'
+                  ) : (
+                    <>
+                      <div>RANKED </div>
+                      <IconByTier tier={summonerLeagues.RANKED_FLEX_SR.tier} />
+                    </>
+                  )}
+                </div>
               </div>
             </section>
-            <section>last games.....</section>
+
+            <section className="col-span-2  ">last games.....</section>
           </article>
         </>
       )}
