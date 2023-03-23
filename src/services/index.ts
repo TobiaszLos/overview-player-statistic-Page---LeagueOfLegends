@@ -1,4 +1,10 @@
-import { SummonerLeague, RegionName, SummonerBasic, TopSoloQPlayers, SummonerRankedLeagues } from '../types'
+import {
+  SummonerLeague,
+  RegionName,
+  SummonerBasic,
+  TopSoloQPlayers,
+  SummonerRankedLeagues,
+} from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
 
@@ -63,25 +69,26 @@ export const fetchBestPlayersOfServer = async (
 export const fetchSummonerLeagueDetails = async (
   summonerId: string,
   region: RegionName
-): Promise<SummonerRankedLeagues> => {
+): Promise<SummonerLeague[]> => {
   try {
     const url = `https://${region}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`
     const response = await fetch(url)
 
     const data: SummonerLeague[] = await response.json()
 
-    const transformData = () => {
-      return data.reduce((acc, currentValue: SummonerLeague) => {
-        return {
-          ...acc,
-          [currentValue.queueType]: currentValue,
-        }
-      }, {})
-    }
-
-    return transformData() as SummonerRankedLeagues
+    return data
   } catch (error) {
     throw error
   }
 }
 
+// const transformData = () => {
+//   return data.reduce((acc, currentValue: SummonerLeague) => {
+//     return {
+//       ...acc,
+//       [currentValue.queueType]: currentValue,
+//     }
+//   }, {})
+// }
+
+// return transformData() as SummonerRankedLeagues

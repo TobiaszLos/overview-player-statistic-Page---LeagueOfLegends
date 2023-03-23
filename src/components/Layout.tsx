@@ -37,7 +37,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
 
       {/* ------------ CHILDREN ------------*/}
 
-      <section className="max-w-3xl m-auto min-h-screen ">
+      <section className=" max-w-5xl m-auto min-h-screen ">
         <Outlet />
       </section>
 
