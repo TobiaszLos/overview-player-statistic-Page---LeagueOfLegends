@@ -80,11 +80,11 @@ export const Home = () => {
     <div className="flex flex-col items-center">
       <div className="pt-16 pb-12">
         <div className="text-center leading-3">
-          <span className="text-slate-600 dark:text-slate-100 text-4xl font-bold ">
+          <span className="text-slate-600 dark:text-slate-100 text-5xl font-bold ">
             Search Summoner Stats
           </span>
           <br />
-          <span className="text-slate-400 dark:text-slate-300 text-lg">
+          <span className="text-slate-400 dark:text-slate-300 text-2xl">
             - LEAGUE OF LEGENDS -
           </span>
         </div>
@@ -118,7 +118,7 @@ export const Home = () => {
       </div>
 
       <div>
-        <h2 className=" mt-28 mb-8 text-center text-slate-700 dark:text-slate-300 font-semibold text-2xl my-auto">
+        <h2 className=" mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-3xl my-auto">
           The best summoners of the region
         </h2>
         <select
