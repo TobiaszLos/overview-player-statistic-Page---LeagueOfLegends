@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import {
   fetchSummonerDataByName,
@@ -28,6 +29,10 @@ export const SummonerPage = () => {
     if (summoner && region) {
       searchSummonerByName(summoner, region as RegionName)
     }
+  }, [])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
   }, [])
 
   const searchSummonerByName = (name: string, region: RegionName) => {
@@ -77,6 +82,11 @@ export const SummonerPage = () => {
 
       {summonerData && (
         <>
+          <Helmet>
+            <title>
+              {summonerData.name} League of Legends Performance Overview
+            </title>
+          </Helmet>
           <article className="p-4 flex gap-8 ">
             <div className="w-36 relative ">
               <img
@@ -96,7 +106,7 @@ export const SummonerPage = () => {
           </article>
           <article className="p-4  grid-cols-3 gap-4 md:grid">
             <section className="">
-              <div className="mb-4 border-2">
+              <div className="mb-4 border">
                 <div>Ranked Solo</div>
                 <div>
                   {summonerLeagues.RANKED_SOLO_5x5 === undefined ? (

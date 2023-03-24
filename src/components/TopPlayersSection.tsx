@@ -45,16 +45,16 @@ export const TopPlayerSection = ({
       ) : (
         <Link
           to={`${region}/${player.summonerName}`}
-          className="hover:border-2 p-4 duration-100 hover:border-slate-300"
+          className="hover:border p-4 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600"
         >
           <li>
-          <div className='text-sm'>Rank. {rank + 1}</div>
+          <div className=' text-xs mb-2 text-slate-500'>Rank. {rank + 1}</div>
             <img
               src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${icon}.png`}
               alt=""
-              className='w-full'
+              className='w-full rounded-lg'
             />
-            <div className="font-medium text-cyan-700 dark:text-cyan-500 pt-2">
+            <div className="font-medium text-cyan-700 dark:text-cyan-500 pt-2 ">
               {player.summonerName}
             </div>
             
