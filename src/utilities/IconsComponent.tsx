@@ -7,6 +7,7 @@ import goldIcon from '../assets/img/rank_Icon/emblem-gold.png'
 import silverIcon from '../assets/img/rank_Icon/emblem-silver.png'
 import bronzeIcon from '../assets/img/rank_Icon/emblem-bronze.png'
 import ironIcon from '../assets/img/rank_Icon/emblem-iron.png'
+
 import { Tier } from '../types'
 
 interface IconTierProps {
@@ -37,5 +38,3 @@ export const IconByTier = ({ tier }: IconTierProps) => {
       return null
   }
 }
-
-

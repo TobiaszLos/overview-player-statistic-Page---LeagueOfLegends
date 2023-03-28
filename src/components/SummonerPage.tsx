@@ -13,6 +13,7 @@ import {
 } from '../types'
 
 import { IconByTier } from '../utilities/IconsComponent'
+import unrankedIcon from '../assets/img/rank_Icon/unranked.webp'
 
 export const SummonerPage = () => {
   const [summonerData, setSummonerData] = useState<
@@ -57,13 +58,10 @@ export const SummonerPage = () => {
           }
         }, {})
       }
-      console.log('transformData: ', transformData())
 
       setSummonerLeagues(transformData() as SummonerRankedLeagues)
     })
   }
-
-  console.log('summonerLeagues: ', summonerLeagues)
 
   return (
     <>
@@ -87,7 +85,7 @@ export const SummonerPage = () => {
               {summonerData.name} League of Legends Performance Overview
             </title>
           </Helmet>
-          <article className="p-4 flex gap-8 ">
+          <article className="p-4 flex gap-8 pt-12">
             <div className="w-36 relative ">
               <img
                 className="w-full rounded-xl "
@@ -104,46 +102,106 @@ export const SummonerPage = () => {
               <h2 className=" text-2xl font-semibold">{summonerData.name}</h2>
             </div>
           </article>
-          <article className="p-4  grid-cols-3 gap-4 md:grid">
-            <section className="">
-              <div className="mb-4 border">
-                <div>Ranked Solo</div>
-                <div>
-                  {summonerLeagues.RANKED_SOLO_5x5 === undefined ? (
-                    'unranked'
-                  ) : (
-                    <div>
-                      <div>
-                        POINTS: {summonerLeagues.RANKED_SOLO_5x5.leaguePoints}
-                      </div>
-                      <div>RANK: {summonerLeagues.RANKED_SOLO_5x5.rank} </div>
-
-                      <div> TIER: {summonerLeagues.RANKED_SOLO_5x5.tier} </div>
-                      <IconByTier tier={summonerLeagues.RANKED_SOLO_5x5.tier} />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4 border-2">
-                <div>Ranked flex</div>
-                <div>
-                  {summonerLeagues.RANKED_FLEX_SR === undefined ? (
-                    'unranked'
-                  ) : (
-                    <>
-                      <div>RANKED </div>
-                      <IconByTier tier={summonerLeagues.RANKED_FLEX_SR.tier} />
-                    </>
-                  )}
-                </div>
-              </div>
+          <h2 className="p-4 font-medium text-lg text-slate-600 dark:text-slate-300">
+            Overview ↓
+          </h2>
+          <article className="p-4 grid-cols-5 gap-4 md:grid">
+            <section className="col-span-2">
+              <RankedComponent
+                nameLeague="Ranked Solo"
+                value={
+                  summonerLeagues.RANKED_SOLO_5x5 !== undefined
+                    ? summonerLeagues.RANKED_SOLO_5x5
+                    : null
+                }
+              />
+              <RankedComponent
+                nameLeague="Ranked Flex"
+                value={
+                  summonerLeagues.RANKED_FLEX_SR !== undefined
+                    ? summonerLeagues.RANKED_FLEX_SR
+                    : null
+                }
+              />
             </section>
 
-            <section className="col-span-2  ">last games.....</section>
+            <section className="col-span-3 ">last games.....</section>
           </article>
         </>
       )}
     </>
+  )
+}
+
+const RankedComponent = ({
+  nameLeague,
+  value,
+}: {
+  nameLeague: string
+  value: SummonerLeague | null
+}) => {
+  const calculateWinRate = (wins: number, losses: number) => {
+    const totalGames = wins + losses
+    const winRate = (wins / totalGames) * 100
+    return winRate.toFixed() + '%'
+  }
+
+  return (
+    <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600">
+      <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
+        {nameLeague}
+      </div>
+      <div className="p-4">
+        {value === null ? (
+          <div className="flex justify-between p-2 items-center">
+            <div className="max-w-[35px]">
+              <img src={unrankedIcon} alt="unranked" />
+            </div>
+
+            <div className="text-center font-medium text-sm  text-slate-600  dark:text-slate-300">
+              Unranked
+            </div>
+          </div>
+        ) : (
+          <div className="text-center grid grid-cols-5">
+            <div className="">
+              <IconByTier tier={value.tier} />
+            </div>
+
+            <div className="pl-2">
+              <div className="">
+                {value.tier != 'CHALLENGER' && value.tier !== 'MASTER' ? (
+                  <div className="flex space-x-1 font-semibold text-base">
+                    <span>{value.tier} </span> <span>{value.rank}</span>
+                  </div>
+                ) : (
+                  <div className="font-semibold text-base"> {value.tier} </div>
+                )}
+              </div>
+              <div className="text-left text-sm text-slate-600 dark:text-slate-300">
+                {' '}
+                {(value.leaguePoints / 1000)
+                  .toFixed(3)
+                  .replace('.', ',')} LP{' '}
+              </div>
+            </div>
+
+            <div className="text-right col-span-3 pr-4 text-sm ">
+              <div>
+                <span className=" text-green-600 dark:text-green-500">
+                  {value.wins}W
+                </span>{' '}
+                <span className="text-red-600 dark:text-red-500">
+                  {value.losses}L
+                </span>
+              </div>
+              <div className=" text-slate-400 dark:text-slate-300">
+                Win Rate {calculateWinRate(value.wins, value.losses)}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   )
 }

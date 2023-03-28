@@ -72,6 +72,7 @@ export const Home = () => {
     setPlayersList(sortByRanking.slice(0, 8))
   }
 
+
   useEffect(() => {
     fetchTopPlayersList(region)
   }, [region])
@@ -118,7 +119,7 @@ export const Home = () => {
       </div>
 
       <div>
-        <h2 className=" mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-3xl my-auto">
+        <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-3xl my-auto">
           The best summoners of the region
         </h2>
         <select
@@ -134,7 +135,7 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <ul className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-16 mt-8">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 ">
           {!!playersList.length &&
             playersList.map((player, index) => (
               <TopPlayerSection
