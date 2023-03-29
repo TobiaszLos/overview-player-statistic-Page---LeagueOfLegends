@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
 import { SummonerPage } from './components/SummonerPage'
-import { useEffect } from 'react'
+
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
@@ -27,7 +27,7 @@ export const App = () => {
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
           <Route path="/" element={<Home />} />
-          <Route path="/:region/:summoner" element={<SummonerPage />} />
+          <Route path="/:server/:summoner" element={<SummonerPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

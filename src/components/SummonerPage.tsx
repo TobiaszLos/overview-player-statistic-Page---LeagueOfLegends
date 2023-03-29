@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom'
 import {
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
+  getLatestPathVersion,
 } from '../services'
 import {
-  RegionName,
+  Server,
   SummonerBasic,
   SummonerLeague,
   SummonerRankedLeagues,
@@ -23,12 +24,21 @@ export const SummonerPage = () => {
   const [summonerLeagues, setSummonerLeagues] = useState<SummonerRankedLeagues>(
     {}
   )
+  const [versionPath, setVersionPath] = useState('')
 
-  const { summoner, region } = useParams()
+  const { summoner, server } = useParams()
 
   useEffect(() => {
-    if (summoner && region) {
-      searchSummonerByName(summoner, region as RegionName)
+    const getVersion = async () => {
+      const version = await getLatestPathVersion()
+      setVersionPath(version)
+    }
+    getVersion()
+  }, [])
+
+  useEffect(() => {
+    if (summoner && server) {
+      searchSummonerByName(summoner, server as Server)
     }
   }, [])
 
@@ -36,7 +46,7 @@ export const SummonerPage = () => {
     window.scrollTo(0, 0)
   }, [])
 
-  const searchSummonerByName = (name: string, region: RegionName) => {
+  const searchSummonerByName = (name: string, region: Server) => {
     fetchSummonerDataByName(region, name).then((data) => {
       setSummonerData(data)
       if (data?.id) {
@@ -47,7 +57,7 @@ export const SummonerPage = () => {
 
   const fetchSummonerLeagueData = async (
     summonerId: string,
-    region: RegionName
+    region: Server
   ) => {
     await fetchSummonerLeagueDetails(summonerId, region).then((data) => {
       const transformData = () => {
@@ -62,7 +72,7 @@ export const SummonerPage = () => {
       setSummonerLeagues(transformData() as SummonerRankedLeagues)
     })
   }
-
+ console.log({summonerLeagues, summonerData})
   return (
     <>
       {summonerData === undefined && <div>Loading...</div>}
@@ -89,7 +99,7 @@ export const SummonerPage = () => {
             <div className="w-36 relative ">
               <img
                 className="w-full rounded-xl "
-                src={`http://ddragon.leagueoflegends.com/cdn/13.4.1/img/profileicon/${summonerData.profileIconId}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${summonerData.profileIconId}.png`}
                 alt="No image"
               />
               <div className="font-bold absolute bottom-0 bg-black w-full grid place-content-center text-white bg-opacity-30 rounded-b-xl">
@@ -99,7 +109,10 @@ export const SummonerPage = () => {
               </div>
             </div>
             <div>
-              <h2 className=" text-2xl font-semibold">{summonerData.name}</h2>
+              <h2 className=" text-2xl font-semibold">
+                {summonerData.name} (
+                {server !== undefined ? server.replace(/\d+/g, '') : ''})
+              </h2>
             </div>
           </article>
           <h2 className="p-4 font-medium text-lg text-slate-600 dark:text-slate-300">
@@ -125,7 +138,17 @@ export const SummonerPage = () => {
               />
             </section>
 
-            <section className="col-span-3 ">last games.....</section>
+            <section className="col-span-3 ">
+              <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600">
+                <div className="p-4 border-b-2 text-slate-700 font-medium text-base dark:text-slate-100 ">
+                  Match History
+                </div>
+
+                <div className="p-4  text-slate-700 font-medium text-base dark:text-slate-100 ">
+                  loading...
+                </div>
+              </div>
+            </section>
           </article>
         </>
       )}

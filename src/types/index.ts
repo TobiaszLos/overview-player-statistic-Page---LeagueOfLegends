@@ -1,4 +1,4 @@
-export type RegionName =
+export type Server =
   | 'EUN1'
   | 'EUW1'
   | 'BR1'
@@ -16,7 +16,7 @@ export type RegionName =
   | 'TW2'
   | 'VN2'
 
-  export type Tier =
+export type Tier =
   | 'CHALLENGER'
   | 'GRANDMASTER'
   | 'MASTER'
@@ -27,54 +27,47 @@ export type RegionName =
   | 'BRONZE'
   | 'IRON'
 
+export type SummonerBasic = {
+  id: string
+  name: string
+  profileIconId: string
+  summonerLevel: number
+  puuid: string
+}
 
-  export type SummonerBasic = {
-    id: string,
-    name: string,
-    profileIconId: string,
-    summonerLevel: number,
-    puuid: string,
-  }
+export type TopSoloQPlayers = {
+  leaguePoints: number
+  summonerId: string
+  summonerName: string
+  rank: string
+  wins: number
+  losses: number
+}
 
-
-  export type TopSoloQPlayers = {
-    leaguePoints: number
-    summonerId: string
-    summonerName: string
-    rank: string
+export type SummonerLeague = {
+  leagueId: string
+  queueType: 'RANKED_FLEX_SR' | 'RANKED_SOLO_5x5'
+  tier: Tier
+  rank: 'I' | 'II' | 'III' | 'IV'
+  summonerId: string
+  summonerName: string
+  leaguePoints: number
+  wins: number
+  losses: number
+  veteran: boolean
+  inactive: boolean
+  freshBlood: boolean
+  hotStreak: boolean
+  miniSeries: {
+    target: number
     wins: number
     losses: number
+    progress: string
   }
-  
+}
 
-  export type SummonerLeague = {
-    leagueId: string;
-    queueType: "RANKED_FLEX_SR" | "RANKED_SOLO_5x5";
-    tier: Tier;
-    rank: string;
-    summonerId: string;
-    summonerName: string;
-    leaguePoints: number;
-    wins: number;
-    losses: number;
-    veteran: boolean;
-    inactive: boolean;
-    freshBlood: boolean;
-    hotStreak: boolean;
-    miniSeries: {
-      target: number;
-      wins: number;
-      losses: number;
-      progress: string;
-    };
-  };
-  
-  export type SummonerRankedLeagues = {
-    RANKED_FLEX_SR?: SummonerLeague;
-    RANKED_SOLO_5x5?: SummonerLeague;
-  };
+export type SummonerRankedLeagues = {
+  RANKED_FLEX_SR?: SummonerLeague
+  RANKED_SOLO_5x5?: SummonerLeague
+}
 
-
-
-  // tier: "CHALLENGER" | "GRANDMASTER" | "MASTER" | "DIAMOND" | "PLATINUM" | "GOLD" | "SILVER" | "BRONZE" | "IRON";
-  // rank: "I" | "II" | "III" | "IV";

@@ -6,12 +6,12 @@ import {
   fetchSummonerDataByName,
   getLatestPathVersion,
 } from '../services'
-import { RegionName, TopSoloQPlayers } from '../types'
+import { Server, TopSoloQPlayers } from '../types'
 import { quickSort } from '../utilities/quickSort'
 import { TopPlayerSection } from './TopPlayersSection'
 
 type Options = {
-  value: RegionName
+  value: Server
   label: string
 }[]
 
@@ -38,7 +38,7 @@ export const Home = () => {
   const [playersList, setPlayersList] = useState<TopSoloQPlayers[]>([])
   const [versionPath, setVersionPath] = useState('')
   const [playerDetails, setPlayerDetails] = useState()
-  const [region, setRegion] = useState<RegionName>('EUW1')
+  const [region, setRegion] = useState<Server>('EUW1')
 
   const navigate = useNavigate()
 
@@ -65,7 +65,7 @@ export const Home = () => {
     }
   }
 
-  const fetchTopPlayersList = async (region: RegionName) => {
+  const fetchTopPlayersList = async (region: Server) => {
     const fetchedPlayers = await fetchBestPlayersOfServer(region)
     const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints')
 
@@ -125,7 +125,7 @@ export const Home = () => {
         <select
           name="region"
           onChange={(e) => {
-            setRegion(e.currentTarget.value as RegionName)
+            setRegion(e.currentTarget.value as Server)
           }}
           className="border-2 dark:border-red-50 border-slate-400 rounded-2xl bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         >
@@ -143,7 +143,7 @@ export const Home = () => {
                 rank={index}
                 player={player}
                 versionPath={versionPath}
-                region={region}
+                server={region}
               />
             ))}
         </ul>
