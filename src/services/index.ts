@@ -81,3 +81,50 @@ export const fetchSummonerLeagueDetails = async (
   }
 }
 
+///////////////////////////////////////////////////////////////////
+
+type Region = 'AMERICAS' | 'EUROPE' | 'ASIA' | 'SEA'
+
+const getMatchHistory = async (
+  puuid: string,
+  region: Region,
+  count: number
+): Promise<string[]> => {
+  const response = await fetch(
+    `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${API_KEY}`
+  )
+  return response.json()
+}
+
+const getMatchDetails = async (
+  matchId: string,
+  region: Region
+): Promise<any> => {
+  const response = await fetch(
+    `https://${region}.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+  )
+  return response.json()
+}
+
+// Example usage
+export const fetchMatchesList = async (puuid: string, region: Region, count = 5) => {
+  const matchHistory = await getMatchHistory(puuid, region, count)
+
+  const promises = matchHistory.map((matchId) =>
+    getMatchDetails(matchId, region)
+  )
+
+  Promise.all(promises)
+    .then((matchDetailsList) => {
+      console.log(matchDetailsList, 'jo')
+    })
+    .catch((error) => {
+      console.log(error(error))
+    })
+}
+
+// fetchMatchesList(
+//   'Qh0aYfPMyepTnUWnFOWLE4WlFG5KqzmkRSn9hmPyXlzRD_YbAB4J7E6Tnf7SiRJatcst-I3oSbI9Kw',
+//   'EUROPE'
+// )
+//     'Qh0aYfPMyepTnUWnFOWLE4WlFG5KqzmkRSn9hmPyXlzRD_YbAB4J7E6Tnf7SiRJatcst-I3oSbI9Kw'
