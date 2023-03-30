@@ -1,4 +1,4 @@
-import { TopSoloQPlayers } from "../types"
+import { TopSoloQPlayers } from '../types'
 
 export const quickSort = (
   arr: TopSoloQPlayers[],
@@ -26,5 +26,3 @@ export const quickSort = (
     ...quickSort(less, property),
   ]
 }
-
-

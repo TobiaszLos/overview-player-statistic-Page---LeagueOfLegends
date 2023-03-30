@@ -1,14 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
-import { useNavigate } from 'react-router-dom'
-import {
-  fetchBestPlayersOfServer,
-  fetchSummonerDataByName,
-  getLatestPathVersion,
-} from '../services'
-import { Server, TopSoloQPlayers } from '../types'
+import { Link, useNavigate } from 'react-router-dom'
+import { fetchBestPlayersOfServer, fetchSummonerDataById } from '../services'
+import { Server, SummonerBasic, TopSoloQPlayersPlusIcon } from '../types'
 import { quickSort } from '../utilities/quickSort'
-import { TopPlayerSection } from './TopPlayersSection'
+import { Loading } from './Loading'
 
 type Options = {
   value: Server
@@ -16,9 +12,9 @@ type Options = {
 }[]
 
 const options: Options = [
+  { value: 'EUN1', label: 'EUNE' },
   { value: 'EUW1', label: 'EUW' },
   { value: 'BR1', label: 'BR' },
-  { value: 'EUN1', label: 'EUNE' },
   { value: 'JP1', label: 'JP' },
   { value: 'KR', label: 'KR' },
   { value: 'LA1', label: 'LAS' },
@@ -34,23 +30,19 @@ const options: Options = [
   { value: 'VN2', label: ' VN' },
 ]
 
-export const Home = () => {
-  const [playersList, setPlayersList] = useState<TopSoloQPlayers[]>([])
-  const [versionPath, setVersionPath] = useState('')
-  const [playerDetails, setPlayerDetails] = useState()
-  const [region, setRegion] = useState<Server>('EUW1')
+export const Home = ({ versionPatch }: { versionPatch: string }) => {
+  const [loading, setLoading] = useState(true)
+  const [playersList, setPlayersList] = useState<TopSoloQPlayersPlusIcon[]>([])
+  const [server, setServer] = useState<Server>('EUN1')
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    const getVersion = async () => {
-      const version = await getLatestPathVersion()
-      setVersionPath(version)
-    }
-    getVersion()
+    fetchTopPlayersList(server)
+    console.log('hji')
   }, [])
 
-  const handleChange = (event: FormEvent<HTMLFormElement>) => {
+  const handleSearchChange = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     let formData = new FormData(event.currentTarget)
@@ -65,17 +57,30 @@ export const Home = () => {
     }
   }
 
-  const fetchTopPlayersList = async (region: Server) => {
-    const fetchedPlayers = await fetchBestPlayersOfServer(region)
-    const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints')
+  const fetchTopPlayersList = async (server: Server) => {
+    setLoading(true)
+    const fetchedPlayers = await fetchBestPlayersOfServer(server)
+    const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints').slice(0, 4)
 
-    setPlayersList(sortByRanking.slice(0, 8))
+    const mergedSummonerData = await Promise.all(
+      sortByRanking.map(async (summoner) => {
+        const fetchedData: SummonerBasic | null = await fetchSummonerDataById(
+          server,
+          summoner.summonerId
+        )
+
+        if (!fetchedData) return
+
+        const { profileIconId } = fetchedData
+
+        return { ...summoner, profileIconId }
+      })
+    )
+
+    setPlayersList((await mergedSummonerData) as TopSoloQPlayersPlusIcon[])
+    setServer(server)
+    setLoading(false)
   }
-
-
-  useEffect(() => {
-    fetchTopPlayersList(region)
-  }, [region])
 
   return (
     <div className="flex flex-col items-center">
@@ -93,7 +98,7 @@ export const Home = () => {
 
       <div className="w-11/12">
         <form
-          onSubmit={(e) => handleChange(e)}
+          onSubmit={(e) => handleSearchChange(e)}
           className="mt-5 h-12 flex w-full justify-center "
         >
           <select
@@ -118,16 +123,16 @@ export const Home = () => {
         </form>
       </div>
 
-      <div>
+      <div className="w-full">
         <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-3xl my-auto">
           The best summoners of the region
         </h2>
         <select
           name="region"
           onChange={(e) => {
-            setRegion(e.currentTarget.value as Server)
+            fetchTopPlayersList(e.currentTarget.value as Server)
           }}
-          className="border-2 dark:border-red-50 border-slate-400 rounded-2xl bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+          className="border-2 m-8 dark:border-red-50 border-slate-400 rounded-2xl bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -135,19 +140,65 @@ export const Home = () => {
             </option>
           ))}
         </select>
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 ">
-          {!!playersList.length &&
-            playersList.map((player, index) => (
-              <TopPlayerSection
+
+        {!loading ? (
+          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full">
+            {playersList.map((player, index) => (
+              <TopPlayersComponent
                 key={player.summonerId}
-                rank={index}
                 player={player}
-                versionPath={versionPath}
-                server={region}
+                versionPath={versionPatch}
+                server={server}
+                rank={index}
               />
             ))}
-        </ul>
+          </ul>
+        ) : (
+          <div>
+            <Loading />
+          </div>
+        )}
       </div>
     </div>
+  )
+}
+
+interface TopPlayerSectionProps {
+  versionPath: string
+  server: Server
+  player: TopSoloQPlayersPlusIcon
+  rank: number
+}
+
+export const TopPlayersComponent = ({
+  versionPath,
+  server,
+  rank,
+  player,
+}: TopPlayerSectionProps) => {
+  return (
+    <>
+      <Link
+        to={`${server}/${player.summonerName}`}
+        className="hover:border p-4 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600"
+      >
+        <li>
+          <div className=" text-xs mb-2 text-slate-500">Rank. {rank + 1}</div>
+          <img
+            src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${player.profileIconId}.png`}
+            alt=""
+            className="w-full rounded-lg"
+          />
+          <div className="font-medium text-cyan-700 dark:text-cyan-500 pt-2 ">
+            {player.summonerName}
+          </div>
+
+          <div className="text-sm">
+            {' '}
+            {(player.leaguePoints / 1000).toFixed(3).replace('.', ',')} LP{' '}
+          </div>
+        </li>
+      </Link>
+    </>
   )
 }

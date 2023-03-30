@@ -6,12 +6,22 @@ import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
 import { SummonerPage } from './components/SummonerPage'
+import { useState, useEffect } from 'react'
+import { getLatestPathVersion } from './services'
 
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
 
+  const [versionPatch, setVersionPatch] = useState('')
 
+  useEffect(() => {
+    const getVersion = async () => {
+      const version = await getLatestPathVersion()
+      setVersionPatch(version)
+    }
+    getVersion()
+  }, [])
 
   return (
     <HelmetProvider>
@@ -26,7 +36,7 @@ export const App = () => {
         <Route
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home versionPatch={versionPatch}/>} />
           <Route path="/:server/:summoner" element={<SummonerPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>

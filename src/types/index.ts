@@ -30,7 +30,7 @@ export type Tier =
 export type SummonerBasic = {
   id: string
   name: string
-  profileIconId: string
+  profileIconId: number
   summonerLevel: number
   puuid: string
 }
@@ -42,6 +42,10 @@ export type TopSoloQPlayers = {
   rank: string
   wins: number
   losses: number
+}
+
+export type TopSoloQPlayersPlusIcon = TopSoloQPlayers & {
+  profileIconId: number
 }
 
 export type SummonerLeague = {
@@ -70,4 +74,3 @@ export type SummonerRankedLeagues = {
   RANKED_FLEX_SR?: SummonerLeague
   RANKED_SOLO_5x5?: SummonerLeague
 }
-
