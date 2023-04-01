@@ -4,6 +4,7 @@ import {
   SummonerBasic,
   TopSoloQPlayers,
 } from '../types'
+import { getRegion } from '../utilities/regionSwitcher'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
 
@@ -107,24 +108,27 @@ const getMatchDetails = async (
 }
 
 // Example usage
-export const fetchMatchesList = async (puuid: string, region: Region, count = 5) => {
+export const fetchMatchesList = async (
+  puuid: string,
+  region: Region,
+  count = 5
+) => {
   const matchHistory = await getMatchHistory(puuid, region, count)
 
   const promises = matchHistory.map((matchId) =>
     getMatchDetails(matchId, region)
   )
 
-  Promise.all(promises)
-    .then((matchDetailsList) => {
-      console.log(matchDetailsList, 'jo')
-    })
-    .catch((error) => {
-      console.log(error(error))
-    })
+  return await Promise.all(promises).catch((error) => {
+    console.log(error(error))
+  })
 }
 
 // fetchMatchesList(
 //   'Qh0aYfPMyepTnUWnFOWLE4WlFG5KqzmkRSn9hmPyXlzRD_YbAB4J7E6Tnf7SiRJatcst-I3oSbI9Kw',
-//   'EUROPE'
-// )
-//     'Qh0aYfPMyepTnUWnFOWLE4WlFG5KqzmkRSn9hmPyXlzRD_YbAB4J7E6Tnf7SiRJatcst-I3oSbI9Kw'
+//   getRegion('EUW1')
+// ).then(console.log)
+
+// console.log('jho')
+
+// console.log(getRegion('EUW1'))

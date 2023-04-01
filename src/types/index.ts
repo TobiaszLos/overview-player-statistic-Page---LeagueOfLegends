@@ -16,6 +16,8 @@ export type Server =
   | 'TW2'
   | 'VN2'
 
+export type Region = 'AMERICAS' | 'EUROPE' | 'ASIA' | 'SEA'
+
 export type Tier =
   | 'CHALLENGER'
   | 'GRANDMASTER'
@@ -74,3 +76,4 @@ export type SummonerRankedLeagues = {
   RANKED_FLEX_SR?: SummonerLeague
   RANKED_SOLO_5x5?: SummonerLeague
 }
+

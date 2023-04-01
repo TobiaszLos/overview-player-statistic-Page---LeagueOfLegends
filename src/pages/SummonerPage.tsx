@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import {
+  fetchMatchesList,
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
   getLatestPathVersion,
@@ -13,19 +14,22 @@ import {
   SummonerRankedLeagues,
 } from '../types'
 
-import { IconByTier } from '../utilities/IconsComponent'
-import unrankedIcon from '../assets/img/rank_Icon/unranked.webp'
+import { Loading } from '../components/Loading'
+import { LeagueCard } from '../components/LeagueCard'
+import { ListMatchHistory } from '../components/ListMatchHistory'
+import { getRegion } from '../utilities/regionSwitcher'
 
 export const SummonerPage = () => {
   const [summonerData, setSummonerData] = useState<
     SummonerBasic | null | undefined
   >(undefined)
-
   const [summonerLeagues, setSummonerLeagues] = useState<SummonerRankedLeagues>(
     {}
   )
-  const [versionPath, setVersionPath] = useState('')
 
+  const [historyList, setHistoryList] = useState([])
+
+  const [versionPath, setVersionPath] = useState('')
   const { summoner, server } = useParams()
 
   useEffect(() => {
@@ -46,13 +50,17 @@ export const SummonerPage = () => {
     window.scrollTo(0, 0)
   }, [])
 
-  const searchSummonerByName = (name: string, region: Server) => {
-    fetchSummonerDataByName(region, name).then((data) => {
+  const searchSummonerByName = async (name: string, region: Server) => {
+    try {
+      const data = await fetchSummonerDataByName(region, name)
       setSummonerData(data)
       if (data?.id) {
-        fetchSummonerLeagueData(data.id, region)
+        await fetchSummonerLeagueData(data.id, region)
+        await fetchMatchHistory(data.puuid, server as Server)
       }
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const fetchSummonerLeagueData = async (
@@ -72,10 +80,19 @@ export const SummonerPage = () => {
       setSummonerLeagues(transformData() as SummonerRankedLeagues)
     })
   }
- console.log({summonerLeagues, summonerData})
+
+  const fetchMatchHistory = async (puuid: string, server: Server) => {
+    const list = await fetchMatchesList(puuid, getRegion(server))
+    setHistoryList(list)
+  }
+
   return (
     <>
-      {summonerData === undefined && <div>Loading...</div>}
+      {summonerData === undefined && (
+        <div className="grid content-center justify-center">
+          <Loading />
+        </div>
+      )}
       {summonerData === null && (
         <div className="mt-20 text-center ">
           <h5 className="text-2xl font-bold">
@@ -120,7 +137,7 @@ export const SummonerPage = () => {
           </h2>
           <article className="p-4 grid-cols-5 gap-4 md:grid">
             <section className="col-span-2">
-              <RankedComponent
+              <LeagueCard
                 nameLeague="Ranked Solo"
                 value={
                   summonerLeagues.RANKED_SOLO_5x5 !== undefined
@@ -128,7 +145,7 @@ export const SummonerPage = () => {
                     : null
                 }
               />
-              <RankedComponent
+              <LeagueCard
                 nameLeague="Ranked Flex"
                 value={
                   summonerLeagues.RANKED_FLEX_SR !== undefined
@@ -139,92 +156,16 @@ export const SummonerPage = () => {
             </section>
 
             <section className="col-span-3 ">
-              <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600">
-                <div className="p-4 border-b-2 text-slate-700 font-medium text-base dark:text-slate-100 ">
-                  Match History
-                </div>
-
-                <div className="p-4  text-slate-700 font-medium text-base dark:text-slate-100 ">
-                  loading...
-                </div>
-              </div>
+              {!!historyList.length && (
+                <ListMatchHistory
+                  historyList={historyList}
+                  summonerName={summonerData.name}
+                />
+              )}
             </section>
           </article>
         </>
       )}
     </>
-  )
-}
-
-const RankedComponent = ({
-  nameLeague,
-  value,
-}: {
-  nameLeague: string
-  value: SummonerLeague | null
-}) => {
-  const calculateWinRate = (wins: number, losses: number) => {
-    const totalGames = wins + losses
-    const winRate = (wins / totalGames) * 100
-    return winRate.toFixed() + '%'
-  }
-
-  return (
-    <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600">
-      <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
-        {nameLeague}
-      </div>
-      <div className="p-4">
-        {value === null ? (
-          <div className="flex justify-between p-2 items-center">
-            <div className="max-w-[35px]">
-              <img src={unrankedIcon} alt="unranked" />
-            </div>
-
-            <div className="text-center font-medium text-sm  text-slate-600  dark:text-slate-300">
-              Unranked
-            </div>
-          </div>
-        ) : (
-          <div className="text-center grid grid-cols-5">
-            <div className="">
-              <IconByTier tier={value.tier} />
-            </div>
-
-            <div className="pl-2">
-              <div className="">
-                {value.tier != 'CHALLENGER' && value.tier !== 'MASTER' ? (
-                  <div className="flex space-x-1 font-semibold text-base">
-                    <span>{value.tier} </span> <span>{value.rank}</span>
-                  </div>
-                ) : (
-                  <div className="font-semibold text-base"> {value.tier} </div>
-                )}
-              </div>
-              <div className="text-left text-sm text-slate-600 dark:text-slate-300">
-                {' '}
-                {(value.leaguePoints / 1000)
-                  .toFixed(3)
-                  .replace('.', ',')} LP{' '}
-              </div>
-            </div>
-
-            <div className="text-right col-span-3 pr-4 text-sm ">
-              <div>
-                <span className=" text-green-600 dark:text-green-500">
-                  {value.wins}W
-                </span>{' '}
-                <span className="text-red-600 dark:text-red-500">
-                  {value.losses}L
-                </span>
-              </div>
-              <div className=" text-slate-400 dark:text-slate-300">
-                Win Rate {calculateWinRate(value.wins, value.losses)}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
   )
 }

@@ -1,11 +1,11 @@
 import { useDarkMode } from './hooks/useDarkMode'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { Home } from './components/Home'
+import { Home } from './pages/Home'
 
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
-import { SummonerPage } from './components/SummonerPage'
+import { SummonerPage } from './pages/SummonerPage'
 import { useState, useEffect } from 'react'
 import { getLatestPathVersion } from './services'
 
