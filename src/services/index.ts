@@ -3,6 +3,8 @@ import {
   Server,
   SummonerBasic,
   TopSoloQPlayers,
+  MatchDTO,
+  Region,
 } from '../types'
 import { getRegion } from '../utilities/regionSwitcher'
 
@@ -82,9 +84,6 @@ export const fetchSummonerLeagueDetails = async (
   }
 }
 
-///////////////////////////////////////////////////////////////////
-
-type Region = 'AMERICAS' | 'EUROPE' | 'ASIA' | 'SEA'
 
 const getMatchHistory = async (
   puuid: string,
@@ -100,35 +99,26 @@ const getMatchHistory = async (
 const getMatchDetails = async (
   matchId: string,
   region: Region
-): Promise<any> => {
+): Promise<MatchDTO> => {
   const response = await fetch(
     `https://${region}.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
   )
   return response.json()
 }
 
-// Example usage
 export const fetchMatchesList = async (
   puuid: string,
   region: Region,
   count = 5
-) => {
-  const matchHistory = await getMatchHistory(puuid, region, count)
+): Promise<MatchDTO[]> => {
+  try {
+    const matchHistory = await getMatchHistory(puuid, region, count)
+    const promises = matchHistory.map((matchId) =>
+      getMatchDetails(matchId, region)
+    )
 
-  const promises = matchHistory.map((matchId) =>
-    getMatchDetails(matchId, region)
-  )
-
-  return await Promise.all(promises).catch((error) => {
-    console.log(error(error))
-  })
+    return await Promise.all(promises)
+  } catch (error) {
+    throw error; 
+  }
 }
-
-// fetchMatchesList(
-//   'Qh0aYfPMyepTnUWnFOWLE4WlFG5KqzmkRSn9hmPyXlzRD_YbAB4J7E6Tnf7SiRJatcst-I3oSbI9Kw',
-//   getRegion('EUW1')
-// ).then(console.log)
-
-// console.log('jho')
-
-// console.log(getRegion('EUW1'))

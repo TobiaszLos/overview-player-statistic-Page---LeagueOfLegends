@@ -8,6 +8,7 @@ import {
   getLatestPathVersion,
 } from '../services'
 import {
+  MatchDTO,
   Server,
   SummonerBasic,
   SummonerLeague,
@@ -27,7 +28,7 @@ export const SummonerPage = () => {
     {}
   )
 
-  const [historyList, setHistoryList] = useState([])
+  const [historyList, setHistoryList] = useState<MatchDTO[]>([])
 
   const [versionPath, setVersionPath] = useState('')
   const { summoner, server } = useParams()
@@ -56,7 +57,7 @@ export const SummonerPage = () => {
       setSummonerData(data)
       if (data?.id) {
         await fetchSummonerLeagueData(data.id, region)
-        await fetchMatchHistory(data.puuid, server as Server)
+        await fetchMatchHistory(data.puuid, server as Server) // GET HISTORY LIST OF GAMES
       }
     } catch (error) {
       console.log(error)

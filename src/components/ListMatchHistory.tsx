@@ -1,7 +1,15 @@
 import dayjs from 'dayjs'
 import moment from 'moment'
+import { MatchDTO, SummonerBasic } from '../types'
 
-export const ListMatchHistory = ({ historyList, summonerName }) => {
+
+interface ListMatchHistoryProps {
+  historyList: MatchDTO[]
+  summonerName: string
+}
+
+
+export const ListMatchHistory = ({ historyList, summonerName }: ListMatchHistoryProps) => {
   console.log('historyList: ', historyList)
 
   const times = (timestamps: number, action: string) => {
@@ -32,6 +40,7 @@ export const ListMatchHistory = ({ historyList, summonerName }) => {
               <div>{match.info.gameMode}</div>
               <div>{times(match.info.gameCreation, 'fromNow')} </div>
               <div>{times(match.info.gameDuration, 'duration')} </div>
+              <div>{match.info.participants[0].championName} 'ss' </div>
             </div>
           )
         })}
