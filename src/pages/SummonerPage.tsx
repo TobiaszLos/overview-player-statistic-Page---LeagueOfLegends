@@ -20,26 +20,15 @@ import { LeagueCard } from '../components/LeagueCard'
 import { ListMatchHistory } from '../components/ListMatchHistory'
 import { getRegion } from '../utilities/regionSwitcher'
 
-export const SummonerPage = () => {
+export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [summonerData, setSummonerData] = useState<
     SummonerBasic | null | undefined
   >(undefined)
   const [summonerLeagues, setSummonerLeagues] = useState<SummonerRankedLeagues>(
     {}
   )
-
   const [historyList, setHistoryList] = useState<MatchDTO[]>([])
-
-  const [versionPath, setVersionPath] = useState('')
   const { summoner, server } = useParams()
-
-  useEffect(() => {
-    const getVersion = async () => {
-      const version = await getLatestPathVersion()
-      setVersionPath(version)
-    }
-    getVersion()
-  }, [])
 
   useEffect(() => {
     if (summoner && server) {
@@ -117,7 +106,7 @@ export const SummonerPage = () => {
             <div className="w-36 relative ">
               <img
                 className="w-full rounded-xl "
-                src={`http://ddragon.leagueoflegends.com/cdn/${versionPath}/img/profileicon/${summonerData.profileIconId}.png`}
+                src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/profileicon/${summonerData.profileIconId}.png`}
                 alt="No image"
               />
               <div className="font-bold absolute bottom-0 bg-black w-full grid place-content-center text-white bg-opacity-30 rounded-b-xl">

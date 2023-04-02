@@ -37,7 +37,7 @@ export const App = () => {
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
           <Route path="/" element={<Home versionPatch={versionPatch}/>} />
-          <Route path="/:server/:summoner" element={<SummonerPage />} />
+          <Route path="/:server/:summoner" element={<SummonerPage versionPatch={versionPatch} />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
