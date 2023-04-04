@@ -30,6 +30,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [historyList, setHistoryList] = useState<MatchDTO[]>([])
   const { summoner, server } = useParams()
 
+
+
   useEffect(() => {
     if (summoner && server) {
       searchSummonerByName(summoner, server as Server)
@@ -122,7 +124,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               </h2>
             </div>
           </article>
-          <h2 className="p-4 font-medium text-lg text-slate-600 dark:text-slate-300">
+          <h2 className="p-4 font-medium text-lg text-slate-600  dark:text-slate-300">
             Overview ↓
           </h2>
           <article className="p-4 grid-cols-5 gap-4 md:grid">
@@ -150,6 +152,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 <ListMatchHistory
                   historyList={historyList}
                   summonerName={summonerData.name}
+                  versionPatch={versionPatch}
+                 
                 />
               )}
             </section>

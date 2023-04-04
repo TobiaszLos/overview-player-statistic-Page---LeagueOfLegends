@@ -21,7 +21,7 @@ export const LeagueCard = ({
       <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
         {nameLeague}
       </div>
-      <div className="p-4">
+      <div className="p-2">
         {value === null ? (
           <div className="flex justify-between p-2 items-center">
             <div className="max-w-[35px]">

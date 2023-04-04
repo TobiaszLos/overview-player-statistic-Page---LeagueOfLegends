@@ -12,7 +12,6 @@ import { getLatestPathVersion } from './services'
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
-
   const [versionPatch, setVersionPatch] = useState('')
 
   useEffect(() => {

@@ -13,8 +13,8 @@ type Options = {
 }[]
 
 const options: Options = [
-  { value: 'EUN1', label: 'EUNE' },
   { value: 'EUW1', label: 'EUW' },
+  { value: 'EUN1', label: 'EUNE' },
   { value: 'BR1', label: 'BR' },
   { value: 'JP1', label: 'JP' },
   { value: 'KR', label: 'KR' },
@@ -34,7 +34,7 @@ const options: Options = [
 export const Home = ({ versionPatch }: { versionPatch: string }) => {
   const [loading, setLoading] = useState(true)
   const [playersList, setPlayersList] = useState<TopSoloQPlayersPlusIcon[]>([])
-  const [server, setServer] = useState<Server>('EUN1')
+  const [server, setServer] = useState<Server>('EUW1')
 
   const navigate = useNavigate()
 
@@ -60,7 +60,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
   const fetchTopPlayersList = async (server: Server) => {
     setLoading(true)
     const fetchedPlayers = await fetchBestPlayersOfServer(server)
-    const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints').slice(0, 7)
+    const sortByRanking = quickSort(fetchedPlayers, 'leaguePoints').slice(0, 5)
 
     const mergedSummonerData = await Promise.all(
       sortByRanking.map(async (summoner) => {
@@ -142,7 +142,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
         </select>
 
         {!loading ? (
-          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full">
+          <ul className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 w-full">
             {playersList.map((player, index) => (
               <TopPlayerCard
                 key={player.summonerId}
