@@ -4,12 +4,10 @@ import { MatchDTO, ParticipantDTO, SummonerBasic } from '../types'
 import { Link, useParams } from 'react-router-dom'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-
 interface ListMatchHistoryProps {
   historyList: MatchDTO[]
   summonerName: string
   versionPatch: string
-
 }
 
 type SummonerSpell = {
@@ -21,20 +19,7 @@ export const ListMatchHistory = ({
   historyList,
   summonerName,
   versionPatch,
-
 }: ListMatchHistoryProps) => {
-  const { summoner, server } = useParams()
-
-  const [count, setCount] = useState(0)
-
-
-
-  useEffect(() => {
-    console.log(summoner, server)
-    setCount(count + 1)
-  }, [summoner])
-
-
   const times = (timestamps: number, action: string) => {
     if (action === 'fromNow') {
       return moment(timestamps).fromNow()
@@ -97,9 +82,9 @@ export const ListMatchHistory = ({
   console.log('historyList', historyList)
 
   return (
-    <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600">
+    <div className="  ">
       {/* <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600"> */}
-      <div className="p-4 border-b-2 text-slate-700 font-medium text-base dark:text-slate-100 ">
+      <div className="p-4 shadow rounded border-b-2 bg-white text-slate-700 font-medium text-base dark:text-slate-100 dark:bg-slate-700 border dark:border-slate-600">
         Match History
       </div>
 
@@ -113,9 +98,9 @@ export const ListMatchHistory = ({
             key={match.metadata.matchId}
             className={`p-2 my-4 bg-opacity-50 ${
               summonerGameDetails.win ? ' bg-blue-700' : 'bg-red-800'
-            } flex`}
+            } grid grid-cols-5 rounded-lg text-zinc-600  dark:text-zinc-300 font-normal`}
           >
-            <div>
+            <div className=' col-span-1"'>
               <div>{match.info.gameMode}</div>
               <div>{times(match.info.gameCreation, 'fromNow')} </div>
               <div className="flex space-x-2">
@@ -123,12 +108,43 @@ export const ListMatchHistory = ({
                 <div>{summonerGameDetails.win ? 'WIN' : 'LOSS'}</div>
               </div>
             </div>
-            <div className="">
-              <div>
+            <div className=" col-span-2">
+              <div className="flex space-x-1 space-y-1 ">
                 <img
+                  className="w-16 h-16 rounded-md"
                   src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${summonerGameDetails.championName}.png`}
                   alt=""
                 />
+                <div className="">
+                  <img
+                    className="w-8 h-8 rounded-md"
+                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${summonerSpells[
+                      summonerGameDetails.summoner1Id!
+                    ]!}.png`}
+                    // alt={summonerSpells[summonerGameDetails.summoner1Id!]}
+                  />
+                  <img
+                    className="w-8 h-8 rounded-md"
+                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
+                      summonerSpells[summonerGameDetails.summoner2Id!]
+                    }.png`}
+                    // alt={summonerSpells[participant.summoner2Id]}
+                  />
+                </div>
+                <div className="pl-2">
+                  <div className=" font-medium text-zinc-700 dark:text-zinc-300">
+                    {summonerGameDetails.kills} / <span className='text-red-700 dark:text-red-400'>{summonerGameDetails.deaths} </span>/
+                    {summonerGameDetails.assists}{' '}
+                  </div>
+                  <div className=' text-sm'>
+                    {calculateKDA(
+                      summonerGameDetails.kills!,
+                      summonerGameDetails.deaths!,
+                      summonerGameDetails.assists!
+                    )}{' '}
+                    KDA
+                  </div>
+                </div>
               </div>
               <div className="flex">
                 <div className=" w-8">
@@ -162,41 +178,22 @@ export const ListMatchHistory = ({
                   />
                 </div>
               </div>
-              <div>
-                KDA:{' '}
-                {calculateKDA(
-                  summonerGameDetails.kills!,
-                  summonerGameDetails.deaths!,
-                  summonerGameDetails.assists!
-                )}
-              </div>
-
-              <div className="flex">
-                <img
-                  src={`http://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/${summonerSpells[
-                    summonerGameDetails.summoner1Id!
-                  ]!}.png`}
-                  // alt={summonerSpells[summonerGameDetails.summoner1Id!]}
-                />
-                <img
-                  src={`http://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/${
-                    summonerSpells[summonerGameDetails.summoner2Id!]
-                  }.png`}
-                  // alt={summonerSpells[participant.summoner2Id]}
-                />
-              </div>
             </div>
 
-            <div className="grid grid-cols-2 ">
-              <div className="grid grid-rows-5 gap-4 col-start-1 col-end-2">
+            <div className="hidden  md:grid grid-cols-2 col-span-2">
+              <div className="grid grid-rows-5 col-start-1 col-end-2">
                 {match.info.participants
                   .slice(0, 5)
                   .map((participant, index) => {
                     return (
                       <div className="flex" key={index}>
                         <img
-                          className="w-8 h-8"
-                          src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${participant.championName}.png`}
+                          className="w-6 h-6"
+                          src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
+                            participant.championName === 'FiddleSticks'
+                              ? 'Fiddlesticks'
+                              : participant.championName
+                          }.png`}
                           alt=""
                         />
 
@@ -205,33 +202,36 @@ export const ListMatchHistory = ({
                           to={`/EUW1/${participant.summonerName}/`}
                           target="_blank"
                         >
-                          <span>
-                            {participant.summonerName} {index}
-                          </span>
+                          <div className=" text-sm truncate max-w-[80px]">
+                            {participant.summonerName} {index + 5}
+                          </div>
                         </Link>
                       </div>
                     )
                   })}
               </div>
-        
-              <div className="grid grid-rows-5 gap-4 col-start-2 col-end-3">
+
+              <div className="grid grid-rows-5 col-start-2 col-end-3">
                 {match.info.participants.slice(5).map((participant, index) => {
                   return (
                     <div className="flex" key={index}>
                       <img
-                        className="w-8 h-8"
-                        src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${participant.championName}.png`}
+                        className="w-6 h-6"
+                        src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
+                          participant.championName === 'FiddleSticks'
+                            ? 'Fiddlesticks'
+                            : participant.championName
+                        }.png`}
                         alt=""
                       />
-
                       <Link
                         className="hover:text-blue-600"
                         to={`/EUW1/${participant.summonerName}/`}
                         target="_blank"
                       >
-                        <span>
+                        <div className=" text-sm truncate max-w-[80px]">
                           {participant.summonerName} {index + 5}
-                        </span>
+                        </div>
                       </Link>
                     </div>
                   )
