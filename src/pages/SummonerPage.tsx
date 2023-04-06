@@ -20,6 +20,8 @@ import { LeagueCard } from '../components/LeagueCard'
 import { ListMatchHistory } from '../components/ListMatchHistory'
 import { getRegion } from '../utilities/regionSwitcher'
 
+import MatchList from '../components/MatchList'
+
 export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [summonerData, setSummonerData] = useState<
     SummonerBasic | null | undefined
@@ -28,9 +30,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     {}
   )
   const [historyList, setHistoryList] = useState<MatchDTO[]>([])
+
   const { summoner, server } = useParams()
-
-
 
   useEffect(() => {
     if (summoner && server) {
@@ -48,7 +49,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       setSummonerData(data)
       if (data?.id) {
         await fetchSummonerLeagueData(data.id, region)
-        await fetchMatchHistory(data.puuid, server as Server) // GET HISTORY LIST OF GAMES
+       await fetchMatchHistory(data.puuid, server as Server) // GET HISTORY LIST OF GAMES
       }
     } catch (error) {
       console.log(error)
@@ -124,8 +125,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               </h2>
             </div>
           </article>
-          <h2 className="p-4 font-medium text-lg text-slate-600  dark:text-slate-300">
-            Overview ↓
+          <h2 className="p-4 font-medium text-lg text-slate-600  dark:text-slate-300 ">
+            <span className="">Overview </span>
           </h2>
           <article className="p-4 grid-cols-5 gap-4 md:grid">
             <section className="col-span-2">
@@ -153,9 +154,15 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                   historyList={historyList}
                   summonerName={summonerData.name}
                   versionPatch={versionPatch}
-                 
+                  server={server as Server}
                 />
               )}
+            </section>
+            <section>
+              {/* <MatchList
+                puuid={summonerData.puuid}
+                region={getRegion(server as Server)}
+              /> */}
             </section>
           </article>
         </>

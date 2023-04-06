@@ -8,8 +8,8 @@ interface LayoutProps {
 
 export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
   return (
-    <main className="bg-slate-50 dark:bg-slate-800 dark:text-white ">
-      <nav className="flex justify-between items-center px-8 bg-slate-900 2xl:px-24">
+    <main className="bg-slate-100 dark:bg-slate-900 dark:text-white ">
+      <nav className="flex justify-between items-center px-8 bg-slate-800 2xl:px-24">
         <Link to="/">
           <div className="text-lg font-bold">
             <span className="text-orange-600">LOL</span>

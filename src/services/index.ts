@@ -88,10 +88,11 @@ export const fetchSummonerLeagueDetails = async (
 const getMatchHistory = async (
   puuid: string,
   region: Region,
-  count: number
+  count: number,
+  start:number,
 ): Promise<string[]> => {
   const response = await fetch(
-    `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${API_KEY}`
+    `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}&api_key=${API_KEY}`
   )
   return response.json()
 }
@@ -109,10 +110,11 @@ const getMatchDetails = async (
 export const fetchMatchesList = async (
   puuid: string,
   region: Region,
-  count = 5
+  count = 5,
+  start = 0
 ): Promise<MatchDTO[]> => {
   try {
-    const matchHistory = await getMatchHistory(puuid, region, count)
+    const matchHistory = await getMatchHistory(puuid, region, count, start)
     const promises = matchHistory.map((matchId) =>
       getMatchDetails(matchId, region)
     )

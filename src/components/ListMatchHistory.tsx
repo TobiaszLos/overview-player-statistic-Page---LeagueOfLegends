@@ -1,24 +1,41 @@
-import dayjs from 'dayjs'
+
 import moment from 'moment'
-import { MatchDTO, ParticipantDTO, SummonerBasic } from '../types'
-import { Link, useParams } from 'react-router-dom'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { MatchDTO, Server } from '../types'
+import { Link } from 'react-router-dom'
+
+import { getGameType } from '../utilities/gameModeSwich'
 
 interface ListMatchHistoryProps {
   historyList: MatchDTO[]
   summonerName: string
   versionPatch: string
+  server: Server
 }
 
-type SummonerSpell = {
-  id: number
-  key: string
+interface SummonerGameDetails {
+  championId?: number
+  championName?: string
+  deaths?: number
+  kills?: number
+  assists?: number
+  win?: boolean
+  item0?: number
+  item1?: number
+  item2?: number
+  item3?: number
+  item4?: number
+  item5?: number
+  item6?: number
+  summoner1Id?: number
+  summoner2Id?: number
+  [key: string]: number | string | boolean | undefined
 }
 
 export const ListMatchHistory = ({
   historyList,
   summonerName,
   versionPatch,
+  server,
 }: ListMatchHistoryProps) => {
   const times = (timestamps: number, action: string) => {
     if (action === 'fromNow') {
@@ -30,7 +47,7 @@ export const ListMatchHistory = ({
     }
   }
 
-  const summonerMatchDetails = (game: MatchDTO) => {
+  const summonerMatchDetails = (game: MatchDTO): SummonerGameDetails => {
     const summonerObj = game.info.participants.find(
       (summoner) => summoner.summonerName === summonerName
     )
@@ -47,6 +64,8 @@ export const ListMatchHistory = ({
       item2: summonerObj?.item2,
       item3: summonerObj?.item3,
       item4: summonerObj?.item4,
+      item5: summonerObj?.item5,
+      item6: summonerObj?.item6,
       summoner1Id: summonerObj?.summoner1Id,
       summoner2Id: summonerObj?.summoner2Id,
     }
@@ -59,8 +78,6 @@ export const ListMatchHistory = ({
   ): string => {
     return ((kills + assists) / deaths).toFixed(2)
   }
-
-  //http://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/SummonerHeal.png
 
   const summonerSpells: { [key: number]: string } = {
     1: 'SummonerBoost',
@@ -83,12 +100,9 @@ export const ListMatchHistory = ({
 
   return (
     <div className="  ">
-      {/* <div className="mb-4 bg-white shadow rounded dark:bg-slate-700 border dark:border-slate-600"> */}
-      <div className="p-4 shadow rounded border-b-2 bg-white text-slate-700 font-medium text-base dark:text-slate-100 dark:bg-slate-700 border dark:border-slate-600">
+      <div className="p-3 rounded-md  bg-white text-slate-500 font-medium text-base dark:text-slate-100 dark:bg-slate-800  dark:border-slate-800">
         Match History
       </div>
-
-      {/* <div className=" text-slate-700 font-medium text-base dark:text-slate-100 "> */}
 
       {historyList.map((match) => {
         const summonerGameDetails = summonerMatchDetails(match)
@@ -96,47 +110,61 @@ export const ListMatchHistory = ({
         return (
           <div
             key={match.metadata.matchId}
-            className={`p-2 my-4 bg-opacity-50 ${
-              summonerGameDetails.win ? ' bg-blue-700' : 'bg-red-800'
-            } grid grid-cols-5 rounded-lg text-zinc-600  dark:text-zinc-300 font-normal`}
+            className={`p-2 my-4 ${
+              summonerGameDetails.win
+                ? 'border-l-8 border-l-blue-400 bg-sky-100 dark:border-l-blue-700 dark:bg-sky-900 dark:bg-opacity-20'
+                : 'border-l-8 border-l-red-400 bg-red-100 bg-opacity-40 dark:border-l-rose-700 dark:bg-rose-800 dark:bg-opacity-20 '
+            } grid grid-cols-5 rounded-lg text-zinc-600 dark:text-zinc-300 font-normal`}
           >
-            <div className=' col-span-1"'>
-              <div>{match.info.gameMode}</div>
+            {/* Game mode, time, length, outcome */}
+            <div className="col-span-1 ">
+              <div> {getGameType(match.info.queueId)} </div>
               <div>{times(match.info.gameCreation, 'fromNow')} </div>
-              <div className="flex space-x-2">
+              <div className=" space-x-2">
                 <div>{times(match.info.gameDuration, 'duration')}</div>
-                <div>{summonerGameDetails.win ? 'WIN' : 'LOSS'}</div>
+                <div
+                  className={`${
+                    summonerGameDetails.win ? 'text-blue-500' : 'text-red-500'
+                  } font-medium`}
+                >
+                  {summonerGameDetails.win ? 'WIN' : 'LOSS'}
+                </div>
               </div>
             </div>
-            <div className=" col-span-2">
-              <div className="flex space-x-1 space-y-1 ">
+            <div className="col-span-2">
+              {/* Played champion Icon, summoner spells icons, KDA/Stats */}
+              <div className="flex pb-2">
                 <img
-                  className="w-16 h-16 rounded-md"
+                  className=" w-12 h-12 rounded-md"
                   src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${summonerGameDetails.championName}.png`}
                   alt=""
                 />
-                <div className="">
+                <div className="pl-1">
                   <img
-                    className="w-8 h-8 rounded-md"
+                    className="w-6 h-6 rounded-md pb-1"
                     src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${summonerSpells[
                       summonerGameDetails.summoner1Id!
                     ]!}.png`}
-                    // alt={summonerSpells[summonerGameDetails.summoner1Id!]}
+                    alt={summonerSpells[summonerGameDetails.summoner1Id!]}
                   />
+
                   <img
-                    className="w-8 h-8 rounded-md"
+                    className="w-6 h-6 rounded-md"
                     src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
                       summonerSpells[summonerGameDetails.summoner2Id!]
                     }.png`}
-                    // alt={summonerSpells[participant.summoner2Id]}
+                    alt={summonerSpells[summonerGameDetails.summoner2Id!]}
                   />
                 </div>
                 <div className="pl-2">
                   <div className=" font-medium text-zinc-700 dark:text-zinc-300">
-                    {summonerGameDetails.kills} / <span className='text-red-700 dark:text-red-400'>{summonerGameDetails.deaths} </span>/
-                    {summonerGameDetails.assists}{' '}
+                    {summonerGameDetails.kills} /{' '}
+                    <span className="text-red-700 dark:text-red-400">
+                      {summonerGameDetails.deaths}{' '}
+                    </span>
+                    /{summonerGameDetails.assists}{' '}
                   </div>
-                  <div className=' text-sm'>
+                  <div className=" text-sm">
                     {calculateKDA(
                       summonerGameDetails.kills!,
                       summonerGameDetails.deaths!,
@@ -146,41 +174,31 @@ export const ListMatchHistory = ({
                   </div>
                 </div>
               </div>
+
+              {/* Icons items  */}
               <div className="flex">
-                <div className=" w-8">
-                  <img
-                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${summonerGameDetails.item0}.png`}
-                    alt=""
-                  />
-                </div>
-                <div className=" w-8">
-                  <img
-                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${summonerGameDetails.item1}.png`}
-                    alt=""
-                  />
-                </div>
-                <div className=" w-8">
-                  <img
-                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${summonerGameDetails.item2}.png`}
-                    alt=""
-                  />
-                </div>
-                <div className=" w-8">
-                  <img
-                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${summonerGameDetails.item3}.png`}
-                    alt=""
-                  />
-                </div>
-                <div className=" w-8">
-                  <img
-                    src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${summonerGameDetails.item4}.png`}
-                    alt=""
-                  />
-                </div>
+                {Array.from({ length: 7 }).map((_, index) => {
+                  const itemValue = summonerGameDetails[`item${index}`]
+                  return itemValue !== 0 ? (
+                    <div className="w-7" key={index}>
+                      <img
+                        className="w-6 h-6 rounded-md"
+                        src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/item/${itemValue}.png`}
+                        alt=""
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="w-6 h-6 bg-red-200 dark:bg-rose-700 dark:bg-opacity-25 mr-1 rounded-md"
+                      key={index}
+                    ></div>
+                  )
+                })}
               </div>
             </div>
 
-            <div className="hidden  md:grid grid-cols-2 col-span-2">
+            {/* participant icons + name  */}
+            <div className="hidden  md:grid grid-cols-2 col-span-2 text-xs text-slate-500 dark:text-slate-400 tracking-wide">
               <div className="grid grid-rows-5 col-start-1 col-end-2">
                 {match.info.participants
                   .slice(0, 5)
@@ -188,7 +206,7 @@ export const ListMatchHistory = ({
                     return (
                       <div className="flex" key={index}>
                         <img
-                          className="w-6 h-6"
+                          className="w-4 h-4"
                           src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
                             participant.championName === 'FiddleSticks'
                               ? 'Fiddlesticks'
@@ -199,10 +217,10 @@ export const ListMatchHistory = ({
 
                         <Link
                           className="hover:text-blue-600"
-                          to={`/EUW1/${participant.summonerName}/`}
+                          to={`/${server}/${participant.summonerName}/`}
                           target="_blank"
                         >
-                          <div className=" text-sm truncate max-w-[80px]">
+                          <div className="pl-1 truncate max-w-[80px]">
                             {participant.summonerName} {index + 5}
                           </div>
                         </Link>
@@ -210,13 +228,12 @@ export const ListMatchHistory = ({
                     )
                   })}
               </div>
-
               <div className="grid grid-rows-5 col-start-2 col-end-3">
                 {match.info.participants.slice(5).map((participant, index) => {
                   return (
                     <div className="flex" key={index}>
                       <img
-                        className="w-6 h-6"
+                        className="w-4 h-4"
                         src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
                           participant.championName === 'FiddleSticks'
                             ? 'Fiddlesticks'
@@ -226,10 +243,10 @@ export const ListMatchHistory = ({
                       />
                       <Link
                         className="hover:text-blue-600"
-                        to={`/EUW1/${participant.summonerName}/`}
+                        to={`/${server}/${participant.summonerName}/`}
                         target="_blank"
                       >
-                        <div className=" text-sm truncate max-w-[80px]">
+                        <div className="pl-1 truncate max-w-[80px]">
                           {participant.summonerName} {index + 5}
                         </div>
                       </Link>
