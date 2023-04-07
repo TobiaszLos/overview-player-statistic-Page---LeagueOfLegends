@@ -2,7 +2,7 @@ import {
   SummonerLeague,
   Server,
   SummonerBasic,
-  TopSoloQPlayers,
+  TopSoloQPlayer,
   MatchDTO,
   Region,
 } from '../types'
@@ -55,12 +55,12 @@ export const fetchSummonerDataById = async (
 
 export const fetchBestPlayersOfServer = async (
   server: Server
-): Promise<TopSoloQPlayers[]> => {
+): Promise<TopSoloQPlayer[]> => {
   const url = `https://${server}.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${API_KEY}`
 
   try {
     const response = await fetch(url)
-    const data: Record<string, TopSoloQPlayers[]> = await response.json()
+    const data: Record<string, TopSoloQPlayer[]> = await response.json()
 
     return data.entries
   } catch (error) {

@@ -37,7 +37,7 @@ export type SummonerBasic = {
   puuid: string
 }
 
-export type TopSoloQPlayers = {
+export type TopSoloQPlayer = {
   leaguePoints: number
   summonerId: string
   summonerName: string
@@ -46,7 +46,7 @@ export type TopSoloQPlayers = {
   losses: number
 }
 
-export type TopSoloQPlayersPlusIcon = TopSoloQPlayers & {
+export type TopSoloQPlayerPlusIcon = TopSoloQPlayer & {
   profileIconId: number
 }
 
@@ -77,7 +77,7 @@ export type SummonerRankedLeagues = {
   RANKED_SOLO_5x5?: SummonerLeague
 }
 
-/////////////////////////////////////////////////////////////////////////////////
+
 
 export type MatchDTO = {
   metadata: {

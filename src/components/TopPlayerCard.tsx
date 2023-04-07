@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
-import { Server, TopSoloQPlayersPlusIcon } from "../types"
+import { Server, TopSoloQPlayerPlusIcon } from "../types"
 
 interface TopPlayerSectionProps {
   versionPath: string
   server: Server
-  player: TopSoloQPlayersPlusIcon
+  player: TopSoloQPlayerPlusIcon
   rank: number
 }
 
