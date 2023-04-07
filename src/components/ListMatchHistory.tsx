@@ -1,9 +1,9 @@
-
 import moment from 'moment'
 import { MatchDTO, Server } from '../types'
 import { Link } from 'react-router-dom'
 
 import { getGameType } from '../utilities/gameModeSwich'
+import { summonerSpells } from '../utilities/getSummonerSpellName'
 
 interface ListMatchHistoryProps {
   historyList: MatchDTO[]
@@ -12,7 +12,7 @@ interface ListMatchHistoryProps {
   server: Server
 }
 
-interface SummonerGameDetails {
+interface ParticipantDetails {
   championId?: number
   championName?: string
   deaths?: number
@@ -37,37 +37,26 @@ export const ListMatchHistory = ({
   versionPatch,
   server,
 }: ListMatchHistoryProps) => {
-  const times = (timestamps: number, action: string) => {
+  const findSummonerByName = (
+    game: MatchDTO,
+    name: string
+  ): ParticipantDetails => {
+    const summonerObj = game.info.participants.find(
+      (summoner) => summoner.summonerName === name
+    )
+
+    return {
+      ...summonerObj,
+    }
+  }
+
+  const timeFormat = (timestamps: number, action: string) => {
     if (action === 'fromNow') {
       return moment(timestamps).fromNow()
     } else if (action === 'duration') {
       const duration = moment.duration(timestamps, 'seconds')
 
       return `${duration.minutes()}m ${duration.seconds()}s`
-    }
-  }
-
-  const summonerMatchDetails = (game: MatchDTO): SummonerGameDetails => {
-    const summonerObj = game.info.participants.find(
-      (summoner) => summoner.summonerName === summonerName
-    )
-
-    return {
-      championId: summonerObj?.championId,
-      championName: summonerObj?.championName,
-      deaths: summonerObj?.deaths,
-      kills: summonerObj?.kills,
-      assists: summonerObj?.assists,
-      win: summonerObj?.win,
-      item0: summonerObj?.item0,
-      item1: summonerObj?.item1,
-      item2: summonerObj?.item2,
-      item3: summonerObj?.item3,
-      item4: summonerObj?.item4,
-      item5: summonerObj?.item5,
-      item6: summonerObj?.item6,
-      summoner1Id: summonerObj?.summoner1Id,
-      summoner2Id: summonerObj?.summoner2Id,
     }
   }
 
@@ -79,34 +68,17 @@ export const ListMatchHistory = ({
     return ((kills + assists) / deaths).toFixed(2)
   }
 
-  const summonerSpells: { [key: number]: string } = {
-    1: 'SummonerBoost',
-    3: 'SummonerExhaust',
-    4: 'SummonerFlash',
-    6: 'SummonerHaste',
-    7: 'SummonerHeal',
-    11: 'SummonerSmite',
-    12: 'SummonerTeleport',
-    13: 'SummonerMana',
-    14: 'SummonerDot',
-    21: 'SummonerBarrier',
-    30: 'SummonerPoroRecall',
-    31: 'SummonerPoroThrow',
-    32: 'SummonerSnowball',
-    39: 'SummonerSnowURFSnowball_Mark',
-  }
-
   console.log('historyList', historyList)
 
   return (
-    <div className="  ">
+    <>
       <div className="p-3 rounded-md  bg-white text-slate-500 font-medium text-base dark:text-slate-100 dark:bg-slate-800  dark:border-slate-800">
         Match History
       </div>
 
       {historyList.map((match) => {
-        const summonerGameDetails = summonerMatchDetails(match)
-
+        const summonerGameDetails = findSummonerByName(match, summonerName)
+   
         return (
           <div
             key={match.metadata.matchId}
@@ -119,9 +91,9 @@ export const ListMatchHistory = ({
             {/* Game mode, time, length, outcome */}
             <div className="col-span-1 ">
               <div> {getGameType(match.info.queueId)} </div>
-              <div>{times(match.info.gameCreation, 'fromNow')} </div>
+              <div>{timeFormat(match.info.gameCreation, 'fromNow')} </div>
               <div className=" space-x-2">
-                <div>{times(match.info.gameDuration, 'duration')}</div>
+                <div>{timeFormat(match.info.gameDuration, 'duration')}</div>
                 <div
                   className={`${
                     summonerGameDetails.win ? 'text-blue-500' : 'text-red-500'
@@ -199,6 +171,7 @@ export const ListMatchHistory = ({
 
             {/* participant icons + name  */}
             <div className="hidden  md:grid grid-cols-2 col-span-2 text-xs text-slate-500 dark:text-slate-400 tracking-wide">
+             
               <div className="grid grid-rows-5 col-start-1 col-end-2">
                 {match.info.participants
                   .slice(0, 5)
@@ -255,9 +228,10 @@ export const ListMatchHistory = ({
                 })}
               </div>
             </div>
+           
           </div>
         )
       })}
-    </div>
+    </>
   )
 }

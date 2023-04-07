@@ -5,7 +5,6 @@ import {
   fetchMatchesList,
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
-  getLatestPathVersion,
 } from '../services'
 import {
   MatchDTO,
@@ -20,7 +19,7 @@ import { LeagueCard } from '../components/LeagueCard'
 import { ListMatchHistory } from '../components/ListMatchHistory'
 import { getRegion } from '../utilities/regionSwitcher'
 
-import MatchList from '../components/MatchList'
+const PAGE_SIZE = 5
 
 export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [summonerData, setSummonerData] = useState<
@@ -30,6 +29,9 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     {}
   )
   const [historyList, setHistoryList] = useState<MatchDTO[]>([])
+  const [pageNumber, setPageNumber] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true)
 
   const { summoner, server } = useParams()
 
@@ -49,7 +51,16 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       setSummonerData(data)
       if (data?.id) {
         await fetchSummonerLeagueData(data.id, region)
-       await fetchMatchHistory(data.puuid, server as Server) // GET HISTORY LIST OF GAMES
+
+        // GET HISTORY LIST OF GAMES
+        const list = await fetchMatchesList(
+          data.puuid,
+          getRegion(server as Server),
+          PAGE_SIZE,
+          pageNumber * PAGE_SIZE
+        )
+        setHistoryList(list)
+        setPageNumber((prevPageNumber) => prevPageNumber + 1) // pagination
       }
     } catch (error) {
       console.log(error)
@@ -74,9 +85,22 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     })
   }
 
-  const fetchMatchHistory = async (puuid: string, server: Server) => {
-    const list = await fetchMatchesList(puuid, getRegion(server))
-    setHistoryList(list)
+  const handleLoadMore = async () => {
+    if (!summonerData?.puuid) return
+    setIsLoading(true)
+    const list = await fetchMatchesList(
+      summonerData?.puuid,
+      getRegion(server as Server),
+      PAGE_SIZE,
+      pageNumber * PAGE_SIZE
+    )
+    setIsLoading(false)
+    setHistoryList((prevList) => [...prevList, ...list])
+    setPageNumber((prev) => prev + 1)
+
+    if (historyList.length < PAGE_SIZE) {
+      setHasNextPage(false)
+    }
   }
 
   return (
@@ -157,12 +181,14 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                   server={server as Server}
                 />
               )}
-            </section>
-            <section>
-              {/* <MatchList
-                puuid={summonerData.puuid}
-                region={getRegion(server as Server)}
-              /> */}
+              {hasNextPage && (
+                <button
+                  className="w-full bg-white dark:bg-sky-900 dark:bg-opacity-25 py-3 text-sm rounded-lg dark:hover:bg-sky-900 dark:hover:bg-opacity-10"
+                  onClick={handleLoadMore}
+                >
+                {isLoading ? <Loading /> : <>Show More</>}
+                </button>
+              )}
             </section>
           </article>
         </>
