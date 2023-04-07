@@ -1,16 +1,16 @@
-import { TopSoloQPlayers } from '../types'
+import { TopSoloQPlayer } from '../types'
 
 export const quickSort = (
-  arr: TopSoloQPlayers[],
+  arr: TopSoloQPlayer[],
   property: 'leaguePoints'
-): TopSoloQPlayers[] => {
+): TopSoloQPlayer[] => {
   if (arr.length <= 1) {
     return arr
   }
 
   const pivot = arr[0][property]
-  const less: TopSoloQPlayers[] = []
-  const greater: TopSoloQPlayers[] = []
+  const less: TopSoloQPlayer[] = []
+  const greater: TopSoloQPlayer[] = []
 
   for (let i = 1; i < arr.length; i++) {
     if (arr[i][property] > pivot) {
