@@ -37,7 +37,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
   useEffect(() => {
     if (summoner && server) {
-      searchSummonerByName(summoner, server as Server)
+      searchSummonerByName(summoner, server as Server) // RUN ALL
     }
   }, [])
 
@@ -149,8 +149,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               </h2>
             </div>
           </article>
-          <h2 className="p-4 font-medium text-lg text-slate-600  dark:text-slate-300 ">
-            <span className="">Overview </span>
+          <h2 className="p-4 font-medium tracking-wide text-lg text-slate-700  dark:text-slate-300 ">
+            <span >Overview </span>
           </h2>
           <article className="p-4 grid-cols-5 gap-4 md:grid">
             <section className="col-span-2">
@@ -183,7 +183,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               )}
               {hasNextPage && (
                 <button
-                  className="w-full bg-white dark:bg-sky-900 dark:bg-opacity-25 py-3 text-sm rounded-lg dark:hover:bg-sky-900 dark:hover:bg-opacity-10"
+                  className="w-full border py-2 text-sm border-gray-400 rounded-3xl text-gray-700 dark:border-sky-600 dark:border-opacity-50 dark:text-gray-300 hover:opacity-80"
                   onClick={handleLoadMore}
                 >
                 {isLoading ? <Loading /> : <>Show More</>}

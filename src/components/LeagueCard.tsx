@@ -17,7 +17,7 @@ export const LeagueCard = ({
   }
 
   return (
-    <div className="mb-4 bg-white rounded-lg dark:bg-sky-900 dark:bg-opacity-20  ">
+    <div className="mb-4 bg-white bg-opacity-75  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
       <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
         {nameLeague}
       </div>

@@ -43,13 +43,13 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
 
       {/* ------------------------*/}
 
-      <footer className="bg-gray-900 mt-24">
-        <div className="text-base leading-6 text-gray-400  mr-4 pl-4 py-4">
+      <footer className="bg-slate-300 bg-opacity-30 mt-24 dark:bg-sky-900 dark:bg-opacity-10">
+        <div className="text-base leading-6 text-gray-600  mr-4 pl-4 py-4 ">
           <span className="font-bold">LOLSEARCH</span> © 2023 |{' '}
-          <span className="hover:text-slate-200">
+          <span className="hover:text-slate-400 dark:hover:text-slate-200">
             <a href="https://github.com/tobiaszlos">GitHub</a>
           </span> | {' '}
-          <span className="hover:text-slate-200">
+          <span className="hover:text-slate-400 dark:hover:text-slate-200">
             <a href="https://github.com/TobiaszLos/League-of-Legends---player-searcher">Project</a>
           </span>
         </div>

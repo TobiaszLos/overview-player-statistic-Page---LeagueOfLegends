@@ -72,13 +72,13 @@ export const ListMatchHistory = ({
 
   return (
     <>
-      <div className="p-3 rounded-md  bg-white text-slate-500 font-medium text-base dark:text-slate-100 dark:bg-slate-800  dark:border-slate-800">
+      <div className="p-4 rounded-lg bg-white bg-opacity-50 text-gray-700 text-sm font-medium tracking-wide dark:text-slate-100 dark:bg-slate-800 ">
         Match History
       </div>
 
       {historyList.map((match) => {
         const summonerGameDetails = findSummonerByName(match, summonerName)
-   
+
         return (
           <div
             key={match.metadata.matchId}
@@ -89,17 +89,23 @@ export const ListMatchHistory = ({
             } grid grid-cols-5 rounded-lg text-zinc-600 dark:text-zinc-300 font-normal`}
           >
             {/* Game mode, time, length, outcome */}
-            <div className="col-span-1 ">
-              <div> {getGameType(match.info.queueId)} </div>
-              <div>{timeFormat(match.info.gameCreation, 'fromNow')} </div>
-              <div className=" space-x-2">
-                <div>{timeFormat(match.info.gameDuration, 'duration')}</div>
+            <div className="col-span-1 pl-2">
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-100">
+                {getGameType(match.info.queueId)}
+              </div>
+              <div className=" text-sm dark:text-gray-400  ">
+                {timeFormat(match.info.gameCreation, 'fromNow')}{' '}
+              </div>
+              <div className="flex pt-2">
                 <div
                   className={`${
                     summonerGameDetails.win ? 'text-blue-500' : 'text-red-500'
-                  } font-medium`}
+                  } font-medium text-sm`}
                 >
                   {summonerGameDetails.win ? 'WIN' : 'LOSS'}
+                </div>
+                <div className=" text-sm text-gray-500 dark:text-gray-400 pl-1">
+                  {timeFormat(match.info.gameDuration, 'duration')}
                 </div>
               </div>
             </div>
@@ -171,7 +177,6 @@ export const ListMatchHistory = ({
 
             {/* participant icons + name  */}
             <div className="hidden  md:grid grid-cols-2 col-span-2 text-xs text-slate-500 dark:text-slate-400 tracking-wide">
-             
               <div className="grid grid-rows-5 col-start-1 col-end-2">
                 {match.info.participants
                   .slice(0, 5)
@@ -228,7 +233,6 @@ export const ListMatchHistory = ({
                 })}
               </div>
             </div>
-           
           </div>
         )
       })}
