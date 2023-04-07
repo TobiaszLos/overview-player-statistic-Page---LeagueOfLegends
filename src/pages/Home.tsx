@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchBestPlayersOfServer, fetchSummonerDataById } from '../services'
-import { Server, SummonerBasic, TopSoloQPlayersPlusIcon } from '../types'
+import { Server, SummonerBasic, TopSoloQPlayerPlusIcon } from '../types'
 import { quickSort } from '../utilities/quickSort'
 import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
@@ -33,7 +33,7 @@ const options: Options = [
 
 export const Home = ({ versionPatch }: { versionPatch: string }) => {
   const [loading, setLoading] = useState(true)
-  const [playersList, setPlayersList] = useState<TopSoloQPlayersPlusIcon[]>([])
+  const [playersList, setPlayersList] = useState<TopSoloQPlayerPlusIcon[]>([])
   const [server, setServer] = useState<Server>('EUW1')
 
   const navigate = useNavigate()
@@ -77,7 +77,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
       })
     )
 
-    setPlayersList((await mergedSummonerData) as TopSoloQPlayersPlusIcon[])
+    setPlayersList((await mergedSummonerData) as TopSoloQPlayerPlusIcon[])
     setServer(server)
     setLoading(false)
   }
