@@ -16,8 +16,9 @@ import {
 
 import { Loading } from '../components/Loading'
 import { LeagueCard } from '../components/LeagueCard'
-import { ListMatchHistory } from '../components/ListMatchHistory'
+
 import { getRegion } from '../utilities/regionSwitcher'
+import { MatchCard } from '../components/MatchCard'
 
 const PAGE_SIZE = 5
 
@@ -150,7 +151,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </div>
           </article>
           <h2 className="p-4 font-medium tracking-wide text-lg text-slate-700  dark:text-slate-300 ">
-            <span >Overview </span>
+            <span>Overview </span>
           </h2>
           <article className="p-4 grid-cols-5 gap-4 md:grid">
             <section className="col-span-2">
@@ -174,19 +175,24 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
             <section className="col-span-3 ">
               {!!historyList.length && (
-                <ListMatchHistory
-                  historyList={historyList}
-                  summonerName={summonerData.name}
-                  versionPatch={versionPatch}
-                  server={server as Server}
-                />
+                <>
+                  {historyList.map((match) => (
+                    <MatchCard
+                      key={match.metadata.matchId}
+                      match={match}
+                      summonerName={summoner!}
+                      versionPatch={versionPatch}
+                      server={server as Server}
+                    />
+                  ))}{' '}
+                </>
               )}
               {hasNextPage && (
                 <button
                   className="w-full border py-2 text-sm border-gray-400 rounded-3xl text-gray-700 dark:border-sky-600 dark:border-opacity-50 dark:text-gray-300 hover:opacity-80"
                   onClick={handleLoadMore}
                 >
-                {isLoading ? <Loading /> : <>Show More</>}
+                  {isLoading ? <Loading /> : <>Show More</>}
                 </button>
               )}
             </section>

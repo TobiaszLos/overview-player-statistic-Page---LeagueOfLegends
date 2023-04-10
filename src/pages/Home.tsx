@@ -3,7 +3,7 @@ import { BiSearch } from 'react-icons/bi'
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchBestPlayersOfServer, fetchSummonerDataById } from '../services'
 import { Server, SummonerBasic, TopSoloQPlayerPlusIcon } from '../types'
-import { quickSort } from '../utilities/quickSort'
+import { quickSort } from '../utilities/helpers/quickSort'
 import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
 

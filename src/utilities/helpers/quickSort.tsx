@@ -1,4 +1,4 @@
-import { TopSoloQPlayer } from '../types'
+import { TopSoloQPlayer } from '../../types'
 
 export const quickSort = (
   arr: TopSoloQPlayer[],
