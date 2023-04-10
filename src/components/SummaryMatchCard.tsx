@@ -12,7 +12,7 @@ export const SummaryMatchCard = ({
   summonerGameDetails,
 }: SummaryMatchCard) => {
   return (
-    <section className="col-span-1 pl-2">
+    <>
       <div className="text-sm font-medium text-gray-600 dark:text-gray-100">
         {getGameType(match.info.queueId)}
       </div>
@@ -31,7 +31,7 @@ export const SummaryMatchCard = ({
           {timeFormat(match.info.gameDuration, 'duration')}
         </div>
       </div>
-    </section>
+    </>
   )
 }
 

@@ -12,11 +12,15 @@ export const DetailsMatchCard = ({
   summonerGameDetails,
 }: DetailsMatchCardProps) => {
   return (
-    <section className="col-span-2">
+    <div>
       <div className="flex pb-2">
         <img
           className="w-12 h-12 rounded-md"
-          src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${summonerGameDetails.championName}.png`}
+          src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
+            summonerGameDetails.championName === 'FiddleSticks'
+              ? 'Fiddlesticks'
+              : summonerGameDetails.championName
+          }.png`}
           alt=""
         />
         <div className="pl-1">
@@ -75,7 +79,7 @@ export const DetailsMatchCard = ({
           )
         })}
       </div>
-    </section>
+    </div>
   )
 }
 
