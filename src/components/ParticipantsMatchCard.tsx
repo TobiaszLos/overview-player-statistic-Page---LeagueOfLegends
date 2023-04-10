@@ -17,6 +17,8 @@ const ParticipantsMatchCard = ({
   return (
     <>
       <div className="grid grid-rows-5 col-start-1 col-end-2 font-medium ">
+ 
+
         {match.info.participants.slice(0, 5).map((participant, index) => {
           return (
             <div className="flex" key={index}>

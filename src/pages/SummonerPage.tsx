@@ -173,7 +173,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               />
             </section>
 
-            <section className="col-span-3 ">
+            <section className="col-span-3">
               {!!historyList.length && (
                 <>
                   {historyList.map((match) => (
