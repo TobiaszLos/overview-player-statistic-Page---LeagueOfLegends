@@ -19,7 +19,7 @@ export const CollapseParticipant = ({
   end,
 }: CollapseParticipant) => {
   return (
-    <div className={`grid grid-rows-5 col-start-1 col-end-2 text-xs  mb-4 bg-slate-200 dark:bg-sky-700 dark:bg-opacity-10 `}>
+    <div className={`grid grid-rows-5 col-start-1 col-end-2 text-xs  mb-4 bg-slate-50 dark:bg-sky-700 dark:bg-opacity-10 `}>
       <div className="grid grid-cols-12 place-content-center px-4 font-medium">
         <div className=" col-span-3">
           {!match.info.participants[start].win ? (
