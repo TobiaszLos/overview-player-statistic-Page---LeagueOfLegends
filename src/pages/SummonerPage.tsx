@@ -104,6 +104,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
+
+
   return (
     <>
       {summonerData === undefined && (

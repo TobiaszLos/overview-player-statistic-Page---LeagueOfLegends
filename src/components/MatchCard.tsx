@@ -25,7 +25,7 @@ export const MatchCard = ({
   useEffect(() => {
     const findSummonerByName = () => {
       const summoner = match.info.participants.find(
-        (summoner: ParticipantDTO) => summoner.summonerName === summonerName
+        (summoner: ParticipantDTO) => summoner.summonerName.toLocaleLowerCase() === summonerName.toLocaleLowerCase()
       )
       setMainSummoner(summoner)
     }
