@@ -138,7 +138,6 @@ export const fetchChampionsData = async (): Promise<
   return data.data as Record<string, ChampionData>
 }
 
-
 export const fetchChampionsMasteriesWithName = async (
   summonerId: string,
   count = 10
@@ -154,12 +153,12 @@ export const fetchChampionsMasteriesWithName = async (
     const championsWithMastery = await Promise.all(
       championMasteryData.map(async (mastery: ChampionMasteryData) => {
         const championId = mastery.championId.toString()
-        const championKey: string | null =
+        const championKey: string | undefined =
           Object.keys(championsData).find(
             (key) => championsData[key].key === championId
-          ) ?? null
+          )
         const championName = championKey
-          ? championsData[championKey]?.id ?? ''
+          ? championsData[championKey]?.id || ''
           : ''
         return { ...mastery, championName }
       })
@@ -169,4 +168,5 @@ export const fetchChampionsMasteriesWithName = async (
     throw error
   }
 }
+
 ////
