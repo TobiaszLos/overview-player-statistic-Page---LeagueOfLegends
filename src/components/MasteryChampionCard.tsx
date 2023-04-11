@@ -1,19 +1,8 @@
 import { useEffect, useState } from 'react'
 import { fetchChampionsMasteriesWithName } from '../services'
 import { timeFormat } from '../utilities/helpers/timeFormat'
+import { ChampionMasteryStats } from '../types'
 
-interface ChampionMasteryStats {
-  championId: number
-  championLevel: number
-  championName: string
-  championPoints: number
-  championPointsSinceLastLevel: number
-  championPointsUntilNextLevel: number
-  chestGranted: boolean
-  lastPlayTime: number
-  summonerId: string
-  tokensEarned: number
-}
 
 export const MasteryChampionCard = ({
   summonerId,

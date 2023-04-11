@@ -124,84 +124,77 @@ export const fetchMatchesList = async (
   }
 }
 
-///// get champuion
-
-interface ChampionData {
+export type ChampionData = {
+  key: string
   id: string
   name: string
-  title: string
-  image: {
-    full: string
-    sprite: string
-    group: string
-  }
+  // other champion properties
 }
 
-const championsUrl =
-  'http://ddragon.leagueoflegends.com/cdn/13.7.1/data/en_US/champion.json'
+export type ChampionMasteryData = {
+  championId: number
+  championLevel: number
+  championPoints: number
+  lastPlayTime: number
+  championPointsSinceLastLevel: number
+  championPointsUntilNextLevel: number
+  chestGranted: boolean
+  tokensEarned: number
+  summonerId: string
+}
 
-export async function fetchChampionsData(): Promise<{ [key: string]: ChampionData }> {
+export type ChampionWithMastery = ChampionMasteryData & {
+  championName: string
+}
+
+export const fetchChampionsData = async (): Promise<
+  Record<string, ChampionData>
+> => {
+  const latestVersion = await getLatestPathVersion()
+  const championsUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`
   const response = await fetch(championsUrl)
   const data = await response.json()
-  return data.data
+  return data.data as Record<string, ChampionData>
 }
 
-export async function getChampionNameById(championId: number): Promise<string> {
+export const getChampionNameById = async (
+  championId: number
+): Promise<string> => {
   const championsData = await fetchChampionsData()
-  const championKey = Object.keys(championsData).find(
-    (key) => championsData[key].key === String(championId)
-  )
-  return championsData[championKey]
+  const championKey: string | null =
+    Object.keys(championsData).find(
+      (key) => championsData[key].key === String(championId)
+    ) ?? null
+  return championKey ? championsData[championKey]?.name ?? '' : ''
 }
 
-// przykładowe użycie
-getChampionNameById(18).then((championName) => {
-  console.log(championName) // "Nami"
-})
-
-// https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/q6drYzEovLk92VlD4vBsuVkkO7VN8x8NuClH0i1m6axzxTYh/top?api_key=RGAPI-7a9d116c-900c-4d24-93a0-f78b3f17d336
-
-// export const fechChampionsMasteries = async (summonerId: string, count=10) => {
-//   const championMasteryURL = ` https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
-
-//   try {
-//     const response = await fetch(championMasteryURL)
-
-//    const data = await response.json()
-
-//     console.log(data, championMasteryURL)
-//   } catch (error) {
-//      throw error
-//   }
-// }
-
-
-// fechChampionsMasteries('q6drYzEovLk92VlD4vBsuVkkO7VN8x8NuClH0i1m6axzxTYh')
-
-export const fetchChampionsMasteriesWithName = async (summonerId: string, count = 10) => {
-  const championMasteryURL = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`;
+export const fetchChampionsMasteriesWithName = async (
+  summonerId: string,
+  count = 10
+): Promise<Array<ChampionWithMastery>> => {
+  const championMasteryURL = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
 
   try {
-    const championMasteryResponse = await fetch(championMasteryURL);
-    const championMasteryData = await championMasteryResponse.json();
+    const championMasteryResponse = await fetch(championMasteryURL)
+    const championMasteryData: Array<ChampionMasteryData> =
+      await championMasteryResponse.json()
 
-    const championsData = await fetchChampionsData();
-
+    const championsData = await fetchChampionsData()
     const championsWithMastery = await Promise.all(
-      championMasteryData.map(async (mastery) => {
-        const championId = mastery.championId.toString();
-        const championKey = Object.keys(championsData).find(
-          (key) => championsData[key].key === championId
-        );
-        const championName = championsData[championKey].id;
-        return { ...mastery, championName };
+      championMasteryData.map(async (mastery: ChampionMasteryData) => {
+        const championId = mastery.championId.toString()
+        const championKey: string | null =
+          Object.keys(championsData).find(
+            (key) => championsData[key].key === championId
+          ) ?? null
+        const championName = championKey
+          ? championsData[championKey]?.name ?? ''
+          : ''
+        return { ...mastery, championName }
       })
-    );
-
+    )
     return championsWithMastery
   } catch (error) {
-    throw error;
+    throw error
   }
-};
-
-
+}

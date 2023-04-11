@@ -211,25 +211,6 @@ export type ParticipantDTO = {
   [key: string]: number | boolean | string;
 }
 
-// export interface ParticipantDetails {
-//   championId?: number
-//   championName?: string
-//   deaths?: number
-//   kills?: number
-//   assists?: number
-//   win?: boolean
-//   item0?: number
-//   item1?: number
-//   item2?: number
-//   item3?: number
-//   item4?: number
-//   item5?: number
-//   item6?: number
-//   summoner1Id?: number
-//   summoner2Id?: number
-//   [key: string]: number | string | boolean | undefined
-// }
-
 
 
 export type TeamDTO = {
@@ -256,4 +237,19 @@ export type ObjectivesDTO = {
 export type ObjectiveDTO =  {
   first: boolean
   kills: number
+}
+
+
+
+export type ChampionMasteryStats = {
+  championId: number
+  championLevel: number
+  championName: string
+  championPoints: number
+  championPointsSinceLastLevel: number
+  championPointsUntilNextLevel: number
+  chestGranted: boolean
+  lastPlayTime: number
+  summonerId: string
+  tokensEarned: number
 }
