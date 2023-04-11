@@ -5,6 +5,9 @@ import {
   TopSoloQPlayer,
   MatchDTO,
   Region,
+  ChampionData,
+  ChampionMasteryData,
+  ChampionWithMastery,
 } from '../types'
 import { getRegion } from '../utilities/regionSwitcher'
 
@@ -124,29 +127,7 @@ export const fetchMatchesList = async (
   }
 }
 
-export type ChampionData = {
-  key: string
-  id: string
-  name: string
-  // other champion properties
-}
-
-export type ChampionMasteryData = {
-  championId: number
-  championLevel: number
-  championPoints: number
-  lastPlayTime: number
-  championPointsSinceLastLevel: number
-  championPointsUntilNextLevel: number
-  chestGranted: boolean
-  tokensEarned: number
-  summonerId: string
-}
-
-export type ChampionWithMastery = ChampionMasteryData & {
-  championName: string
-}
-
+// CHAMPION MASTERY //
 export const fetchChampionsData = async (): Promise<
   Record<string, ChampionData>
 > => {
@@ -198,3 +179,4 @@ export const fetchChampionsMasteriesWithName = async (
     throw error
   }
 }
+////

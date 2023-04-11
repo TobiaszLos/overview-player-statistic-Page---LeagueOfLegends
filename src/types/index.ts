@@ -77,8 +77,6 @@ export type SummonerRankedLeagues = {
   RANKED_SOLO_5x5?: SummonerLeague
 }
 
-
-
 export type MatchDTO = {
   metadata: {
     dataVersion: string
@@ -98,8 +96,7 @@ export type MatchDTO = {
     participants: ParticipantDTO[]
     platformId: string
     queueId: number
-    teams: TeamDTO[]
-    tournamentCode?: string
+
   }
 }
 
@@ -208,38 +205,8 @@ export type ParticipantDTO = {
   wardsKilled: number
   wardsPlaced: number
   win: boolean
-  [key: string]: number | boolean | string;
+  [key: string]: number | boolean | string
 }
-
-
-
-export type TeamDTO = {
-  bans: BanDTO[]
-  objectives: ObjectivesDTO
-  teamId: number
-  win: boolean
-}
-
-export type BanDTO = {
-  championId: number
-  pickTurn: number
-}
-
-export type ObjectivesDTO = {
-  baron: ObjectiveDTO
-  champion: ObjectiveDTO
-  dragon: ObjectiveDTO
-  inhibitor: ObjectiveDTO
-  riftHerald: ObjectiveDTO
-  tower: ObjectiveDTO
-}
-
-export type ObjectiveDTO =  {
-  first: boolean
-  kills: number
-}
-
-
 
 export type ChampionMasteryStats = {
   championId: number
@@ -252,4 +219,28 @@ export type ChampionMasteryStats = {
   lastPlayTime: number
   summonerId: string
   tokensEarned: number
+}
+
+// API ONLY
+export type ChampionData = {
+  key: string
+  id: string
+  name: string
+  // other champion properties
+}
+
+export type ChampionMasteryData = {
+  championId: number
+  championLevel: number
+  championPoints: number
+  lastPlayTime: number
+  championPointsSinceLastLevel: number
+  championPointsUntilNextLevel: number
+  chestGranted: boolean
+  tokensEarned: number
+  summonerId: string
+}
+
+export type ChampionWithMastery = ChampionMasteryData & {
+  championName: string
 }
