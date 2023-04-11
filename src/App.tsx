@@ -7,8 +7,7 @@ import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
 import { SummonerPage } from './pages/SummonerPage'
 import { useState, useEffect } from 'react'
-import { getChampionNameById, getLatestPathVersion } from './services'
-
+import { getLatestPathVersion } from './services'
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
@@ -20,15 +19,7 @@ export const App = () => {
       setVersionPatch(version)
     }
     getVersion()
-
-
-
   }, [])
-
-
-
-
-console.log('asdas')
 
   return (
     <HelmetProvider>
@@ -43,13 +34,14 @@ console.log('asdas')
         <Route
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
-          <Route path="/" element={<Home versionPatch={versionPatch}/>} />
-          <Route path="/:server/:summoner" element={<SummonerPage versionPatch={versionPatch} />} />
+          <Route path="/" element={<Home versionPatch={versionPatch} />} />
+          <Route
+            path="/:server/:summoner"
+            element={<SummonerPage versionPatch={versionPatch} />}
+          />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
     </HelmetProvider>
   )
 }
-
-

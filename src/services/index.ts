@@ -132,22 +132,12 @@ export const fetchChampionsData = async (): Promise<
   Record<string, ChampionData>
 > => {
   const latestVersion = await getLatestPathVersion()
-  const championsUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`
+  const championsUrl = `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/en_US/champion.json`
   const response = await fetch(championsUrl)
   const data = await response.json()
   return data.data as Record<string, ChampionData>
 }
 
-export const getChampionNameById = async (
-  championId: number
-): Promise<string> => {
-  const championsData = await fetchChampionsData()
-  const championKey: string | null =
-    Object.keys(championsData).find(
-      (key) => championsData[key].key === String(championId)
-    ) ?? null
-  return championKey ? championsData[championKey]?.name ?? '' : ''
-}
 
 export const fetchChampionsMasteriesWithName = async (
   summonerId: string,
@@ -169,7 +159,7 @@ export const fetchChampionsMasteriesWithName = async (
             (key) => championsData[key].key === championId
           ) ?? null
         const championName = championKey
-          ? championsData[championKey]?.name ?? ''
+          ? championsData[championKey]?.id ?? ''
           : ''
         return { ...mastery, championName }
       })
