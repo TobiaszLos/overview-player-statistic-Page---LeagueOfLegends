@@ -19,8 +19,9 @@ import { LeagueCard } from '../components/LeagueCard'
 
 import { getRegion } from '../utilities/regionSwitcher'
 import { MatchCard } from '../components/MatchCard'
+import MasteryChampionCard from '../components/MasteryChampionCard'
 
-const PAGE_SIZE = 5
+const PAGE_SIZE = 6
 
 export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [summonerData, setSummonerData] = useState<
@@ -173,6 +174,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                     : null
                 }
               />
+              <MasteryChampionCard summonerId={summonerData.id} versionPatch={versionPatch} />
             </section>
 
             <section className="col-span-3">

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { MatchDTO, Server } from '../types'
-import { spawn } from 'child_process'
 import { calculateKDA } from '../utilities/helpers/calculateKda'
 
 interface CollapseParticipant {

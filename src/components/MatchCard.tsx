@@ -35,7 +35,6 @@ export const MatchCard = ({
 
   const [isOpen, setIsOpen] = useState(false)
 
-  console.log(mainSummoner, match)
   return (
     <>
       {mainSummoner && (

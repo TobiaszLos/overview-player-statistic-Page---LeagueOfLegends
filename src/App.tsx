@@ -7,7 +7,7 @@ import { Layout } from './components/Layout'
 import { NoMatch } from './components/NoMatch'
 import { SummonerPage } from './pages/SummonerPage'
 import { useState, useEffect } from 'react'
-import { getLatestPathVersion } from './services'
+import { getChampionNameById, getLatestPathVersion } from './services'
 
 
 export const App = () => {
@@ -20,7 +20,15 @@ export const App = () => {
       setVersionPatch(version)
     }
     getVersion()
+
+
+
   }, [])
+
+
+
+
+console.log('asdas')
 
   return (
     <HelmetProvider>
@@ -43,3 +51,5 @@ export const App = () => {
     </HelmetProvider>
   )
 }
+
+

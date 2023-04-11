@@ -1,6 +1,6 @@
 import moment from "moment"
 
-export const timeFormat = (timestamps: number, action: string) => {
+export const timeFormat = (timestamps: number, action: 'fromNow' | 'duration' ) => {
   if (action === 'fromNow') {
     return moment(timestamps).fromNow()
   } else if (action === 'duration') {

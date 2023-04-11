@@ -84,12 +84,11 @@ export const fetchSummonerLeagueDetails = async (
   }
 }
 
-
 const getMatchHistory = async (
   puuid: string,
   region: Region,
   count: number,
-  start:number,
+  start: number
 ): Promise<string[]> => {
   const response = await fetch(
     `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}&api_key=${API_KEY}`
@@ -121,6 +120,88 @@ export const fetchMatchesList = async (
 
     return await Promise.all(promises)
   } catch (error) {
-    throw error; 
+    throw error
   }
 }
+
+///// get champuion
+
+interface ChampionData {
+  id: string
+  name: string
+  title: string
+  image: {
+    full: string
+    sprite: string
+    group: string
+  }
+}
+
+const championsUrl =
+  'http://ddragon.leagueoflegends.com/cdn/13.7.1/data/en_US/champion.json'
+
+export async function fetchChampionsData(): Promise<{ [key: string]: ChampionData }> {
+  const response = await fetch(championsUrl)
+  const data = await response.json()
+  return data.data
+}
+
+export async function getChampionNameById(championId: number): Promise<string> {
+  const championsData = await fetchChampionsData()
+  const championKey = Object.keys(championsData).find(
+    (key) => championsData[key].key === String(championId)
+  )
+  return championsData[championKey]
+}
+
+// przykładowe użycie
+getChampionNameById(18).then((championName) => {
+  console.log(championName) // "Nami"
+})
+
+// https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/q6drYzEovLk92VlD4vBsuVkkO7VN8x8NuClH0i1m6axzxTYh/top?api_key=RGAPI-7a9d116c-900c-4d24-93a0-f78b3f17d336
+
+// export const fechChampionsMasteries = async (summonerId: string, count=10) => {
+//   const championMasteryURL = ` https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
+
+//   try {
+//     const response = await fetch(championMasteryURL)
+
+//    const data = await response.json()
+
+//     console.log(data, championMasteryURL)
+//   } catch (error) {
+//      throw error
+//   }
+// }
+
+
+// fechChampionsMasteries('q6drYzEovLk92VlD4vBsuVkkO7VN8x8NuClH0i1m6axzxTYh')
+
+export const fetchChampionsMasteriesWithName = async (summonerId: string, count = 10) => {
+  const championMasteryURL = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`;
+
+  try {
+    const championMasteryResponse = await fetch(championMasteryURL);
+    const championMasteryData = await championMasteryResponse.json();
+
+    const championsData = await fetchChampionsData();
+
+    const championsWithMastery = await Promise.all(
+      championMasteryData.map(async (mastery) => {
+        const championId = mastery.championId.toString();
+        const championKey = Object.keys(championsData).find(
+          (key) => championsData[key].key === championId
+        );
+        const championName = championsData[championKey].id;
+        return { ...mastery, championName };
+      })
+    );
+
+    return championsWithMastery
+  } catch (error) {
+    throw error;
+  }
+};
+
+
