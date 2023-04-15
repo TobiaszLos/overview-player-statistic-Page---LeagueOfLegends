@@ -8,6 +8,7 @@ import {
   ChampionData,
   ChampionMasteryData,
   ChampionWithMastery,
+  RuneReforged,
 } from '../types'
 import { getRegion } from '../utilities/regionSwitcher'
 
@@ -140,9 +141,10 @@ export const fetchChampionsData = async (): Promise<
 
 export const fetchChampionsMasteriesWithName = async (
   summonerId: string,
+  server: Server,
   count = 10
 ): Promise<Array<ChampionWithMastery>> => {
-  const championMasteryURL = `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
+  const championMasteryURL = `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
 
   try {
     const championMasteryResponse = await fetch(championMasteryURL)
@@ -153,10 +155,9 @@ export const fetchChampionsMasteriesWithName = async (
     const championsWithMastery = await Promise.all(
       championMasteryData.map(async (mastery: ChampionMasteryData) => {
         const championId = mastery.championId.toString()
-        const championKey: string | undefined =
-          Object.keys(championsData).find(
-            (key) => championsData[key].key === championId
-          )
+        const championKey: string | undefined = Object.keys(championsData).find(
+          (key) => championsData[key].key === championId
+        )
         const championName = championKey
           ? championsData[championKey]?.id || ''
           : ''
@@ -169,4 +170,19 @@ export const fetchChampionsMasteriesWithName = async (
   }
 }
 
-////
+
+export const fetchRunesReforged = async (): Promise<RuneReforged[]> => {
+  const latestVersion2 = await getLatestPathVersion()
+  const url = `https://ddragon.leagueoflegends.com/cdn/${latestVersion2}/data/en_US/runesReforged.json`
+  const response = await fetch(url)
+  const data = await response.json()
+
+  console.log('data', data)
+
+  return data as RuneReforged[]
+}
+
+// (async () => {
+//   const runesReforged = await fetchRunesReforged();
+//   console.log(runesReforged);
+// })();

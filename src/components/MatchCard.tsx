@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MatchDTO, ParticipantDTO, Server } from '../types'
+import { MatchDTO, Participant, Rune, RuneReforged, Server } from '../types'
 import DetailsMatchCard from './DetailsMatchCard'
 import ParticipantsMatchCard from './ParticipantsMatchCard'
 import SummaryMatchCard from './SummaryMatchCard'
@@ -11,6 +11,7 @@ interface MatchCardProps {
   match: MatchDTO
   summonerName: string
   versionPatch: string
+  runesInfo: RuneReforged[]
   server: Server
 }
 
@@ -19,21 +20,63 @@ export const MatchCard = ({
   summonerName,
   versionPatch,
   server,
+  runesInfo,
 }: MatchCardProps) => {
-  const [mainSummoner, setMainSummoner] = useState<ParticipantDTO>()
+  const [mainSummoner, setMainSummoner] = useState<Participant>()
+  const [runes, setRunes] = useState<{
+    primarySlot: Rune
+    subSlot: RuneReforged
+  }>()
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const findSummonerByName = () => {
       const summoner = match.info.participants.find(
-        (summoner: ParticipantDTO) => summoner.summonerName.toLocaleLowerCase() === summonerName.toLocaleLowerCase()
+        (summoner: Participant) =>
+          summoner.summonerName.toLocaleLowerCase() ===
+          summonerName.toLocaleLowerCase()
       )
+
       setMainSummoner(summoner)
     }
 
     findSummonerByName()
   }, [])
 
-  const [isOpen, setIsOpen] = useState(false)
+  useEffect(() => {
+    selectRunes()
+  }, [mainSummoner])
+
+  const selectRunes = () => {
+    if (!mainSummoner) return
+
+    const primaryStylePerks = mainSummoner.perks.styles[0]
+    const subStylePerks = mainSummoner.perks.styles[1]
+
+    const selectedPrimaryRune = runesInfo.find(
+      (rune: RuneReforged) => rune.id === primaryStylePerks.style
+    )
+
+    const selectedSubStyleRune = runesInfo.find(
+      (rune: RuneReforged) => rune.id === subStylePerks.style
+    )
+
+    if (!selectedPrimaryRune) return
+    if (!selectedSubStyleRune) return
+
+    const selectedPrimarySlot = selectedPrimaryRune.slots[0].runes.find(
+      (slot) => slot.id === primaryStylePerks.selections[0].perk
+    )
+
+    if (!selectedPrimarySlot) return
+
+    const filteredRunes = {
+      primarySlot: selectedPrimarySlot,
+      subSlot: selectedSubStyleRune,
+    }
+
+    setRunes(filteredRunes)
+  }
 
   return (
     <>
@@ -56,6 +99,7 @@ export const MatchCard = ({
               </div>
               <div className="col-span-3 flex justify-center">
                 <DetailsMatchCard
+                  runes={runes!}
                   versionPatch={versionPatch}
                   summonerGameDetails={mainSummoner}
                 />
@@ -77,13 +121,12 @@ export const MatchCard = ({
                   : '  bg-red-300 bg-opacity-40  dark:bg-rose-600 dark:bg-opacity-20 '
               } rounded-r-lg flex items-end justify-center '`}
             >
-              <div className={`flex justify-center pb-4 ${
-                    mainSummoner.win ? 'text-blue-500' : 'text-red-500'
-                  }`}>
-                <BiCaretDown
-                  size={'1.2rem'}
-                
-                />
+              <div
+                className={`flex justify-center pb-4 ${
+                  mainSummoner.win ? 'text-blue-500' : 'text-red-500'
+                }`}
+              >
+                <BiCaretDown size={'1.2rem'} />
               </div>
             </div>
           </div>
@@ -91,9 +134,9 @@ export const MatchCard = ({
           {isOpen && (
             <Collapse
               match={match}
+              runesInfo={runesInfo}
               versionPatch={versionPatch}
               server={server}
-              summonerName={summonerName}
             />
           )}
         </>

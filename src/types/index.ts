@@ -77,6 +77,41 @@ export type SummonerRankedLeagues = {
   RANKED_SOLO_5x5?: SummonerLeague
 }
 
+// CHAMPION MASTERY //
+export type ChampionMasteryStats = {
+  championId: number
+  championLevel: number
+  championName: string
+  championPoints: number
+  championPointsSinceLastLevel: number
+  championPointsUntilNextLevel: number
+  chestGranted: boolean
+  lastPlayTime: number
+  summonerId: string
+  tokensEarned: number
+}
+// API ONLY
+export type ChampionData = {
+  key: string
+  id: string
+  name: string
+}
+export type ChampionMasteryData = {
+  championId: number
+  championLevel: number
+  championPoints: number
+  lastPlayTime: number
+  championPointsSinceLastLevel: number
+  championPointsUntilNextLevel: number
+  chestGranted: boolean
+  tokensEarned: number
+  summonerId: string
+}
+
+export type ChampionWithMastery = ChampionMasteryData & {
+  championName: string
+}
+
 export type MatchDTO = {
   metadata: {
     dataVersion: string
@@ -86,6 +121,7 @@ export type MatchDTO = {
   info: {
     gameCreation: number
     gameDuration: number
+    gameEndTimestamp: number
     gameId: number
     gameMode: string
     gameName: string
@@ -93,39 +129,51 @@ export type MatchDTO = {
     gameType: string
     gameVersion: string
     mapId: number
-    participants: ParticipantDTO[]
+    participants: Participant[]
     platformId: string
     queueId: number
-
+    teams: Team[]
+    tournamentCode: string
   }
 }
 
-export type ParticipantDTO = {
+export type Participant = {
+  allInPings: number
+  assistMePings: number
   assists: number
+  baitPings: number
   baronKills: number
+  basicPings: number
   bountyLevel: number
   champExperience: number
   champLevel: number
   championId: number
   championName: string
   championTransform: number
+  commandPings: number
   consumablesPurchased: number
   damageDealtToBuildings: number
   damageDealtToObjectives: number
   damageDealtToTurrets: number
   damageSelfMitigated: number
+  dangerPings: number
   deaths: number
   detectorWardsPlaced: number
   doubleKills: number
   dragonKills: number
+  eligibleForProgression: boolean
+  enemyMissingPings: number
+  enemyVisionPings: number
   firstBloodAssist: boolean
   firstBloodKill: boolean
   firstTowerAssist: boolean
   firstTowerKill: boolean
   gameEndedInEarlySurrender: boolean
   gameEndedInSurrender: boolean
+  getBackPings: number
   goldEarned: number
   goldSpent: number
+  holdPings: number
   individualPosition: string
   inhibitorKills: number
   inhibitorTakedowns: number
@@ -148,19 +196,22 @@ export type ParticipantDTO = {
   magicDamageDealt: number
   magicDamageDealtToChampions: number
   magicDamageTaken: number
+  needVisionPings: number
   neutralMinionsKilled: number
   nexusKills: number
-  nexusTakedowns: number
   nexusLost: number
+  nexusTakedowns: number
   objectivesStolen: number
   objectivesStolenAssists: number
+  onMyWayPings: number
   participantId: number
   pentaKills: number
-
+  perks: Perks
   physicalDamageDealt: number
   physicalDamageDealtToChampions: number
   physicalDamageTaken: number
   profileIcon: number
+  pushPings: number
   puuid: string
   quadraKills: number
   riotIdName: string
@@ -198,49 +249,72 @@ export type ParticipantDTO = {
   trueDamageDealtToChampions: number
   trueDamageTaken: number
   turretKills: number
+  turretTakedowns: number
   turretsLost: number
   unrealKills: number
+  visionClearedPings: number
   visionScore: number
   visionWardsBoughtInGame: number
   wardsKilled: number
   wardsPlaced: number
   win: boolean
-  [key: string]: number | boolean | string
+  [key: string]: number | boolean | string | Perks
 }
 
-export type ChampionMasteryStats = {
+export type Perks = {
+  statPerks: StatPerks
+  styles: Style[]
+}
+
+export type StatPerks = {
+  defense: number
+  flex: number
+  offense: number
+}
+
+export type Style = {
+  description: string
+  selections: Selection[]
+  style: number
+}
+
+export type Selection = {
+  perk: number
+  var1: number
+  var2: number
+  var3: number
+}
+
+export type Team = {
+  bans: Ban[]
+  teamId: number
+  win: boolean
+}
+
+export type Ban = {
   championId: number
-  championLevel: number
-  championName: string
-  championPoints: number
-  championPointsSinceLastLevel: number
-  championPointsUntilNextLevel: number
-  chestGranted: boolean
-  lastPlayTime: number
-  summonerId: string
-  tokensEarned: number
+  pickTurn: number
 }
 
-// API ONLY
-export type ChampionData = {
+//// PERKS //
+
+export type RuneReforged = {
+  id: number
   key: string
-  id: string
+  icon: string
   name: string
-  // other champion properties
+  slots: RuneSlot[]
 }
 
-export type ChampionMasteryData = {
-  championId: number
-  championLevel: number
-  championPoints: number
-  lastPlayTime: number
-  championPointsSinceLastLevel: number
-  championPointsUntilNextLevel: number
-  chestGranted: boolean
-  tokensEarned: number
-  summonerId: string
+export type RuneSlot = {
+  runes: Rune[]
 }
 
-export type ChampionWithMastery = ChampionMasteryData & {
-  championName: string
+export type Rune = {
+  id: number
+  key: string
+  icon: string
+  name: string
+  shortDesc: string
+  longDesc: string
 }

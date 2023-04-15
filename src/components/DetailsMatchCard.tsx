@@ -1,15 +1,20 @@
-import { ParticipantDTO } from '../types'
+import { Participant, Rune, RuneReforged } from '../types'
 import { summonerSpells } from '../utilities/getSummonerSpellName'
 import { calculateKDA } from '../utilities/helpers/calculateKda'
 
 interface DetailsMatchCardProps {
-  summonerGameDetails: ParticipantDTO
+  summonerGameDetails: Participant
   versionPatch: string
+  runes: {
+    primarySlot: Rune
+    subSlot: RuneReforged
+  }
 }
 
 export const DetailsMatchCard = ({
   versionPatch,
   summonerGameDetails,
+  runes,
 }: DetailsMatchCardProps) => {
   return (
     <div>
@@ -39,6 +44,26 @@ export const DetailsMatchCard = ({
             }.png`}
             alt={summonerSpells[summonerGameDetails.summoner2Id!]}
           />
+        </div>
+        <div>
+          {runes !== undefined ? (
+            <div>
+              <img
+                className="w-6 h-6  bg-slate-700 rounded-lg"
+                src={`https://ddragon.leagueoflegends.com/cdn/img/${runes.primarySlot.icon}`}
+                alt={summonerSpells[summonerGameDetails.summoner2Id!]}
+              />
+              <img
+                className="w-5 h-5 rounded-md"
+                src={`https://ddragon.leagueoflegends.com/cdn/img/${runes.subSlot.icon}`}
+                alt={summonerSpells[summonerGameDetails.summoner2Id!]}
+              />
+            </div>
+          ) : (
+            <>
+              <div>aaa</div>
+            </>
+          )}
         </div>
         <div className="pl-2">
           <div className="font-medium text-zinc-700 dark:text-zinc-300">

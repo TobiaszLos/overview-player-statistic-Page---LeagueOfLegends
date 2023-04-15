@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import {
+  RuneReforged,
   fetchMatchesList,
+  fetchRunesReforged,
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
 } from '../services'
@@ -21,6 +23,9 @@ import { getRegion } from '../utilities/regionSwitcher'
 import { MatchCard } from '../components/MatchCard'
 import MasteryChampionCard from '../components/MasteryChampionCard'
 
+import { BiCaretDown } from 'react-icons/bi'
+import { MdHistory } from 'react-icons/md'
+
 const PAGE_SIZE = 6
 
 export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
@@ -35,17 +40,31 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [hasNextPage, setHasNextPage] = useState<boolean>(true)
 
+  const [runesInfo, setRunesInfo] = useState<RuneReforged>()
+
   const { summoner, server } = useParams()
 
   useEffect(() => {
     if (summoner && server) {
       searchSummonerByName(summoner, server as Server) // RUN ALL
+    
     }
   }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  useEffect(() => {
+    getRunesFromAssetsApi()
+  }, [])
+
+  const getRunesFromAssetsApi = async () => {
+    const getRunesInfo = await fetchRunesReforged()
+
+    setRunesInfo(getRunesInfo)
+  }
+
 
   const searchSummonerByName = async (name: string, region: Server) => {
     try {
@@ -105,12 +124,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-
-
   return (
     <>
       {summonerData === undefined && (
-        <div className="grid content-center justify-center">
+        <div className="absolute top-1/2 left-1/2">
           <Loading />
         </div>
       )}
@@ -174,30 +191,49 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                     : null
                 }
               />
-              <MasteryChampionCard summonerId={summonerData.id} versionPatch={versionPatch} />
+              <MasteryChampionCard
+                server={server as Server}
+                summonerId={summonerData.id}
+                versionPatch={versionPatch}
+              />
             </section>
 
             <section className="col-span-3">
-              {!!historyList.length && (
+              <div className="mb-4 p-2  flex items-centerfont-medium text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
+                <MdHistory />
+                <div className="pl-2"> Match History </div>
+              </div>
+
+              {historyList.length > 0 ? (
                 <>
                   {historyList.map((match) => (
                     <MatchCard
+                      runesInfo={runesInfo}
                       key={match.metadata.matchId}
                       match={match}
                       summonerName={summoner!}
                       versionPatch={versionPatch}
                       server={server as Server}
                     />
-                  ))}{' '}
+                  ))}
+                  {hasNextPage && (
+                    <button
+                      className="w-full border py-2 text-sm border-slate-400 rounded-2xl text-black   dark:border-sky-600 dark:border-opacity-50 dark:text-gray-300 hover:opacity-80"
+                      onClick={handleLoadMore}
+                    >
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <div className="flex justify-center">
+                          <span> Show More</span>{' '}
+                          <BiCaretDown size={'1.2rem'} />
+                        </div>
+                      )}
+                    </button>
+                  )}
                 </>
-              )}
-              {hasNextPage && (
-                <button
-                  className="w-full border py-2 text-sm border-gray-400 rounded-3xl text-gray-700 dark:border-sky-600 dark:border-opacity-50 dark:text-gray-300 hover:opacity-80"
-                  onClick={handleLoadMore}
-                >
-                  {isLoading ? <Loading /> : <>Show More</>}
-                </button>
+              ) : (
+                <Loading />
               )}
             </section>
           </article>
