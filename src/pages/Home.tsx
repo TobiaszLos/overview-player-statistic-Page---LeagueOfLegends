@@ -7,6 +7,7 @@ import { quickSort } from '../utilities/helpers/quickSort'
 import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
 
+
 type Options = {
   value: Server
   label: string
@@ -162,4 +163,3 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
     </div>
   )
 }
-

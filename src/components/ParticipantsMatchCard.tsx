@@ -16,7 +16,7 @@ const ParticipantsMatchCard = ({
 }: ParticipantsMatchCardProps) => {
   return (
     <>
-      <div className="grid grid-rows-5 col-start-1 col-end-2 font-medium ">
+      <div className="grid grid-rows-5 col-start-1 col-end-2  ">
  
 
         {match.info.participants.slice(0, 5).map((participant, index) => {
@@ -38,14 +38,14 @@ const ParticipantsMatchCard = ({
                 target="_blank"
               >
                 <div className="pl-1 truncate max-w-[80px]">
-                  {participant.summonerName} {index + 5}
+                  {participant.summonerName} 
                 </div>
               </Link>
             </div>
           )
         })}
       </div>
-      <div className="grid grid-rows-5 col-start-2 col-end-3 font-medium">
+      <div className="grid grid-rows-5 col-start-2 col-end-3 ">
         {match.info.participants.slice(5).map((participant, index) => {
           return (
             <div className="flex" key={index}>
@@ -64,7 +64,7 @@ const ParticipantsMatchCard = ({
                 target="_blank"
               >
                 <div className="pl-1 truncate max-w-[80px]">
-                  {participant.summonerName} {index + 5}
+                  {participant.summonerName} 
                 </div>
               </Link>
             </div>

@@ -1,6 +1,19 @@
-export const Loading = () => {
+export const Loading = ({
+  pt = 0,
+  pl = 0,
+  pb = 0,
+  pr = 0,
+}: {
+  pt?: number
+  pl?: number
+  pb?: number
+  pr?: number
+}) => {
   return (
-    <div role="status" className="flex justify-center">
+    <div
+      role="status"
+      className={`flex justify-center pt-${pt} pl-${pl} pb-${pb} pt-${pr}`}
+    >
       <svg
         aria-hidden="true"
         className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

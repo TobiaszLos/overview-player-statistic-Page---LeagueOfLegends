@@ -1,10 +1,10 @@
-import { MatchDTO, ParticipantDTO } from '../types'
+import { MatchDTO, Participant } from '../types'
 import { getGameType } from '../utilities/gameModeSwich'
 import { timeFormat } from '../utilities/helpers/timeFormat'
 
 interface SummaryMatchCard {
   match: MatchDTO
-  summonerGameDetails: ParticipantDTO
+  summonerGameDetails: Participant
 }
 
 export const SummaryMatchCard = ({

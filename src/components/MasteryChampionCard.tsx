@@ -1,38 +1,35 @@
 import { useEffect, useState } from 'react'
 import { fetchChampionsMasteriesWithName } from '../services'
 import { timeFormat } from '../utilities/helpers/timeFormat'
-import { ChampionMasteryStats } from '../types'
-
+import { ChampionMasteryStats, Server } from '../types'
 
 export const MasteryChampionCard = ({
   summonerId,
   versionPatch,
+  server,
 }: {
   summonerId: string
   versionPatch: string
+  server: Server
 }) => {
   const [champions, setchampions] = useState<ChampionMasteryStats[]>()
 
   useEffect(() => {
     const fechChampions = async () => {
-      console.log('test')
-      const championsFetched = await fetchChampionsMasteriesWithName(summonerId)
-      console.log(championsFetched, 'champion ch')
-      // setchampions(championsFetched)
+      const championsFetched = await fetchChampionsMasteriesWithName(summonerId, server, 7)
       setchampions(championsFetched)
-      console.log('jungle', summonerId)
     }
     fechChampions()
   }, [])
-  console.log(champions, 'aa')
+
   return (
     <div className="mb-4 pb-2 bg-white bg-opacity-75   rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
-      <div className="p-4 pb-4 text-slate-700 font-medium text-base dark:text-slate-100 ">
+      <div className="p-4 pb-4  text-slate-700 font-medium text-base dark:text-slate-100 ">
         Champions Mastery
       </div>
 
       <div>
-        <div className="grid grid-cols-12 mb-4 font-medium text-sm " >
+        <div className="grid grid-cols-12 mb-4 font-medium text-sm ">
           <div className=" col-span-3"></div>
 
           <div className=" col-span-2 ">Name</div>
@@ -44,7 +41,7 @@ export const MasteryChampionCard = ({
         {!!champions?.length && (
           <div>
             {champions.map((champ) => (
-              <div className="grid grid-cols-12 mb-2 text-sm  text-slate-700 dark:text-slate-300">
+              <div key={champ.championId} className="grid grid-cols-12 mb-2 text-sm  text-slate-700 dark:text-slate-300">
                 <div className=" col-span-3 flex justify-center">
                   <img
                     className="w-12 h-12 "
@@ -58,12 +55,16 @@ export const MasteryChampionCard = ({
                 </div>
 
                 <div className=" col-span-2 ">{champ.championName}</div>
-                <div className=" col-span-2 text-left">{champ.championLevel}</div>
+                <div className=" col-span-2 text-left">
+                  {champ.championLevel}
+                </div>
                 <div className=" col-span-2 text-left">
                   {champ.championPoints / 1000}
                 </div>
                 <div className=" col-span-3 text-left  ">
-                  <div className=''>{timeFormat(champ.lastPlayTime, 'fromNow')}</div>
+                  <div className="">
+                    {timeFormat(champ.lastPlayTime, 'fromNow')}
+                  </div>
                 </div>
               </div>
             ))}

@@ -1,7 +1,6 @@
-import { SummonerLeague } from "../types"
+import { SummonerLeague } from '../types'
 import { IconByTier } from '../utilities/IconsComponent'
 import unrankedIcon from '../assets/img/rank_Icon/unranked.webp'
-
 
 export const LeagueCard = ({
   nameLeague,
@@ -34,7 +33,7 @@ export const LeagueCard = ({
           </div>
         ) : (
           <div className="text-center grid grid-cols-5">
-            <div className="">
+            <div>
               <IconByTier tier={value.tier} />
             </div>
 
@@ -65,6 +64,12 @@ export const LeagueCard = ({
                   {value.losses}L
                 </span>
               </div>
+              <div className="w-full flex justify-end ">
+                <div className='w-24 my-1'>
+                   <ProgressBar wins={value.wins} losses={value.losses} />
+                </div>
+            
+              </div>
               <div className=" text-slate-400 dark:text-slate-300">
                 Win Rate {calculateWinRate(value.wins, value.losses)}
               </div>
@@ -72,6 +77,30 @@ export const LeagueCard = ({
           </div>
         )}
       </div>
+    </div>
+  )
+}
+
+const ProgressBar = ({ wins, losses }: { wins: number; losses: number }) => {
+  const totalGames = wins + losses
+  const winPercentage =
+    totalGames > 0 ? Math.round((wins / totalGames) * 100) : 0
+  const lossPercentage =
+    totalGames > 0 ? Math.round((losses / totalGames) * 100) : 0
+
+  const blueWidth = winPercentage
+  const redWidth = lossPercentage
+
+  return (
+    <div className="h-1 w-full  flex bg-transparent">
+      <div
+        className="h-full rounded-l-full bg-blue-500"
+        style={{ width: `${blueWidth}%` }}
+      ></div>
+      <div
+        className="h-full rounded-r-full bg-red-500"
+        style={{ width: `${redWidth}%` }}
+      ></div>
     </div>
   )
 }
