@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { Server, TopSoloQPlayerPlusIcon } from "../types"
+import { Link } from 'react-router-dom'
+import { Server, TopSoloQPlayerPlusIcon } from '../types'
 
 interface TopPlayerSectionProps {
   versionPath: string
@@ -32,8 +32,7 @@ export const TopPlayerCard = ({
           </div>
 
           <div className="text-sm">
-            {' '}
-            {(player.leaguePoints / 1000).toFixed(3).replace('.', ',')} LP{' '}
+            {(player.leaguePoints / 1000).toFixed(3).replace('.', ',')} LP
           </div>
         </li>
       </Link>

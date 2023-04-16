@@ -261,39 +261,79 @@ export type Participant = {
   [key: string]: number | boolean | string | Perks
 }
 
-export type Perks = {
+export interface Perks {
   statPerks: StatPerks
   styles: Style[]
 }
 
-export type StatPerks = {
+export interface StatPerks {
   defense: number
   flex: number
   offense: number
 }
 
-export type Style = {
+export interface Style {
   description: string
   selections: Selection[]
   style: number
 }
 
-export type Selection = {
+export interface Selection {
   perk: number
   var1: number
   var2: number
   var3: number
 }
 
-export type Team = {
+export interface Team {
   bans: Ban[]
+  objectives: Objectives
   teamId: number
   win: boolean
 }
 
-export type Ban = {
+export interface Ban {
   championId: number
   pickTurn: number
+}
+
+export interface Objectives {
+  baron: Baron
+  champion: Champion
+  dragon: Dragon
+  inhibitor: Inhibitor
+  riftHerald: RiftHerald
+  tower: Tower
+}
+
+export interface Baron {
+  first: boolean
+  kills: number
+}
+
+export interface Champion {
+  first: boolean
+  kills: number
+}
+
+export interface Dragon {
+  first: boolean
+  kills: number
+}
+
+export interface Inhibitor {
+  first: boolean
+  kills: number
+}
+
+export interface RiftHerald {
+  first: boolean
+  kills: number
+}
+
+export interface Tower {
+  first: boolean
+  kills: number
 }
 
 //// PERKS //

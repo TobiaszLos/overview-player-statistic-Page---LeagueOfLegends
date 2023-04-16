@@ -10,7 +10,7 @@ import {
   ChampionWithMastery,
   RuneReforged,
 } from '../types'
-import { getRegion } from '../utilities/regionSwitcher'
+
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
 
@@ -182,7 +182,3 @@ export const fetchRunesReforged = async (): Promise<RuneReforged[]> => {
   return data as RuneReforged[]
 }
 
-// (async () => {
-//   const runesReforged = await fetchRunesReforged();
-//   console.log(runesReforged);
-// })();

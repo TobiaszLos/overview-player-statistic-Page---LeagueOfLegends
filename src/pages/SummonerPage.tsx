@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import {
-  RuneReforged,
   fetchMatchesList,
   fetchRunesReforged,
   fetchSummonerDataByName,
@@ -10,6 +9,7 @@ import {
 } from '../services'
 import {
   MatchDTO,
+  RuneReforged,
   Server,
   SummonerBasic,
   SummonerLeague,
@@ -40,14 +40,13 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [hasNextPage, setHasNextPage] = useState<boolean>(true)
 
-  const [runesInfo, setRunesInfo] = useState<RuneReforged>()
+  const [runesInfo, setRunesInfo] = useState<RuneReforged[]>()
 
   const { summoner, server } = useParams()
 
   useEffect(() => {
     if (summoner && server) {
       searchSummonerByName(summoner, server as Server) // RUN ALL
-    
     }
   }, [])
 
@@ -62,9 +61,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const getRunesFromAssetsApi = async () => {
     const getRunesInfo = await fetchRunesReforged()
 
-    setRunesInfo(getRunesInfo)
+    setRunesInfo(getRunesInfo!)
   }
-
 
   const searchSummonerByName = async (name: string, region: Server) => {
     try {
@@ -173,8 +171,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
           <h2 className="p-4 font-medium tracking-wide text-lg text-slate-700  dark:text-slate-300 ">
             <span>Overview </span>
           </h2>
-          <article className="p-4 grid-cols-5 gap-4 md:grid">
-            <section className="col-span-2">
+          <article className="p-4 grid-cols-9 gap-4 md:grid">
+            <section className="col-span-3">
               <LeagueCard
                 nameLeague="Ranked Solo"
                 value={
@@ -198,8 +196,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               />
             </section>
 
-            <section className="col-span-3">
-              <div className="mb-4 p-2  flex items-centerfont-medium text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
+            <section className="col-span-6">
+              <div className="mb-4 p-2  flex items-center text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
                 <MdHistory />
                 <div className="pl-2"> Match History </div>
               </div>
@@ -208,7 +206,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 <>
                   {historyList.map((match) => (
                     <MatchCard
-                      runesInfo={runesInfo}
+                      runesInfo={runesInfo!}
                       key={match.metadata.matchId}
                       match={match}
                       summonerName={summoner!}

@@ -110,43 +110,39 @@ export const CollapseParticipant = ({
                   />
                 </div>
 
-                {!!runesInfo.length ? (
+                {!!runesInfo.length && (
                   <div>
                     <img
-                      className="w-6 h-6  bg-slate-700 rounded-lg" // runes.primarySlot.icon
+                      className="w-6 h-6  bg-slate-700 rounded-full" // runes.primarySlot.icon
                       src={`https://ddragon.leagueoflegends.com/cdn/img/${
                         select!.primarySlot.icon
                       }`}
                       alt={summonerSpells[participant.summoner2Id!]}
                     />
                     <img
-                      className="w-5 h-5 rounded-md" // runes.subSlot.icon
+                      className="w-5 h-5 rounded-full" // runes.subSlot.icon
                       src={`https://ddragon.leagueoflegends.com/cdn/img/${
                         select!.subSlot.icon
                       }`}
                       alt={summonerSpells[participant.summoner2Id!]}
                     />
                   </div>
-                ) : (
-                  <>
-                    <div>aaa</div>
-                  </>
                 )}
               </div>
 
               <Link
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 "
                 to={`/${server}/${participant.summonerName}/`}
                 target="_blank"
               >
-                <div className="pl-1 text-slate-900 dark:text-slate-200">
+                <div className="pl-1 text-slate-900 dark:text-slate-200  truncate max-w-[80px]">
                   {participant.summonerName}
                 </div>
               </Link>
             </div>
             <div className=" col-span-2 text-center ">
               <div>
-                {participant.kills} / {participant.deaths} /{' '}
+                {participant.kills} / {participant.deaths} /
                 {participant.assists}
               </div>
               <div>

@@ -44,7 +44,7 @@ export const MasteryChampionCard = ({
               <div key={champ.championId} className="grid grid-cols-12 mb-2 text-sm  text-slate-700 dark:text-slate-300">
                 <div className=" col-span-3 flex justify-center">
                   <img
-                    className="w-12 h-12 "
+                    className="w-12 h-12 rounded-full"
                     src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
                       champ.championName === 'FiddleSticks'
                         ? 'Fiddlesticks'

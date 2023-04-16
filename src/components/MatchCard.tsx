@@ -102,8 +102,12 @@ export const MatchCard = ({
                   runes={runes!}
                   versionPatch={versionPatch}
                   summonerGameDetails={mainSummoner}
+                  matchInfo={match}
                 />
               </div>
+            
+                
+           
               <div className="hidden md:grid col-span-2 grid-cols-2 text-xs text-slate-500 dark:text-slate-400 tracking-wide">
                 <ParticipantsMatchCard
                   match={match}
