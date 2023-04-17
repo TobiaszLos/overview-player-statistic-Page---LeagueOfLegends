@@ -2,6 +2,7 @@ import { machine } from 'os'
 import { MatchDTO, Participant, Rune, RuneReforged } from '../types'
 import { summonerSpells } from '../utilities/getSummonerSpellName'
 import { calculateKDA } from '../utilities/helpers/calculateKda'
+import { getCsPerMinute } from '../utilities/helpers/getCsPerMinute'
 
 interface DetailsMatchCardProps {
   summonerGameDetails: Participant
@@ -22,29 +23,25 @@ export const DetailsMatchCard = ({
   const winTeamStats = matchInfo.info.teams.find((team) => team.win === true)
   const loseTeamStats = matchInfo.info.teams.find((team) => team.win === false)
 
-  const getCsPerMinute = (cs: number, gameDuration: number): string => {
-    const csPerMinuteFloat = parseFloat(
-      (cs / (gameDuration / 60000)).toFixed(2)
-    )
-    const csPerMinuteRounded = Math.round(csPerMinuteFloat * 10) / 10
-    const csPerMinuteScaled = (csPerMinuteRounded / 1000).toFixed(1)
-
-    return csPerMinuteScaled
-  }
-
   return (
     <>
       <div>
         <div className="flex pb-2">
-          <img
-            className="w-12 h-12 rounded-full"
-            src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
-              summonerGameDetails.championName === 'FiddleSticks'
-                ? 'Fiddlesticks'
-                : summonerGameDetails.championName
-            }.png`}
-            alt=""
-          />
+          <div className='relative'>
+            <div className=" absolute h-4 w-4 text-center text-[10px] text-white bg-slate-700 rounded-full bottom-[-1px] left-[-1px] ">
+              {summonerGameDetails.champLevel}
+            </div>
+            <img
+              className="w-12 h-12 rounded-full"
+              src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
+                summonerGameDetails.championName === 'FiddleSticks'
+                  ? 'Fiddlesticks'
+                  : summonerGameDetails.championName
+              }.png`}
+              alt=""
+            />
+          </div>
+
           <div className="grid gap-1 pl-1 mr-1">
             <img
               className="w-6 h-6 rounded-md "
@@ -78,7 +75,7 @@ export const DetailsMatchCard = ({
               </>
             ) : (
               <>
-                <div>aaa</div>
+                ''
               </>
             )}
           </div>
@@ -95,7 +92,7 @@ export const DetailsMatchCard = ({
                 summonerGameDetails.kills!,
                 summonerGameDetails.deaths!,
                 summonerGameDetails.assists!
-              )}
+              )}{' '}
               KDA
             </div>
           </div>
@@ -152,8 +149,7 @@ export const DetailsMatchCard = ({
             summonerGameDetails.totalMinionsKilled +
               summonerGameDetails.neutralMinionsKilled,
             matchInfo.info.gameDuration
-          )}{' '}
-          )
+          )})
         </div>
       </div>
     </>

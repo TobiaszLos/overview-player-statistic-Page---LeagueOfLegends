@@ -9,7 +9,7 @@ export const ProgressBar = ({ dmg, totalDmg, wins, losses }: ProgressBarProps) =
   if (dmg !== undefined && totalDmg !== undefined) {
     const progress = Math.floor((dmg / totalDmg) * 100);
     return (
-      <div className="bg-gray-200 h-2 rounded-full overflow-hidden">
+      <div className="bg-white dark:bg-gray-100 h-[5px] overflow-hidden">
         <div className="bg-red-500 h-full" style={{ width: `${progress}%` }}></div>
       </div>
     );

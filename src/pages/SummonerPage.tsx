@@ -171,7 +171,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
           <h2 className="p-4 font-medium tracking-wide text-lg text-slate-700  dark:text-slate-300 ">
             <span>Overview </span>
           </h2>
-          <article className="p-4 grid-cols-9 gap-4 md:grid">
+          <article className="p-4 grid-cols-9 gap-2 md:grid">
             <section className="col-span-3">
               <LeagueCard
                 nameLeague="Ranked Solo"
@@ -197,7 +197,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </section>
 
             <section className="col-span-6">
-              <div className="mb-4 p-2  flex items-center text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
+              <div className="mb-2 p-2  flex items-center text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20  ">
                 <MdHistory />
                 <div className="pl-2"> Match History </div>
               </div>
@@ -216,14 +216,14 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                   ))}
                   {hasNextPage && (
                     <button
-                      className="w-full border py-2 text-sm border-slate-400 rounded-2xl text-black   dark:border-sky-600 dark:border-opacity-50 dark:text-gray-300 hover:opacity-80"
+                      className="w-full border font-medium py-2 text-sm rounded-md text-slate-600 hover:border-opacity-70 border-slate-400  dark:bg-transparent dark:border-sky-600 dark:hover:border-sky-700 dark:border-opacity-50 dark:text-gray-300   hover:border-slate-600"
                       onClick={handleLoadMore}
                     >
                       {isLoading ? (
                         <Loading />
                       ) : (
                         <div className="flex justify-center">
-                          <span> Show More</span>{' '}
+                          <span className='mr-1'>Lead More</span>
                           <BiCaretDown size={'1.2rem'} />
                         </div>
                       )}

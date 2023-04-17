@@ -11,7 +11,7 @@ interface CollapseProps {
 
 export const Collapse = ({ match, versionPatch, server, runesInfo }: CollapseProps) => {
   return (
-    <div>
+    <div className='mb-2  mt-[-2px]'>
       <CollapseParticipant
         match={match}
         versionPatch={versionPatch}
@@ -19,6 +19,7 @@ export const Collapse = ({ match, versionPatch, server, runesInfo }: CollapsePro
         server={server}
         start={0}
         end={5}
+        part={1}
       />
 
       <CollapseParticipant
@@ -28,6 +29,7 @@ export const Collapse = ({ match, versionPatch, server, runesInfo }: CollapsePro
         server={server}
         start={5}
         end={match.info.participants.length}
+        part={2}
       />
     </div>
   )

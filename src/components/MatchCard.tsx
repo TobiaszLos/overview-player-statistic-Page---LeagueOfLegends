@@ -82,13 +82,13 @@ export const MatchCard = ({
     <>
       {mainSummoner && (
         <>
-          <div className="flex mb-4">
+          <div className="flex mb-2">
             <div
               key={match.metadata.matchId}
               className={` w-[96%] py-2 ${
                 mainSummoner.win
-                  ? 'border-l-8 border-l-blue-400 bg-sky-100 dark:border-l-blue-700 dark:bg-sky-900 dark:bg-opacity-20'
-                  : 'border-l-8 border-l-red-400 bg-red-100 bg-opacity-40 dark:border-l-rose-700 dark:bg-rose-800 dark:bg-opacity-20 '
+                  ? 'border-l-4 border-l-blue-400 bg-sky-100 dark:border-l-blue-700 dark:bg-sky-900 dark:bg-opacity-20'
+                  : 'border-l-4 border-l-red-400 bg-red-400 bg-opacity-20 dark:border-l-rose-700 dark:bg-rose-800 dark:bg-opacity-20 '
               } rounded-l-lg grid grid-cols-6 text-zinc-600 dark:text-zinc-300 font-normal`}
             >
               <div className="col-span-1 pl-2">
@@ -105,10 +105,8 @@ export const MatchCard = ({
                   matchInfo={match}
                 />
               </div>
-            
-                
-           
-              <div className="hidden md:grid col-span-2 grid-cols-2 text-xs text-slate-500 dark:text-slate-400 tracking-wide">
+                  
+              <div className="hidden md:grid col-span-2 grid-cols-2 text-xs text-slate-500 dark:text-slate-500  tracking-wide">
                 <ParticipantsMatchCard
                   match={match}
                   versionPatch={versionPatch}
@@ -122,12 +120,12 @@ export const MatchCard = ({
               className={`w-[4%] cursor-pointer hover:opacity-80  ${
                 mainSummoner.win
                   ? '  bg-blue-300  dark:bg-sky-600 dark:bg-opacity-20'
-                  : '  bg-red-300 bg-opacity-40  dark:bg-rose-600 dark:bg-opacity-20 '
+                  : '  bg-red-400  dark:bg-rose-600 dark:bg-opacity-20 '
               } rounded-r-lg flex items-end justify-center '`}
             >
               <div
                 className={`flex justify-center pb-4 ${
-                  mainSummoner.win ? 'text-blue-500' : 'text-red-500'
+                  mainSummoner.win ? 'text-blue-500' : 'text-rose-900'
                 }`}
               >
                 <BiCaretDown size={'1.2rem'} />

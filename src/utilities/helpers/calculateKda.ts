@@ -3,5 +3,8 @@ export const calculateKDA = (
   deaths: number,
   assists: number
 ): string => {
-  return ((kills + assists) / deaths).toFixed(2)
+  if (deaths === 0) {
+    return "Perfect";
+  }
+  return ((kills + assists) / deaths).toFixed(2);
 }

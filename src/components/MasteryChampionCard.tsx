@@ -35,7 +35,7 @@ export const MasteryChampionCard = ({
           <div className=" col-span-2 ">Name</div>
           <div className=" col-span-2 text-left">Level</div>
           <div className=" col-span-2 text-lefty">Points</div>
-          <div className=" col-span-3 text-left ">last played</div>
+          {/* <div className=" col-span-3 text-left ">last played</div> */}
         </div>
 
         {!!champions?.length && (
@@ -61,11 +61,11 @@ export const MasteryChampionCard = ({
                 <div className=" col-span-2 text-left">
                   {champ.championPoints / 1000}
                 </div>
-                <div className=" col-span-3 text-left  ">
+                {/* <div className=" col-span-3 text-left  ">
                   <div className="">
                     {timeFormat(champ.lastPlayTime, 'fromNow')}
                   </div>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
