@@ -22,8 +22,6 @@ export const DetailsMatchCard = ({
   const winTeamStats = matchInfo.info.teams.find((team) => team.win === true)
   const loseTeamStats = matchInfo.info.teams.find((team) => team.win === false)
 
-  console.log({ winTeamStats, loseTeamStats })
-
   const getCsPerMinute = (cs: number, gameDuration: number): string => {
     const csPerMinuteFloat = parseFloat(
       (cs / (gameDuration / 60000)).toFixed(2)
