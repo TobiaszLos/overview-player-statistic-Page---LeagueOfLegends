@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { MatchDTO, Participant, RuneReforged, Server } from '../types'
 import { calculateKDA } from '../utilities/helpers/calculateKda'
 import { summonerSpells } from '../utilities/getSummonerSpellName'
+import { ProgressBar } from './ProgressBar'
 
 interface CollapseParticipant {
   match: MatchDTO
@@ -49,6 +50,16 @@ export const CollapseParticipant = ({
     }
 
     return filteredRunes
+  }
+
+  const participantWithHighestDmg = () => {
+    return match.info.participants.reduce((max, obj) => {
+      if (obj.totalDamageDealtToChampions > max.totalDamageDealtToChampions) {
+        return obj
+      } else {
+        return max
+      }
+    })
   }
 
   return (
@@ -158,7 +169,13 @@ export const CollapseParticipant = ({
               </div>
             </div>
             <div className=" col-span-1 ">
-              <div>{participant.totalDamageDealtToChampions / 1000} </div>
+              <div className='mb-1'>{participant.totalDamageDealtToChampions / 1000}</div>
+              <ProgressBar
+                dmg={participant.totalDamageDealtToChampions / 1000}
+                totalDmg={
+                  participantWithHighestDmg().totalDamageDealtToChampions / 1000
+                }
+              />
             </div>
             <div className=" col-span-1 flex justify-center">
               {participant.wardsPlaced}
@@ -192,5 +209,3 @@ export const CollapseParticipant = ({
     </div>
   )
 }
-
-export default CollapseParticipant

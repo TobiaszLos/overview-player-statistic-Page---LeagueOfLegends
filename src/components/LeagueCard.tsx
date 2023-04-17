@@ -1,6 +1,7 @@
 import { SummonerLeague } from '../types'
 import { IconByTier } from '../utilities/IconsComponent'
 import unrankedIcon from '../assets/img/rank_Icon/unranked.webp'
+import { ProgressBar } from './ProgressBar'
 
 export const LeagueCard = ({
   nameLeague,
@@ -81,26 +82,3 @@ export const LeagueCard = ({
   )
 }
 
-const ProgressBar = ({ wins, losses }: { wins: number; losses: number }) => {
-  const totalGames = wins + losses
-  const winPercentage =
-    totalGames > 0 ? Math.round((wins / totalGames) * 100) : 0
-  const lossPercentage =
-    totalGames > 0 ? Math.round((losses / totalGames) * 100) : 0
-
-  const blueWidth = winPercentage
-  const redWidth = lossPercentage
-
-  return (
-    <div className="h-1 w-full  flex bg-transparent">
-      <div
-        className="h-full rounded-l-full bg-blue-500"
-        style={{ width: `${blueWidth}%` }}
-      ></div>
-      <div
-        className="h-full rounded-r-full bg-red-500"
-        style={{ width: `${redWidth}%` }}
-      ></div>
-    </div>
-  )
-}
