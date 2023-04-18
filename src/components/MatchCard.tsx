@@ -89,7 +89,7 @@ export const MatchCard = ({
                 mainSummoner.win
                   ? 'border-l-4 border-l-blue-400 bg-sky-100 dark:border-l-blue-700 dark:bg-sky-900 dark:bg-opacity-20'
                   : 'border-l-4 border-l-red-400 bg-red-400 bg-opacity-20 dark:border-l-rose-700 dark:bg-rose-800 dark:bg-opacity-20 '
-              } rounded-l-lg grid grid-cols-6 text-zinc-600 dark:text-zinc-300 font-normal`}
+              } rounded-l-lg flex justify-around md:grid grid-cols-6 text-zinc-600 dark:text-zinc-300 font-normal`}
             >
               <div className="col-span-1 pl-2">
                 <SummaryMatchCard

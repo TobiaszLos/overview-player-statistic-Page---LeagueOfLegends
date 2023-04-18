@@ -6,18 +6,24 @@ import { ProgressBar } from './ProgressBar'
 export const LeagueCard = ({
   nameLeague,
   value,
+  customCss,
 }: {
   nameLeague: string
   value: SummonerLeague | null
+  customCss?: string
 }) => {
-  const calculateWinRate = (wins: number, losses: number) => {
+  const calculateWinRate = (wins: number, losses: number): string => {
     const totalGames = wins + losses
     const winRate = (wins / totalGames) * 100
     return winRate.toFixed() + '%'
   }
 
   return (
-    <div className="mb-1 bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20  ">
+    <div
+      className={`mb-1 bg-white bg-opacity-75 ${
+        customCss ? customCss : ''
+      }  rounded-md dark:bg-sky-900 dark:bg-opacity-20  `}
+    >
       <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
         {nameLeague}
       </div>
@@ -49,10 +55,8 @@ export const LeagueCard = ({
                 )}
               </div>
               <div className="text-left text-sm text-slate-600 dark:text-slate-300">
-                {' '}
-                {(value.leaguePoints / 1000)
-                  .toFixed(3)
-                  .replace('.', ',')} LP{' '}
+                {' '}     {/* FIXME POINTS DIVISION  */}
+                {(value.leaguePoints / 1000).toFixed(3).replace('.', ',')} LP
               </div>
             </div>
 
@@ -66,10 +70,9 @@ export const LeagueCard = ({
                 </span>
               </div>
               <div className="w-full flex justify-end ">
-                <div className='w-24 my-1'>
-                   <ProgressBar wins={value.wins} losses={value.losses} />
+                <div className="w-24 my-1">
+                  <ProgressBar wins={value.wins} losses={value.losses} />
                 </div>
-            
               </div>
               <div className=" text-slate-400 dark:text-slate-300">
                 Win Rate {calculateWinRate(value.wins, value.losses)}
@@ -81,4 +84,3 @@ export const LeagueCard = ({
     </div>
   )
 }
-

@@ -7,7 +7,6 @@ import { quickSort } from '../utilities/helpers/quickSort'
 import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
 
-
 type Options = {
   value: Server
   label: string
@@ -82,16 +81,16 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
     setServer(server)
     setLoading(false)
   }
-
+  //  text-2xl
   return (
     <div className="flex flex-col items-center">
       <div className="pt-16 pb-12">
         <div className="text-center leading-3">
-          <span className="text-slate-600 dark:text-slate-100 text-5xl font-bold ">
+          <span className="text-slate-600 dark:text-slate-100 text-4xl sm:text-5xl  font-bold ">
             Search Summoner Stats
           </span>
           <br />
-          <span className="text-slate-400 dark:text-slate-300 text-2xl">
+          <span className="text-slate-400 dark:text-slate-300 text-2xl ">
             - LEAGUE OF LEGENDS -
           </span>
         </div>
@@ -125,7 +124,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
       </div>
 
       <div className="w-full">
-        <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-3xl my-auto">
+        <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-2xl sm:text-3xl my-auto">
           The best summoners of the region
         </h2>
         <select
@@ -133,7 +132,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           onChange={(e) => {
             fetchTopPlayersList(e.currentTarget.value as Server)
           }}
-          className="border-2 m-10 dark:border-red-50 border-slate-400 rounded-2xl bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+          className="border-2 m-10 text-center dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>

@@ -85,7 +85,7 @@ export const CollapseParticipant = ({
       textColor = 'text-green-400'
     } else if (Number(kda) < 3.0) {
       textColor = 'text-slate-500'
-    } else if (kda === "Perfect") {
+    } else if (kda === 'Perfect') {
       textColor = 'text-orange-400'
     }
 
@@ -105,18 +105,24 @@ export const CollapseParticipant = ({
             : 'border-b border-b-red-200 border-opacity-80 dark:border-b-rose-900 dark:border-opacity-50'
         }`}
       >
-        <div className=" col-span-3">
+        <div className="col-span-5 sm:col-span-3 ">
           {!match.info.participants[start].win ? (
             <span className="text-red-400 pl-4">Defeat</span>
           ) : (
             <span className="text-blue-400 pl-4">Victory </span>
           )}
         </div>
-        <div className=" col-span-2  text-center ">KDA</div>
-        <div className=" col-span-1 text-center">Damage</div>
-        <div className=" col-span-1 text-end">Wards</div>
-        <div className=" col-span-1 text-center">CS</div>
-        <div className=" col-span-4 text-center">Items</div>
+        <div className="col-span-3 sm:col-span-2  text-center ">KDA</div>
+        <div className=" col-span-1 sm:col-span-1  text-center hidden sm:block">
+          Damage
+        </div>
+        <div className=" col-span-1 sm:col-span-1 text-center hidden sm:block">
+          Wards
+        </div>
+        <div className=" col-span-1 sm:col-span-1 text-center hidden sm:block">
+          CS
+        </div>
+        <div className="col-span-4 sm:col-span-4 text-center">Items</div>
       </div>
       {match.info.participants.slice(start, end).map((participant, index) => {
         const select = selectRunes(participant)
@@ -130,7 +136,11 @@ export const CollapseParticipant = ({
                 : 'bg-rose-200 bg-opacity-50  dark:bg-rose-800 dark:bg-opacity-20 '
             } `}
           >
-            <div className="flex col-span-3 items-center" key={index}>
+            {/* ---------- Defeat/Victory COLUMN 1 ---------- */}
+            <div
+              className="flex col-span-5 sm:col-span-3 items-center"
+              key={index}
+            >
               <div className="flex">
                 <div className=" relative ">
                   <div className=" absolute h-4 w-4 text-center text-[10px] text-white bg-slate-700 rounded-full bottom-[-1px] left-[-1px] ">
@@ -184,9 +194,8 @@ export const CollapseParticipant = ({
                   </div>
                 )}
               </div>
-
               <Link
-                className=" font-medium pl-2 "
+                className=" font-medium pl-2 truncate  w-24 "
                 to={`/${server}/${participant.summonerName}/`}
                 target="_blank"
               >
@@ -195,11 +204,12 @@ export const CollapseParticipant = ({
                 </div>
               </Link>
             </div>
-            <div className=" col-span-2 text-center ">
+            {/* ---------- KDA COLUMN 2 ---------- */}
+            <div className="col-span-2 sm:col-span-2 text-center  ">
               <div className=" text-slate-700 opacity-80 dark:text-slate-100 ">
-                {participant.kills}/{participant.deaths}/{participant.assists} (
-                <span>
-                  {participant.win
+                {participant.kills}/{participant.deaths}/{participant.assists}{' '} 
+                <span className='hidden md:inline-block '>
+                ({participant.win
                     ? winTeamStats?.objectives.champion.kills !== 0
                       ? Math.floor(
                           ((participant.kills + participant.assists) /
@@ -213,9 +223,9 @@ export const CollapseParticipant = ({
                           loseTeamStats?.objectives.champion.kills!) *
                           100
                       ) + '%'
-                    : '0%'}
+                    : '0%'})
                 </span>
-                )
+               
               </div>
               <div>
                 <span
@@ -230,7 +240,8 @@ export const CollapseParticipant = ({
                 </span>
               </div>
             </div>
-            <div className=" col-span-1 ">
+            {/* ---------- DMG COLUMN 3   MOBILE DISABLED  ---------- */}
+            <div className="col-span-1 sm:col-span-1 hidden sm:block">
               <div className="mb-1">
                 {participant.totalDamageDealtToChampions / 1000}
               </div>
@@ -241,17 +252,17 @@ export const CollapseParticipant = ({
                 }
               />
             </div>
-            <div className=" col-span-1 flex justify-center">
+            {/* ---------- Wards COLUMN 4  MOBILE DISABLED ---------- */}
+            <div className="col-span-1 sm:col-span-1  hidden sm:flex  justify-center">
               {participant.wardsPlaced}
             </div>
-            <div className=" col-span-1 flex items-center flex-col ">
+            {/* ---------- CS COLUMN 5 DISABLED ---------- */}
+            <div className="col-span-1 sm:col-span-1 items-center flex-col  hidden sm:flex ">
               <div className="text-slate-500 dark:text-slate-300">
-                {' '}
                 {participant.totalMinionsKilled +
                   participant.neutralMinionsKilled}{' '}
               </div>
               <div className="text-slate-500 dark:text-slate-400">
-                {' '}
                 {getCsPerMinute(
                   participant.totalMinionsKilled +
                     participant.neutralMinionsKilled,
@@ -260,7 +271,8 @@ export const CollapseParticipant = ({
                 /m
               </div>
             </div>
-            <div className=" col-span-4  flex justify-center">
+            {/* ---------- Items COLUMN 6  ---------- */}
+            <div className="col-span-5 sm:col-span-4  flex justify-center">
               {Array.from({ length: 7 }).map((_, index) => {
                 const itemValue = participant[`item${index}`]
                 return itemValue !== 0 ? (

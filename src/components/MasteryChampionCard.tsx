@@ -7,23 +7,33 @@ export const MasteryChampionCard = ({
   summonerId,
   versionPatch,
   server,
+  customCss,
 }: {
   summonerId: string
   versionPatch: string
   server: Server
+  customCss?: string
 }) => {
   const [champions, setchampions] = useState<ChampionMasteryStats[]>()
 
   useEffect(() => {
     const fechChampions = async () => {
-      const championsFetched = await fetchChampionsMasteriesWithName(summonerId, server, 7)
+      const championsFetched = await fetchChampionsMasteriesWithName(
+        summonerId,
+        server,
+        7
+      )
       setchampions(championsFetched)
     }
     fechChampions()
   }, [])
-
+    {/* TODO Change grid  */}
   return (
-    <div className="mb-4 pb-2 bg-white bg-opacity-75   rounded-xl dark:bg-sky-900 dark:bg-opacity-20  ">
+    <div
+      className={`mb-4 pb-2 bg-white bg-opacity-75 ${
+        customCss ? customCss : ''
+      }  rounded-xl dark:bg-sky-900 dark:bg-opacity-20  `}
+    >
       <div className="p-4 pb-4  text-slate-700 font-medium text-base dark:text-slate-100 ">
         Champions Mastery
       </div>
@@ -35,13 +45,16 @@ export const MasteryChampionCard = ({
           <div className=" col-span-2 ">Name</div>
           <div className=" col-span-2 text-left">Level</div>
           <div className=" col-span-2 text-lefty">Points</div>
-          {/* <div className=" col-span-3 text-left ">last played</div> */}
+         <div className=" col-span-3 text-left hidden sm:block lg:hidden ">last played</div> 
         </div>
 
         {!!champions?.length && (
           <div>
             {champions.map((champ) => (
-              <div key={champ.championId} className="grid grid-cols-12 mb-2 text-sm  text-slate-700 dark:text-slate-300">
+              <div
+                key={champ.championId}
+                className="grid grid-cols-12 mb-2 text-sm  text-slate-500 dark:text-slate-300"
+              >
                 <div className=" col-span-3 flex justify-center">
                   <img
                     className="w-12 h-12 rounded-full"
@@ -61,15 +74,16 @@ export const MasteryChampionCard = ({
                 <div className=" col-span-2 text-left">
                   {champ.championPoints / 1000}
                 </div>
-                {/* <div className=" col-span-3 text-left  ">
+                <div className=" col-span-3 text-left  hidden sm:block lg:hidden ">
                   <div className="">
                     {timeFormat(champ.lastPlayTime, 'fromNow')}
                   </div>
-                </div> */}
+                </div>
               </div>
             ))}
           </div>
         )}
+    
       </div>
     </div>
   )

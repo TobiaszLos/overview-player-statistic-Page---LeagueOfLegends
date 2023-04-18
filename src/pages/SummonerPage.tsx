@@ -171,9 +171,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
           <h2 className="p-4 font-medium tracking-wide text-lg text-slate-700  dark:text-slate-300 ">
             <span>Overview </span>
           </h2>
-          <article className="p-4 grid-cols-9 gap-2 md:grid">
-            <section className="col-span-3">
+          <article className="p-4 lg:grid lg:grid-cols-9 gap-2 ">
+            <section className="col-span-3  sm:grid sm:grid-cols-4  lg:flex lg:flex-col  sm:bg-transparent lg:bg-transparent">
               <LeagueCard
+                customCss="sm:col-span-2 lg:col-span-1 sm:mr-1 lg:mr-0"
                 nameLeague="Ranked Solo"
                 value={
                   summonerLeagues.RANKED_SOLO_5x5 !== undefined
@@ -182,6 +183,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 }
               />
               <LeagueCard
+                customCss="sm:col-span-2 lg:col-span-1"
                 nameLeague="Ranked Flex"
                 value={
                   summonerLeagues.RANKED_FLEX_SR !== undefined
@@ -190,6 +192,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 }
               />
               <MasteryChampionCard
+                customCss="sm:col-span-4 lg:col-span-1"
                 server={server as Server}
                 summonerId={summonerData.id}
                 versionPatch={versionPatch}
@@ -223,7 +226,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                         <Loading />
                       ) : (
                         <div className="flex justify-center">
-                          <span className='mr-1'>Lead More</span>
+                          <span className="mr-1">Lead More</span>
                           <BiCaretDown size={'1.2rem'} />
                         </div>
                       )}

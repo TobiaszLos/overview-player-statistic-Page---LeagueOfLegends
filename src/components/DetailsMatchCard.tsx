@@ -42,7 +42,7 @@ export const DetailsMatchCard = ({
             />
           </div>
 
-          <div className="grid gap-1 pl-1 mr-1">
+          <div className=" grid gap-1 pl-1 mr-1">
             <img
               className="w-6 h-6 rounded-md "
               src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
@@ -119,7 +119,7 @@ export const DetailsMatchCard = ({
           })}
         </div>
       </div>
-      <div className="text-xs">
+      <div className="text-xs hidden sm:block">
         <div className=" text-red-700 dark:text-red-500">
           P/Kill{' '}
           {summonerGameDetails.win
@@ -149,7 +149,7 @@ export const DetailsMatchCard = ({
             summonerGameDetails.totalMinionsKilled +
               summonerGameDetails.neutralMinionsKilled,
             matchInfo.info.gameDuration
-          )})
+          )}/m)
         </div>
       </div>
     </>
