@@ -55,8 +55,10 @@ export const LeagueCard = ({
                 )}
               </div>
               <div className="text-left text-sm text-slate-600 dark:text-slate-300">
-                {' '}     {/* FIXME POINTS DIVISION  */}
-                {(value.leaguePoints / 1000).toFixed(3).replace('.', ',')} LP
+                {value.leaguePoints > 999
+                  ? (value.leaguePoints / 1000).toFixed(3).replace('.', ',')
+                  : value.leaguePoints}{' '}
+                LP
               </div>
             </div>
 

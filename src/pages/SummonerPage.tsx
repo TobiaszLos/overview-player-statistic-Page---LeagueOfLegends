@@ -200,9 +200,9 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </section>
 
             <section className="col-span-6">
-              <div className="mb-2 p-2  flex items-center text-slate-800 dark:text-slate-400 bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20  ">
-                <MdHistory />
-                <div className="pl-2"> Match History </div>
+              <div className="mb-2 p-2  flex items-center  bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20 text-slate-800  text-base dark:text-slate-200  ">
+                {/* <MdHistory /> */}
+                <div className="pl-2">Results History</div>
               </div>
 
               {historyList.length > 0 ? (

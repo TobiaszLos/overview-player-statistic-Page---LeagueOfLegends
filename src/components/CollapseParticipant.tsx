@@ -126,7 +126,9 @@ export const CollapseParticipant = ({
       </div>
       {match.info.participants.slice(start, end).map((participant, index) => {
         const select = selectRunes(participant)
-
+        {
+          /* TODO ADD highlight Participant */
+        }
         return (
           <div
             key={participant.puuid}
@@ -207,9 +209,10 @@ export const CollapseParticipant = ({
             {/* ---------- KDA COLUMN 2 ---------- */}
             <div className="col-span-2 sm:col-span-2 text-center  ">
               <div className=" text-slate-700 opacity-80 dark:text-slate-100 ">
-                {participant.kills}/{participant.deaths}/{participant.assists}{' '} 
-                <span className='hidden md:inline-block '>
-                ({participant.win
+                {participant.kills}/{participant.deaths}/{participant.assists}{' '}
+                <span className="hidden md:inline-block ">
+                  (
+                  {participant.win
                     ? winTeamStats?.objectives.champion.kills !== 0
                       ? Math.floor(
                           ((participant.kills + participant.assists) /
@@ -223,9 +226,9 @@ export const CollapseParticipant = ({
                           loseTeamStats?.objectives.champion.kills!) *
                           100
                       ) + '%'
-                    : '0%'})
+                    : '0%'}
+                  )
                 </span>
-               
               </div>
               <div>
                 <span

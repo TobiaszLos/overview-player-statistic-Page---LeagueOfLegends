@@ -27,7 +27,7 @@ export const MasteryChampionCard = ({
     }
     fechChampions()
   }, [])
-    {/* TODO Change grid  */}
+
   return (
     <div
       className={`mb-4 pb-2 bg-white bg-opacity-75 ${
@@ -39,13 +39,13 @@ export const MasteryChampionCard = ({
       </div>
 
       <div>
-        <div className="grid grid-cols-12 mb-4 font-medium text-sm ">
-          <div className=" col-span-3"></div>
+        <div className=" pl-4 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-4 mb-4 font-medium text-sm ">
+          <div className=" "></div>
 
-          <div className=" col-span-2 ">Name</div>
-          <div className=" col-span-2 text-left">Level</div>
-          <div className=" col-span-2 text-lefty">Points</div>
-         <div className=" col-span-3 text-left hidden sm:block lg:hidden ">last played</div> 
+          <div className=" ">Name</div>
+          <div className="  ">Level</div>
+          <div className=" ">Points</div>
+          <div className="hidden sm:block lg:hidden">last played</div>
         </div>
 
         {!!champions?.length && (
@@ -53,9 +53,9 @@ export const MasteryChampionCard = ({
             {champions.map((champ) => (
               <div
                 key={champ.championId}
-                className="grid grid-cols-12 mb-2 text-sm  text-slate-500 dark:text-slate-300"
+                className="pl-4 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-4 mb-2 text-xs  text-slate-500 dark:text-slate-300 font-medium"
               >
-                <div className=" col-span-3 flex justify-center">
+                <div className="">
                   <img
                     className="w-12 h-12 rounded-full"
                     src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${
@@ -67,14 +67,10 @@ export const MasteryChampionCard = ({
                   />
                 </div>
 
-                <div className=" col-span-2 ">{champ.championName}</div>
-                <div className=" col-span-2 text-left">
-                  {champ.championLevel}
-                </div>
-                <div className=" col-span-2 text-left">
-                  {champ.championPoints / 1000}
-                </div>
-                <div className=" col-span-3 text-left  hidden sm:block lg:hidden ">
+                <div className=" ">{champ.championName}</div>
+                <div className=" pl-3 ">{champ.championLevel}</div>
+                <div className=" ">{champ.championPoints / 1000}</div>
+                <div className="  hidden sm:block lg:hidden ">
                   <div className="">
                     {timeFormat(champ.lastPlayTime, 'fromNow')}
                   </div>
@@ -83,7 +79,6 @@ export const MasteryChampionCard = ({
             ))}
           </div>
         )}
-    
       </div>
     </div>
   )

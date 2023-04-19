@@ -78,11 +78,15 @@ export const MatchCard = ({
     setRunes(filteredRunes)
   }
 
+ const isHidden = () => {
+  
+ }
+
   return (
     <>
       {mainSummoner && (
         <>
-          <div className="flex mb-2">
+          <div className="flex mb-2 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
             <div
               key={match.metadata.matchId}
               className={` w-[96%] py-2 ${

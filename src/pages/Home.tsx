@@ -101,6 +101,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           onSubmit={(e) => handleSearchChange(e)}
           className="mt-5 h-12 flex w-full justify-center "
         >
+          {/* FIXME center */}
           <select
             name="region"
             className="border  border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4"
@@ -123,19 +124,20 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
         </form>
       </div>
 
-      <div className="w-full">
+      <div className="w-full px-4 ">
         <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-2xl sm:text-3xl my-auto">
           The best summoners of the region
         </h2>
+
         <select
           name="region"
           onChange={(e) => {
             fetchTopPlayersList(e.currentTarget.value as Server)
           }}
-          className="border-2 m-10 text-center dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+          className=" p-2 mx-auto border-2 m-10  dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         >
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option className='' key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
