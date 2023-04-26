@@ -24,7 +24,7 @@ export const LeagueCard = ({
         customCss ? customCss : ''
       }  rounded-md dark:bg-sky-900 dark:bg-opacity-20  `}
     >
-      <div className="p-4 pb-0 text-slate-700 font-medium text-base dark:text-slate-100 ">
+      <div className="p-4 pb-0 text-slate-700 font-medium text-sm  dark:text-slate-100 ">
         {nameLeague}
       </div>
       <div className="p-2">
@@ -34,7 +34,7 @@ export const LeagueCard = ({
               <img src={unrankedIcon} alt="unranked" />
             </div>
 
-            <div className="text-center font-medium text-sm  text-slate-600  dark:text-slate-300">
+            <div className="text-center font-medium  text-slate-600 text-sm  dark:text-slate-300">
               Unranked
             </div>
           </div>
@@ -45,16 +45,16 @@ export const LeagueCard = ({
             </div>
 
             <div className="pl-2">
-              <div className="">
+              <div className="text-sm  ">
                 {value.tier != 'CHALLENGER' && value.tier !== 'MASTER' ? (
-                  <div className="flex space-x-1 font-semibold text-base">
-                    <span>{value.tier} </span> <span>{value.rank}</span>
+                  <div className="flex space-x-1 font-semibold capitalize">
+                    <span>{value.tier.toLowerCase()} </span> <span>{value.rank}</span>
                   </div>
                 ) : (
-                  <div className="font-semibold text-base"> {value.tier} </div>
+                  <div className="font-semibold capitalize text-left "> {value.tier.toLowerCase()} </div>
                 )}
               </div>
-              <div className="text-left text-sm text-slate-600 dark:text-slate-300">
+              <div className="text-left text-xs text-slate-600 dark:text-slate-300">
                 {value.leaguePoints > 999
                   ? (value.leaguePoints / 1000).toFixed(3).replace('.', ',')
                   : value.leaguePoints}{' '}
@@ -76,7 +76,7 @@ export const LeagueCard = ({
                   <ProgressBar wins={value.wins} losses={value.losses} />
                 </div>
               </div>
-              <div className=" text-slate-400 dark:text-slate-300">
+              <div className=" text-slate-400 text-xs  dark:text-slate-300">
                 Win Rate {calculateWinRate(value.wins, value.losses)}
               </div>
             </div>
