@@ -36,7 +36,11 @@ const ParticipantsMatchCard = ({
 
               <Link
                 onClick={handleClick}
-                className="hover:text-blue-600"
+                className={`hover:text-blue-600 ${
+                  participant.summonerName === summonerName
+                    ? 'font-bold text-slate-700 dark:text-slate-300'
+                    : ''
+                }`}
                 to={`/${server}/${participant.summonerName}/`}
                 target="_blank"
               >
@@ -61,7 +65,7 @@ const ParticipantsMatchCard = ({
                 }.png`}
                 alt=""
               />
-            {/* FIXME fix highlight main summoner */}
+       
               <Link
                 onClick={handleClick}
                 className={`hover:text-blue-600 ${

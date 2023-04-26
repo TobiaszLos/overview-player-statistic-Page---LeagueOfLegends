@@ -8,6 +8,7 @@ import { getCsPerMinute } from '../utilities/helpers/getCsPerMinute'
 interface CollapseParticipant {
   match: MatchDTO
   versionPatch: string
+  summonerGameDetails: Participant
   server: Server
   start: number
   end: number
@@ -18,6 +19,7 @@ interface CollapseParticipant {
 export const CollapseParticipant = ({
   match,
   versionPatch,
+  summonerGameDetails,
   runesInfo,
   server,
   start,
@@ -126,16 +128,24 @@ export const CollapseParticipant = ({
       </div>
       {match.info.participants.slice(start, end).map((participant, index) => {
         const select = selectRunes(participant)
-        {
-          /* TODO ADD highlight Participant */
-        }
+
         return (
           <div
             key={participant.puuid}
             className={`grid grid-cols-12 pl-2 pt-1 items-center text-slate-600 dark:text-slate-300  ${
               match.info.participants[start].win
-                ? 'bg-sky-100 dark:bg-sky-900 dark:bg-opacity-20'
-                : 'bg-rose-200 bg-opacity-50  dark:bg-rose-800 dark:bg-opacity-20 '
+                ? ` ${
+                    summonerGameDetails.summonerName ===
+                    participant.summonerName
+                      ? 'bg-sky-200 bg-opacity-80  dark:bg-sky-600 dark:bg-opacity-20 '
+                      : 'bg-sky-100 dark:bg-sky-900 dark:bg-opacity-20 '
+                  } `
+                : `  ${
+                    summonerGameDetails.summonerName ===
+                    participant.summonerName
+                      ? 'bg-rose-400 bg-opacity-30  dark:bg-rose-400 dark:bg-opacity-20'
+                      : 'bg-rose-200 bg-opacity-50  dark:bg-rose-800 dark:bg-opacity-20'
+                  } `
             } `}
           >
             {/* ---------- Defeat/Victory COLUMN 1 ---------- */}
@@ -197,7 +207,7 @@ export const CollapseParticipant = ({
                 )}
               </div>
               <Link
-                className=" font-medium pl-2 truncate  w-24 "
+                className={` font-medium pl-2 truncate  w-24   `}
                 to={`/${server}/${participant.summonerName}/`}
                 target="_blank"
               >

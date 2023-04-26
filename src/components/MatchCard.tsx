@@ -143,6 +143,8 @@ export const MatchCard = ({
               runesInfo={runesInfo}
               versionPatch={versionPatch}
               server={server}
+              summonerGameDetails={mainSummoner}
+
             />
           )}
         </>
