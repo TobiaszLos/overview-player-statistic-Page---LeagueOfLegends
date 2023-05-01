@@ -78,15 +78,16 @@ export const MatchCard = ({
     setRunes(filteredRunes)
   }
 
- const isHidden = () => {
-  
- }
+  const isHidden = () => {}
 
   return (
     <>
       {mainSummoner && (
         <>
-          <div className="flex mb-2 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          <div
+            className="flex mb-2 cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <div
               key={match.metadata.matchId}
               className={` w-[96%] py-2 ${
@@ -109,7 +110,7 @@ export const MatchCard = ({
                   matchInfo={match}
                 />
               </div>
-                  
+
               <div className="hidden md:grid col-span-2 grid-cols-2 text-xs text-slate-500 dark:text-slate-500  tracking-wide">
                 <ParticipantsMatchCard
                   match={match}
@@ -120,7 +121,7 @@ export const MatchCard = ({
               </div>
             </div>
             <div
-              onClick={() => setIsOpen(!isOpen)}
+              // onClick={() => setIsOpen(!isOpen)}
               className={`w-[4%] cursor-pointer hover:opacity-80  ${
                 mainSummoner.win
                   ? '  bg-blue-300  dark:bg-sky-600 dark:bg-opacity-20'
@@ -130,9 +131,12 @@ export const MatchCard = ({
               <div
                 className={`flex justify-center pb-4 ${
                   mainSummoner.win ? 'text-blue-500' : 'text-rose-900'
-                }`}
+                } `}
               >
-                <BiCaretDown size={'1.2rem'} />
+                <BiCaretDown
+                  size={'1.2rem'}
+                  className={`${isOpen ? ' rotate-180' : ' rotate-0'}`}
+                />
               </div>
             </div>
           </div>
@@ -144,7 +148,6 @@ export const MatchCard = ({
               versionPatch={versionPatch}
               server={server}
               summonerGameDetails={mainSummoner}
-
             />
           )}
         </>

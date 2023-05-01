@@ -1,4 +1,3 @@
-
 import { MatchDTO, Participant, RuneReforged, Server } from '../types'
 import { CollapseParticipant } from './CollapseParticipant'
 
@@ -10,11 +9,17 @@ interface CollapseProps {
   runesInfo: RuneReforged[]
 }
 
-export const Collapse = ({  summonerGameDetails, match, versionPatch, server, runesInfo }: CollapseProps) => {
+export const Collapse = ({
+  summonerGameDetails,
+  match,
+  versionPatch,
+  server,
+  runesInfo,
+}: CollapseProps) => {
   return (
-    <div className='mb-2  mt-[-3px]'>
+    <div className="mb-2  mt-[-3px]">
       <CollapseParticipant
-      summonerGameDetails={summonerGameDetails}
+        summonerGameDetails={summonerGameDetails}
         match={match}
         versionPatch={versionPatch}
         runesInfo={runesInfo}
@@ -25,7 +30,7 @@ export const Collapse = ({  summonerGameDetails, match, versionPatch, server, ru
       />
 
       <CollapseParticipant
-       summonerGameDetails={summonerGameDetails}
+        summonerGameDetails={summonerGameDetails}
         match={match}
         versionPatch={versionPatch}
         runesInfo={runesInfo}

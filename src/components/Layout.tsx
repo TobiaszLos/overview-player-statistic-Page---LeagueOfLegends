@@ -1,5 +1,6 @@
 import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import { TopSearchBar } from './MiniSearchBar'
 
 interface LayoutProps {
   darkTheme: 'dark' | 'default' | 'white'
@@ -7,6 +8,10 @@ interface LayoutProps {
 }
 
 export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
+  const location = useLocation()
+
+  console.log(location)
+
   return (
     <main className="bg-slate-200 dark:bg-slate-900 dark:text-white ">
       <nav className="flex justify-between items-center px-8 bg-slate-800 2xl:px-24">
@@ -16,6 +21,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
             <span className=" text-slate-100">SEARCH</span>
           </div>
         </Link>
+  
         <div className="flex justify-end p-4">
           <input
             type="checkbox"
@@ -33,6 +39,8 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
             <div className=" w-9 h-8 bg-white flex rounded-full absolute top-0 left-0 mt-0 transition-transform duration-200 ease-linear scale-75"></div>
           </label>
         </div>
+
+       
       </nav>
 
       {/* ------------ CHILDREN ------------*/}
@@ -48,9 +56,12 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           <span className="font-bold">LOLSEARCH</span> © 2023 |{' '}
           <span className="hover:text-slate-400 dark:hover:text-slate-200">
             <a href="https://github.com/tobiaszlos">GitHub</a>
-          </span> | {' '}
+          </span>{' '}
+          |{' '}
           <span className="hover:text-slate-400 dark:hover:text-slate-200">
-            <a href="https://github.com/TobiaszLos/League-of-Legends---player-searcher">Project</a>
+            <a href="https://github.com/TobiaszLos/League-of-Legends---player-searcher">
+              Project
+            </a>
           </span>
         </div>
       </footer>

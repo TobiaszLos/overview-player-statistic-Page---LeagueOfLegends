@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   fetchMatchesList,
   fetchRunesReforged,
@@ -25,6 +25,7 @@ import MasteryChampionCard from '../components/MasteryChampionCard'
 
 import { BiCaretDown } from 'react-icons/bi'
 import { MdHistory } from 'react-icons/md'
+import { TopSearchBar } from '../components/MiniSearchBar'
 
 const PAGE_SIZE = 6
 
@@ -44,11 +45,15 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
   const { summoner, server } = useParams()
 
+  const [seachedSummoner, setSearcherSummoner] = useState('')
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     if (summoner && server) {
       searchSummonerByName(summoner, server as Server) // RUN ALL
     }
-  }, [])
+  }, [seachedSummoner])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -122,6 +127,15 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
+  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const name = formData.get('summonerName') as string
+
+    setSearcherSummoner(name)
+    navigate(`/EUW1/${name}`)
+  }
+
   return (
     <>
       {summonerData === undefined && (
@@ -148,7 +162,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               {summonerData.name} League of Legends Performance Overview
             </title>
           </Helmet>
-          <article className="p-4 flex gap-8 pt-12">
+
+          <TopSearchBar onSearch={handleSearch} />
+
+          <article className="p-4 flex gap-8 pt-0">
             <div className="w-36 relative ">
               <img
                 className="w-full rounded-xl "
@@ -171,7 +188,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
           <h2 className="p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">
             <span>Overview </span>
           </h2>
-          <article className="p-4 lg:grid lg:grid-cols-9 gap-2 ">
+          <article className="p-4 lg:grid lg:grid-cols-9 gap-2">
             <section className="col-span-3  sm:grid sm:grid-cols-4  lg:flex lg:flex-col  sm:bg-transparent lg:bg-transparent">
               <LeagueCard
                 customCss="sm:col-span-2 lg:col-span-1 sm:mr-1 lg:mr-0"
@@ -200,9 +217,11 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </section>
 
             <section className="col-span-6">
-              <div className="mb-2 p-2  flex items-center  border-l-4 border-r-4 border-slate-700 dark:border-sky-800 dark:border-opacity-60  bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20 text-slate-700  text-base dark:text-slate-200  ">
+              <div className="mb-2 p-2  flex items-center border-l-4 border-r-4 border-slate-700 dark:border-sky-800 dark:border-opacity-60  bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20 text-slate-700  text-base dark:text-slate-200  ">
                 {/* <MdHistory /> */}
-                <div className="pl-2 text-sm tracking-wider font-medium">Matches</div>
+                <div className="pl-2 text-sm tracking-wider font-medium">
+                  Matches
+                </div>
               </div>
 
               {historyList.length > 0 ? (
