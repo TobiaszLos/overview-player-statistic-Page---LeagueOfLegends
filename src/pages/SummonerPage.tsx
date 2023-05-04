@@ -45,7 +45,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
   const { summoner, server } = useParams()
 
-  const [seachedSummoner, setSearcherSummoner] = useState('')
+  const [seachedSummoner, setSearcherSummoner] = useState('') // MODAL SEARCH
 
   const navigate = useNavigate()
 
@@ -126,11 +126,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       setHasNextPage(false)
     }
   }
-
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const name = formData.get('summonerName') as string
+  //event: FormEvent<HTMLFormElement>
+  const handleUpdateSearchFromModal = (name: string) => {
+    // UPDATE PAGE
+    //event.preventDefault()
 
     setSearcherSummoner(name)
     navigate(`/EUW1/${name}`)
@@ -163,7 +162,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </title>
           </Helmet>
 
-          <TopSearchBar onSearch={handleSearch} />
+          <TopSearchBar onSearch={handleUpdateSearchFromModal} />
 
           <article className="p-4 flex gap-8 pt-0">
             <div className="w-36 relative ">

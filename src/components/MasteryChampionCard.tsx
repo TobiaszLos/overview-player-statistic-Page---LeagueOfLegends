@@ -15,7 +15,7 @@ export const MasteryChampionCard = ({
   customCss?: string
 }) => {
   const [champions, setchampions] = useState<ChampionMasteryStats[]>()
-
+// TODO move it to summonerPage
   useEffect(() => {
     const fechChampions = async () => {
       const championsFetched = await fetchChampionsMasteriesWithName(

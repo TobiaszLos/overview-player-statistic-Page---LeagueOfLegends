@@ -6,6 +6,7 @@ import { Server, SummonerBasic, TopSoloQPlayerPlusIcon } from '../types'
 import { quickSort } from '../utilities/helpers/quickSort'
 import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
+import { SelectRegion } from '../components/SelectRegion'
 
 type Options = {
   value: Server
@@ -102,16 +103,9 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           className="mt-5 h-12 flex w-full justify-center "
         >
           {/* FIXME center */}
-          <select
-            name="region"
-            className="border  border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4"
-          >
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <SelectRegion
+            style={`border  border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4`}
+          />
           <input
             id="summonerName"
             name="summonerName"
@@ -129,7 +123,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           The best summoners of the region
         </h2>
 
-        <select
+        {/* <select
           name="region"
           onChange={(e) => {
             fetchTopPlayersList(e.currentTarget.value as Server)
@@ -137,11 +131,15 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           className=" p-2 mx-auto border-2 m-10  dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         >
           {options.map((option) => (
-            <option className='' key={option.value} value={option.value}>
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
-        </select>
+        </select> */}
+        <SelectRegion
+          onChangeEvent={(e) => fetchTopPlayersList(e.currentTarget.value as Server)}
+          style="p-2 mx-auto border-2 m-10 dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+        />
 
         {!loading ? (
           <ul className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 w-full">

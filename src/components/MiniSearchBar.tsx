@@ -1,14 +1,19 @@
 import { FiSearch } from 'react-icons/fi'
 import { FormEvent, useState } from 'react'
 
-import { ModalSearch } from './ModalSearchBar'
+import { ModalSearchBar } from './ModalSearchBar'
+import { fetchSummonerDataByName } from '../services'
+import { Server } from '../types'
 
 interface TopSearchBarProps {
-  onSearch: (event: FormEvent<HTMLFormElement>) => void
+  // onSearch: (event: FormEvent<HTMLFormElement>) => void
+  onSearch: (name:string) => void
 }
 
 export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
   const [isOpen, setIsOpen] = useState(false)
+
+
 
   const handleOpenModal = () => {
     setIsOpen(true)
@@ -18,6 +23,8 @@ export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
     setIsOpen(false)
   }
 
+
+  
   return (
     <div className="flex px-8 justify-center md:justify-end pt-2 cursor-pointer ">
       <div
@@ -35,12 +42,12 @@ export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
         </div>
       </div>
 
-  
-      <ModalSearch
+      <ModalSearchBar
         isOpen={isOpen}
         onClose={handleCloseModal}
-        onSearch={onSearch}
+       onSearch={onSearch}
         openModal={handleOpenModal}
+     
       />
     </div>
   )
