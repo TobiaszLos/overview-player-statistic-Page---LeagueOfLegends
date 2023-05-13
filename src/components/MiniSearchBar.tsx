@@ -1,9 +1,7 @@
 import { FiSearch } from 'react-icons/fi'
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 
 import { ModalSearchBar } from './ModalSearchBar'
-import { fetchSummonerDataByName } from '../services'
-import { Server } from '../types'
 
 interface TopSearchBarProps {
   // onSearch: (event: FormEvent<HTMLFormElement>) => void

@@ -1,4 +1,3 @@
-import { machine } from 'os'
 import { MatchDTO, Participant, Rune, RuneReforged } from '../types'
 import { summonerSpells } from '../utilities/getSummonerSpellName'
 import { calculateKDA } from '../utilities/helpers/calculateKda'

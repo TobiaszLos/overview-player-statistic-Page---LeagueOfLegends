@@ -1,6 +1,5 @@
 import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { TopSearchBar } from './MiniSearchBar'
 
 interface LayoutProps {
   darkTheme: 'dark' | 'default' | 'white'
@@ -21,7 +20,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
             <span className=" text-slate-100">SEARCH</span>
           </div>
         </Link>
-  
+
         <div className="flex justify-end p-4">
           <input
             type="checkbox"
@@ -39,8 +38,6 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
             <div className=" w-9 h-8 bg-white flex rounded-full absolute top-0 left-0 mt-0 transition-transform duration-200 ease-linear scale-75"></div>
           </label>
         </div>
-
-       
       </nav>
 
       {/* ------------ CHILDREN ------------*/}

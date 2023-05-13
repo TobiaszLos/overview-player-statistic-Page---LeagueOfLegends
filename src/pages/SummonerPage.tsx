@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -24,7 +24,6 @@ import { MatchCard } from '../components/MatchCard'
 import MasteryChampionCard from '../components/MasteryChampionCard'
 
 import { BiCaretDown } from 'react-icons/bi'
-import { MdHistory } from 'react-icons/md'
 import { TopSearchBar } from '../components/MiniSearchBar'
 
 const PAGE_SIZE = 6
