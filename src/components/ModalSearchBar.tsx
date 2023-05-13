@@ -5,7 +5,7 @@ import { Server, SummonerBasic } from '../types'
 import { fetchSummonerDataByName } from '../services'
 import { SelectRegion } from './SelectRegion'
 import { BiSearch } from 'react-icons/bi'
-import { AiOutlineClose } from 'react-icons/ai'
+import { VscClose } from 'react-icons/vsc'
 
 interface ModalSearchProps {
   isOpen: boolean
@@ -116,16 +116,16 @@ export const ModalSearchBar = ({
             />
             <button className=" border border-white h-full p-2 rounded-r-2xl">
               {' '}
-              <BiSearch size={`1.6rem`} />
+              <BiSearch size={`1.6rem`}  />
             </button>
           </form>
         </div>
       </div>
       <button
-        className="modal-close ml-4 border border-white  rounded-full  p-4  md:p-4  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
+        className="modal-close ml-4 border border-white  rounded-full  p-2  md:p-4  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
         onClick={onClose}
       >
-        <AiOutlineClose size={`5rem`} />
+        <VscClose size={`4rem` } />
       </button>
       {summonerData ? (
         <div
