@@ -1,9 +1,11 @@
 import { FormEvent, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
-import { Server, SummonerBasic } from '../types'
+import { Region, Server, SummonerBasic } from '../types'
 import { fetchSummonerDataByName } from '../services'
 import { SelectRegion } from './SelectRegion'
+import { BiSearch } from 'react-icons/bi'
+import { TfiClose } from 'react-icons/Tfi'
 
 interface ModalSearchProps {
   isOpen: boolean
@@ -60,6 +62,7 @@ export const ModalSearchBar = ({
       setIsCtrlKeyPressed(false)
       onClose()
     }
+    return () => setSummonerData(null)
   }, [isCtrlKeyPressed, isOpen, onClose])
 
   const searchOne = (e: FormEvent<HTMLFormElement>) => {
@@ -68,11 +71,9 @@ export const ModalSearchBar = ({
     const formData = new FormData(e.currentTarget)
 
     const name = formData.get('summonerName') as string
+    const regionName = formData.get('region') as Server
 
-    searchSummonerByName(name, 'EUW1')
-
-    // onSearch(e)
-    // onClose()
+    searchSummonerByName(name, regionName)
   }
 
   const searchSummonerByName = async (name: string, region: Server) => {
@@ -81,10 +82,8 @@ export const ModalSearchBar = ({
 
       if (data?.id) {
         setSummonerData(data)
-   
       }
     } catch (error) {
-      console.log('asdasdsdasddasads')
       console.log(error)
     }
   }
@@ -98,10 +97,11 @@ export const ModalSearchBar = ({
   }
 
   return ReactDOM.createPortal(
-    <div className="modal fixed inset-0 flex items-center justify-center flex-col text-white bg-black bg-opacity-80 backdrop-blur-lg">
-      <div className="relative modal-content p-4 rounded-md shadow-lg flex">
-        <div className="flex justify-between min-[300px] bg-transparent">
+    <div className="modal fixed inset-0 flex items-center justify-center flex-col text-white bg-black bg-opacity-80 backdrop-blur-lg ">
+      <div className="relative modal-content p-4 rounded-md flex">
+        <div className="flex justify-between min-[400px] bg-transparent">
           <form
+            className="flex p-2"
             onSubmit={(e) => {
               searchOne(e)
             }}
@@ -110,36 +110,40 @@ export const ModalSearchBar = ({
               style={`  h-full border-r border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-2`}
             />
             <input
-              className=" bg-white text-black "
+              className="pl-4 bg-white text-black  md:min-w-[400px] outline-none"
               type="text"
               name="summonerName"
             />
-            <button>Submit</button>
+            <button className=" border border-white h-full p-2 rounded-r-2xl">
+              {' '}
+              <BiSearch size={`1.6rem`} />
+            </button>
           </form>
         </div>
-
-        <button
-          className="modal-close ml-4 border border-white  rounded-full p-4 px-6 absolute top-[-40px] right-[-100px]"
-          onClick={onClose}
-        >
-          X
-        </button>
       </div>
-
+      <button
+        className="modal-close ml-4 border border-white  rounded-full  p-4  md:p-8  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
+        onClick={onClose}
+      >
+        <TfiClose size={`2rem`} />
+      </button>
       {summonerData ? (
         <div
+        className=''
           onClick={() => {
             onSearch(summonerData.name)
             onClose()
           }}
         >
-          <div className="border border-white mt-8">
-            <div>{summonerData.name}</div>
-            <div className=" w-48">
+          <div className="group border hover:border-white hover:text-white hover:cursor-pointer sm:border-slate-300  p-4  sm:text-slate-300 mt-8 text-center rounded-lg">
+            <div className=' font-medium mb-2 '>{summonerData.name}</div>
+            <div className=" w-48 relative ">
               <img
+              className='opacity-75 group-hover:opacity-100 m-auto w-full'
                 src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${summonerData.profileIconId}.png`}
                 alt=""
               />
+              <div className='absolute bottom-0 bg-black bg-opacity-40 py-2 w-full  '>level {summonerData.summonerLevel}</div>
             </div>
           </div>
         </div>

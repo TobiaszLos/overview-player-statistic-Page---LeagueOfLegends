@@ -26,7 +26,7 @@ export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
 
   
   return (
-    <div className="flex px-8 justify-center md:justify-end pt-2 cursor-pointer ">
+    <div className="flex px-8 justify-center md:justify-end pt-2 cursor-pointer mb-8 md:mb-0">
       <div
         className=" bg-white flex items-center min-w-[215px] py-2  dark:bg-slate-800 bg-opacity-75 border border-slate-300  dark:border-slate-700 rounded-2xl"
         onClick={handleOpenModal}
