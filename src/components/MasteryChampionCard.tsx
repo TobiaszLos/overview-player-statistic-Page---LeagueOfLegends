@@ -1,33 +1,15 @@
-import { useEffect, useState } from 'react'
-import { fetchChampionsMasteriesWithName } from '../services'
 import { timeFormat } from '../utilities/helpers/timeFormat'
-import { ChampionMasteryStats, Server } from '../types'
+import { ChampionMasteryStats } from '../types'
 
 export const MasteryChampionCard = ({
-  summonerId,
   versionPatch,
-  server,
   customCss,
+  champions,
 }: {
-  summonerId: string
+  champions: ChampionMasteryStats[]
   versionPatch: string
-  server: Server
   customCss?: string
 }) => {
-  const [champions, setchampions] = useState<ChampionMasteryStats[]>()
-// TODO move it to summonerPage
-  useEffect(() => {
-    const fechChampions = async () => {
-      const championsFetched = await fetchChampionsMasteriesWithName(
-        summonerId,
-        server,
-        7
-      )
-      setchampions(championsFetched)
-    }
-    fechChampions()
-  }, [])
-
   return (
     <div
       className={`mb-4 pb-2 bg-white bg-opacity-75 ${
@@ -68,9 +50,13 @@ export const MasteryChampionCard = ({
                 </div>
 
                 <div className="flex items-center ">{champ.championName}</div>
-                <div className=" flex items-center pl-3 ">{champ.championLevel}</div>
-                <div className=" flex items-center ">{champ.championPoints / 1000}</div>
-                <div className=" flex items-center hidden sm:block lg:hidden ">
+                <div className=" flex items-center pl-3 ">
+                  {champ.championLevel}
+                </div>
+                <div className=" flex items-center ">
+                  {champ.championPoints / 1000}
+                </div>
+                <div className="  items-center hidden sm:block lg:hidden ">
                   <div className="">
                     {timeFormat(champ.lastPlayTime, 'fromNow')}
                   </div>

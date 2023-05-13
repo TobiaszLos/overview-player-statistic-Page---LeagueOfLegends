@@ -1,13 +1,15 @@
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
+  fetchChampionsMasteriesWithName,
   fetchMatchesList,
   fetchRunesReforged,
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
 } from '../services'
 import {
+  ChampionMasteryStats,
   MatchDTO,
   RuneReforged,
   Server,
@@ -45,6 +47,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const { summoner, server } = useParams()
 
   const [seachedSummoner, setSearcherSummoner] = useState('') // MODAL SEARCH
+
+  const [champions, setchampions] = useState<ChampionMasteryStats[]>()
 
   const navigate = useNavigate()
 
@@ -84,6 +88,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
         )
         setHistoryList(list)
         setPageNumber((prevPageNumber) => prevPageNumber + 1) // pagination
+
+        fechChampionsMastery(data.id, region) // Champions Mastery
       }
     } catch (error) {
       console.log(error)
@@ -132,6 +138,16 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
     setSearcherSummoner(name)
     navigate(`/EUW1/${name}`)
+  }
+
+  const fechChampionsMastery = async (summonerId: string, server: Server) => {
+    const championsFetched = await fetchChampionsMasteriesWithName(
+      summonerId,
+      server,
+      7
+    )
+
+    setchampions(championsFetched)
   }
 
   return (
@@ -208,8 +224,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               />
               <MasteryChampionCard
                 customCss="sm:col-span-4 lg:col-span-1"
-                server={server as Server}
-                summonerId={summonerData.id}
+                champions={champions!}
                 versionPatch={versionPatch}
               />
             </section>
