@@ -1,11 +1,11 @@
 import { FormEvent, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { Link, useNavigate } from 'react-router-dom'
-import { Region, Server, SummonerBasic } from '../types'
+
+import { Server, SummonerBasic } from '../types'
 import { fetchSummonerDataByName } from '../services'
 import { SelectRegion } from './SelectRegion'
 import { BiSearch } from 'react-icons/bi'
-import { TfiClose } from 'react-icons/Tfi'
+import { AiOutlineClose } from 'react-icons/ai'
 
 interface ModalSearchProps {
   isOpen: boolean
@@ -122,28 +122,30 @@ export const ModalSearchBar = ({
         </div>
       </div>
       <button
-        className="modal-close ml-4 border border-white  rounded-full  p-4  md:p-8  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
+        className="modal-close ml-4 border border-white  rounded-full  p-4  md:p-4  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
         onClick={onClose}
       >
-        <TfiClose size={`2rem`} />
+        <AiOutlineClose size={`5rem`} />
       </button>
       {summonerData ? (
         <div
-        className=''
+          className=""
           onClick={() => {
             onSearch(summonerData.name)
             onClose()
           }}
         >
           <div className="group border hover:border-white hover:text-white hover:cursor-pointer sm:border-slate-300  p-4  sm:text-slate-300 mt-8 text-center rounded-lg">
-            <div className=' font-medium mb-2 '>{summonerData.name}</div>
+            <div className=" font-medium mb-2 ">{summonerData.name}</div>
             <div className=" w-48 relative ">
               <img
-              className='opacity-75 group-hover:opacity-100 m-auto w-full'
+                className="opacity-75 group-hover:opacity-100 m-auto w-full"
                 src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${summonerData.profileIconId}.png`}
                 alt=""
               />
-              <div className='absolute bottom-0 bg-black bg-opacity-40 py-2 w-full  '>level {summonerData.summonerLevel}</div>
+              <div className="absolute bottom-0 bg-black bg-opacity-40 py-2 w-full  ">
+                level {summonerData.summonerLevel}
+              </div>
             </div>
           </div>
         </div>
