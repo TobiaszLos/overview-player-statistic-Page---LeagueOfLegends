@@ -1,5 +1,5 @@
 import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 interface LayoutProps {
   darkTheme: 'dark' | 'default' | 'white'
@@ -7,9 +7,6 @@ interface LayoutProps {
 }
 
 export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
-  const location = useLocation()
-
-  console.log(location)
 
   return (
     <main className="bg-slate-200 dark:bg-slate-900 dark:text-white ">

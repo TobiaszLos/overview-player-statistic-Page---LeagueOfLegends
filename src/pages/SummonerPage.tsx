@@ -131,11 +131,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       setHasNextPage(false)
     }
   }
-  //event: FormEvent<HTMLFormElement>
-  const handleUpdateSearchFromModal = (name: string) => {
-    // UPDATE PAGE
-    //event.preventDefault()
 
+  const handleUpdateSearchFromModal = (name: string) => {
     setSearcherSummoner(name)
     navigate(`/EUW1/${name}`)
   }
@@ -231,7 +228,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
             <section className="col-span-6">
               <div className="mb-2 p-2  flex items-center border-l-4 border-r-4 border-slate-700 dark:border-sky-800 dark:border-opacity-60  bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20 text-slate-700  text-base dark:text-slate-200  ">
-                {/* <MdHistory /> */}
                 <div className="pl-2 text-sm tracking-wider font-medium">
                   Matches
                 </div>

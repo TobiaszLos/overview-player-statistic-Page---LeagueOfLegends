@@ -10,10 +10,7 @@ import { VscClose } from 'react-icons/vsc'
 interface ModalSearchProps {
   isOpen: boolean
   onClose: () => void
-  // onSearch: (event: FormEvent<HTMLFormElement>) => void
   openModal: () => void
-  // searchSummonerByName: (name: string, region: Server) => void
-
   onSearch: (name: string) => void
 }
 
@@ -116,7 +113,7 @@ export const ModalSearchBar = ({
             />
             <button className=" border border-white h-full p-2 rounded-r-2xl">
               {' '}
-              <BiSearch size={`1.6rem`}  />
+              <BiSearch size={`1.6rem`} />
             </button>
           </form>
         </div>
@@ -125,7 +122,7 @@ export const ModalSearchBar = ({
         className="modal-close ml-4 border border-white  rounded-full  p-2  md:p-4  absolute top-20 right-10 md:top-40 md:right-40  hover:opacity-50"
         onClick={onClose}
       >
-        <VscClose size={`4rem` } />
+        <VscClose size={`4rem`} />
       </button>
       {summonerData ? (
         <div

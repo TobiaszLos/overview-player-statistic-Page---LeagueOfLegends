@@ -8,30 +8,6 @@ import { Loading } from '../components/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
 import { SelectRegion } from '../components/SelectRegion'
 
-type Options = {
-  value: Server
-  label: string
-}[]
-
-const options: Options = [
-  { value: 'EUW1', label: 'EUW' },
-  { value: 'EUN1', label: 'EUNE' },
-  { value: 'BR1', label: 'BR' },
-  { value: 'JP1', label: 'JP' },
-  { value: 'KR', label: 'KR' },
-  { value: 'LA1', label: 'LAS' },
-  { value: 'LA2', label: 'LAN' },
-  { value: 'NA1', label: 'NA' },
-  { value: 'OC1', label: 'OCE' },
-  { value: 'PH2', label: 'PH' },
-  { value: 'RU', label: 'RU' },
-  { value: 'SG2', label: 'SG' },
-  { value: 'TH2', label: 'TH' },
-  { value: 'TR1', label: 'TR' },
-  { value: 'TW2', label: 'TW' },
-  { value: 'VN2', label: ' VN' },
-]
-
 export const Home = ({ versionPatch }: { versionPatch: string }) => {
   const [loading, setLoading] = useState(true)
   const [playersList, setPlayersList] = useState<TopSoloQPlayerPlusIcon[]>([])
@@ -82,7 +58,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
     setServer(server)
     setLoading(false)
   }
-  //  text-2xl
+
   return (
     <div className="flex flex-col items-center">
       <div className="pt-16 pb-12">
@@ -102,7 +78,6 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           onSubmit={(e) => handleSearchChange(e)}
           className="mt-5 h-12 flex w-full justify-center "
         >
-          {/* FIXME center */}
           <SelectRegion
             style={`border  border-slate-400 rounded-l-lg font-bold focus:outline-none text-sm text-slate-600 md:px-4`}
           />
@@ -123,21 +98,10 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
           The best summoners of the region
         </h2>
 
-        {/* <select
-          name="region"
-          onChange={(e) => {
-            fetchTopPlayersList(e.currentTarget.value as Server)
-          }}
-          className=" p-2 mx-auto border-2 m-10  dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select> */}
         <SelectRegion
-          onChangeEvent={(e) => fetchTopPlayersList(e.currentTarget.value as Server)}
+          onChangeEvent={(e) =>
+            fetchTopPlayersList(e.currentTarget.value as Server)
+          }
           style="p-2 mx-auto border-2 m-10 dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         />
 

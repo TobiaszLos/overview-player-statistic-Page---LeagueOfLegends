@@ -6,25 +6,6 @@ type Options = {
   label: string
 }[]
 
-const options: Options = [
-  { value: 'EUW1', label: 'EUW' },
-  { value: 'EUN1', label: 'EUNE' },
-  { value: 'BR1', label: 'BR' },
-  { value: 'JP1', label: 'JP' },
-  { value: 'KR', label: 'KR' },
-  { value: 'LA1', label: 'LAS' },
-  { value: 'LA2', label: 'LAN' },
-  { value: 'NA1', label: 'NA' },
-  { value: 'OC1', label: 'OCE' },
-  { value: 'PH2', label: 'PH' },
-  { value: 'RU', label: 'RU' },
-  { value: 'SG2', label: 'SG' },
-  { value: 'TH2', label: 'TH' },
-  { value: 'TR1', label: 'TR' },
-  { value: 'TW2', label: 'TW' },
-  { value: 'VN2', label: ' VN' },
-]
-
 interface SelectRegionProps {
   style?: string
   onChangeEvent?: (e: ChangeEvent<HTMLSelectElement>) => void

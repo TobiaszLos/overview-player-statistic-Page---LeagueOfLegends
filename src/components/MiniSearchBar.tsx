@@ -4,14 +4,11 @@ import { useState } from 'react'
 import { ModalSearchBar } from './ModalSearchBar'
 
 interface TopSearchBarProps {
-  // onSearch: (event: FormEvent<HTMLFormElement>) => void
   onSearch: (name:string) => void
 }
 
 export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
   const [isOpen, setIsOpen] = useState(false)
-
-
 
   const handleOpenModal = () => {
     setIsOpen(true)
@@ -21,8 +18,6 @@ export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
     setIsOpen(false)
   }
 
-
-  
   return (
     <div className="flex px-8 justify-center md:justify-end pt-2 cursor-pointer mb-8 md:mb-0">
       <div

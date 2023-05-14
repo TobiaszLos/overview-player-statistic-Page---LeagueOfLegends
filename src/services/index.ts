@@ -11,7 +11,6 @@ import {
   RuneReforged,
 } from '../types'
 
-
 const API_KEY = import.meta.env.VITE_TAPI_KEY
 
 // Summoner means the same as player.
@@ -170,15 +169,11 @@ export const fetchChampionsMasteriesWithName = async (
   }
 }
 
-
 export const fetchRunesReforged = async (): Promise<RuneReforged[]> => {
   const latestVersion2 = await getLatestPathVersion()
   const url = `https://ddragon.leagueoflegends.com/cdn/${latestVersion2}/data/en_US/runesReforged.json`
   const response = await fetch(url)
   const data = await response.json()
 
-  console.log('data', data)
-
   return data as RuneReforged[]
 }
-

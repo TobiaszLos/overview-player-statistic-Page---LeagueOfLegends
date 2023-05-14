@@ -78,8 +78,6 @@ export const MatchCard = ({
     setRunes(filteredRunes)
   }
 
-  const isHidden = () => {}
-
   return (
     <>
       {mainSummoner && (
@@ -121,7 +119,6 @@ export const MatchCard = ({
               </div>
             </div>
             <div
-              // onClick={() => setIsOpen(!isOpen)}
               className={`w-[4%] cursor-pointer hover:opacity-80  ${
                 mainSummoner.win
                   ? '  bg-blue-300  dark:bg-sky-600 dark:bg-opacity-20'
