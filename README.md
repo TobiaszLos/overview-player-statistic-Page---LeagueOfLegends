@@ -1,7 +1,7 @@
 
 # League Of Legends Stats page
 
-A brief description of what this project does and who it's for
+Page based on Riot Games API, allow you to search, displayer player statistic for League of Legends
 
 
 ## Screenshots
