@@ -46,7 +46,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
   const { summoner, server } = useParams()
 
-  const [seachedSummoner, setSearcherSummoner] = useState('') // MODAL SEARCH
+  const [seachedSummoner, setSearcherSummoner] = useState('') //UPDATE PAGE FROM CHILD
+  const [seachedSummonerRegion, setSearcherSummonerRegion] = useState<Server>() //UPDATE PAGE FROM CHILD
 
   const [champions, setchampions] = useState<ChampionMasteryStats[]>()
 
@@ -56,7 +57,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     if (summoner && server) {
       searchSummonerByName(summoner, server as Server) // RUN ALL
     }
-  }, [seachedSummoner])
+  }, [seachedSummoner, seachedSummonerRegion])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -132,9 +133,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-  const handleUpdateSearchFromModal = (name: string) => {
+  const handleUpdateSearchFromModal = (name: string, server: Server) => {
     setSearcherSummoner(name)
-    navigate(`/EUW1/${name}`)
+    setSearcherSummonerRegion(server)
+    navigate(`/${server}/${name}`)
   }
 
   const fechChampionsMastery = async (summonerId: string, server: Server) => {

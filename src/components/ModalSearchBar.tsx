@@ -11,7 +11,7 @@ interface ModalSearchProps {
   isOpen: boolean
   onClose: () => void
   openModal: () => void
-  onSearch: (name: string) => void
+  onSearch: (name: string, server: Server) => void
 }
 
 export const ModalSearchBar = ({
@@ -22,9 +22,11 @@ export const ModalSearchBar = ({
 }: ModalSearchProps) => {
   const [isCtrlKeyPressed, setIsCtrlKeyPressed] = useState(false)
 
-  const [summonerData, setSummonerData] = useState<
-    SummonerBasic | null | undefined
-  >()
+  const [summonerData, setSummonerData] = useState<SummonerBasic | null>()
+
+  const [server, setServer] = useState<Server>()
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -59,7 +61,10 @@ export const ModalSearchBar = ({
       setIsCtrlKeyPressed(false)
       onClose()
     }
-    return () => setSummonerData(null)
+    return () => {
+      setSummonerData(null)
+      setMessage('')
+    }
   }, [isCtrlKeyPressed, isOpen, onClose])
 
   const searchOne = (e: FormEvent<HTMLFormElement>) => {
@@ -68,24 +73,28 @@ export const ModalSearchBar = ({
     const formData = new FormData(e.currentTarget)
 
     const name = formData.get('summonerName') as string
-    const regionName = formData.get('region') as Server
+    const serverName = formData.get('region') as Server
 
-    searchSummonerByName(name, regionName)
+    setServer(serverName)
+    searchSummonerByName(name, serverName)
   }
 
-  const searchSummonerByName = async (name: string, region: Server) => {
+  const searchSummonerByName = async (name: string, server: Server) => {
     try {
-      const data = await fetchSummonerDataByName(region, name)
-
+      setLoading(true)
+      const data = await fetchSummonerDataByName(server, name)
+      setLoading(false)
       if (data?.id) {
+        loading
         setSummonerData(data)
+      } else {
+        setSummonerData(null)
+        setMessage(`Player ${name} doesn't exist`)
       }
     } catch (error) {
       console.log(error)
     }
   }
-
-  console.log(summonerData, 'summonerData z miniSearch Bar')
 
   useEffect(() => {}, [summonerData])
 
@@ -128,7 +137,7 @@ export const ModalSearchBar = ({
         <div
           className=""
           onClick={() => {
-            onSearch(summonerData.name)
+            onSearch(summonerData.name, server as Server)
             onClose()
           }}
         >
@@ -147,10 +156,9 @@ export const ModalSearchBar = ({
           </div>
         </div>
       ) : (
-        <>sumoner doesnt exist</>
+        <>{message}</>
       )}
-
-      {summonerData === null && 'player doesnt exist'}
+      {loading ? 'loading...' : ''}
     </div>,
     document.body
   )

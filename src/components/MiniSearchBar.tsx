@@ -2,9 +2,10 @@ import { FiSearch } from 'react-icons/fi'
 import { useState } from 'react'
 
 import { ModalSearchBar } from './ModalSearchBar'
+import { Server } from '../types'
 
 interface TopSearchBarProps {
-  onSearch: (name:string) => void
+  onSearch: (name: string, server: Server) => void
 }
 
 export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
@@ -38,9 +39,8 @@ export const TopSearchBar = ({ onSearch }: TopSearchBarProps) => {
       <ModalSearchBar
         isOpen={isOpen}
         onClose={handleCloseModal}
-       onSearch={onSearch}
+        onSearch={onSearch}
         openModal={handleOpenModal}
-     
       />
     </div>
   )
