@@ -8,6 +8,8 @@ Page based on Riot Games API, allow you to search, displayer player statistic fo
 
 ![App Screenshot](https://i.ibb.co/dmM1tKD/page2.png)
 
+![App Screenshot](https://i.ibb.co/mTs4Wd5/page3.png)
+
 
 ## Run Locally
 
