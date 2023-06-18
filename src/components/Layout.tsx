@@ -7,7 +7,6 @@ interface LayoutProps {
 }
 
 export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
-
   return (
     <main className="bg-slate-200 dark:bg-slate-900 dark:text-white ">
       <nav className="flex justify-between items-center px-8 bg-slate-800 2xl:px-24">
@@ -36,7 +35,17 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </label>
         </div>
       </nav>
+      <div>
+        <ul>
+          <li>
+            <Link to="/leaderboards">Leaderboards</Link>
+          </li>
 
+          <li>
+            <Link to="/favorites">favorites</Link>
+          </li>
+        </ul>
+      </div>
       {/* ------------ CHILDREN ------------*/}
 
       <section className=" max-w-6xl m-auto min-h-screen ">
