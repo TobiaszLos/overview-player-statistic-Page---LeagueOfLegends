@@ -10,6 +10,8 @@ import { useState, useEffect } from 'react'
 import { getLatestPathVersion } from './services'
 import { Favorites } from './pages/Favorites'
 import { Leaderboards } from './pages/Leaderboards'
+import { SummonerPageOutlet } from './components/SummonerPageOutlet'
+import { Spectator } from './components/spectatorOutlet'
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()
@@ -42,7 +44,10 @@ export const App = () => {
           <Route
             path="/:server/:summoner"
             element={<SummonerPage versionPatch={versionPatch} />}
-          />
+          >
+            <Route index element={<SummonerPageOutlet />} />
+            <Route path="ingame" element={<Spectator />} />
+          </Route>
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
