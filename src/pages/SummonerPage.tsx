@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import {
   fetchChampionsMasteriesWithName,
   fetchMatchesList,
@@ -62,7 +62,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
+  
   useEffect(() => {
     getRunesFromAssetsApi()
   }, [])
@@ -115,6 +115,22 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     })
   }
 
+  const handleUpdateSearchFromModal = (name: string, server: Server) => {
+    setSearcherSummoner(name)
+    setSearcherSummonerRegion(server)
+    navigate(`/${server}/${name}`)
+  }
+
+  const fechChampionsMastery = async (summonerId: string, server: Server) => {
+    const championsFetched = await fetchChampionsMasteriesWithName(
+      summonerId,
+      server,
+      7
+    )
+
+    setchampions(championsFetched)
+  }
+
   const handleLoadMore = async () => {
     if (!summonerData?.puuid) return
     setIsLoading(true)
@@ -131,22 +147,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     if (historyList.length < PAGE_SIZE) {
       setHasNextPage(false)
     }
-  }
-
-  const handleUpdateSearchFromModal = (name: string, server: Server) => {
-    setSearcherSummoner(name)
-    setSearcherSummonerRegion(server)
-    navigate(`/${server}/${name}`)
-  }
-
-  const fechChampionsMastery = async (summonerId: string, server: Server) => {
-    const championsFetched = await fetchChampionsMasteriesWithName(
-      summonerId,
-      server,
-      7
-    )
-
-    setchampions(championsFetched)
   }
 
   return (
@@ -199,75 +199,25 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
             </div>
           </article>
           <h2 className="p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">
-            <span>Overview </span>
+            <Link to="">Overview</Link>
+            <Link to="ingame"> Spectator</Link>
           </h2>
-          <article className="p-4 lg:grid lg:grid-cols-9 gap-2">
-            <section className="col-span-3  sm:grid sm:grid-cols-4  lg:flex lg:flex-col  sm:bg-transparent lg:bg-transparent">
-              <LeagueCard
-                customCss="sm:col-span-2 lg:col-span-1 sm:mr-1 lg:mr-0"
-                nameLeague="Ranked Solo"
-                value={
-                  summonerLeagues.RANKED_SOLO_5x5 !== undefined
-                    ? summonerLeagues.RANKED_SOLO_5x5
-                    : null
-                }
-              />
-              <LeagueCard
-                customCss="sm:col-span-2 lg:col-span-1"
-                nameLeague="Ranked Flex"
-                value={
-                  summonerLeagues.RANKED_FLEX_SR !== undefined
-                    ? summonerLeagues.RANKED_FLEX_SR
-                    : null
-                }
-              />
-              <MasteryChampionCard
-                customCss="sm:col-span-4 lg:col-span-1"
-                champions={champions!}
-                versionPatch={versionPatch}
-              />
-            </section>
 
-            <section className="col-span-6">
-              <div className="mb-2 p-2  flex items-center border-l-4 border-r-4 border-slate-700 dark:border-sky-800 dark:border-opacity-60  bg-white bg-opacity-75  rounded-md dark:bg-sky-900 dark:bg-opacity-20 text-slate-700  text-base dark:text-slate-200  ">
-                <div className="pl-2 text-sm tracking-wider font-medium">
-                  Matches
-                </div>
-              </div>
-
-              {historyList.length > 0 ? (
-                <>
-                  {historyList.map((match) => (
-                    <MatchCard
-                      runesInfo={runesInfo!}
-                      key={match.metadata.matchId}
-                      match={match}
-                      summonerName={summoner!}
-                      versionPatch={versionPatch}
-                      server={server as Server}
-                    />
-                  ))}
-                  {hasNextPage && (
-                    <button
-                      className="w-full border font-medium py-2 text-sm rounded-md text-slate-600 hover:border-opacity-70 border-slate-400  dark:bg-transparent dark:border-sky-600 dark:hover:border-sky-700 dark:border-opacity-50 dark:text-gray-300   hover:border-slate-600"
-                      onClick={handleLoadMore}
-                    >
-                      {isLoading ? (
-                        <Loading />
-                      ) : (
-                        <div className="flex justify-center">
-                          <span className="mr-1">Lead More</span>
-                          <BiCaretDown size={'1.2rem'} />
-                        </div>
-                      )}
-                    </button>
-                  )}
-                </>
-              ) : (
-                <Loading />
-              )}
-            </section>
-          </article>
+          <Outlet
+            context={{
+              name: 'alberto hawai',
+              summonerLeagues: summonerLeagues,
+              champions: champions,
+              versionPatch: versionPatch,
+              historyList:historyList,
+              handleLoadMore: handleLoadMore,
+              hasNextPage: hasNextPage,
+              runesInfo: runesInfo,
+              summoner: summoner,
+              server: server,
+              isLoading: isLoading
+            }}
+          />
         </>
       )}
     </>
