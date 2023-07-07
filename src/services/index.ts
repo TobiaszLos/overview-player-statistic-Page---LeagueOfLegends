@@ -9,6 +9,7 @@ import {
   ChampionMasteryData,
   ChampionWithMastery,
   RuneReforged,
+  SpectatorData,
 } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
@@ -127,7 +128,7 @@ export const fetchMatchesList = async (
   }
 }
 
-// CHAMPION MASTERY //
+
 export const fetchChampionsData = async (): Promise<
   Record<string, ChampionData>
 > => {
@@ -137,7 +138,7 @@ export const fetchChampionsData = async (): Promise<
   const data = await response.json()
   return data.data as Record<string, ChampionData>
 }
-
+// CHAMPION MASTERY //
 export const fetchChampionsMasteriesWithName = async (
   summonerId: string,
   server: Server,
@@ -176,4 +177,22 @@ export const fetchRunesReforged = async (): Promise<RuneReforged[]> => {
   const data = await response.json()
 
   return data as RuneReforged[]
+}
+
+export const fetchSummonerSpectatorData = async (
+  server: Server,
+  summonerId: string
+): Promise<SpectatorData | undefined> => {
+  const url = `https://${server}.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${encodeURIComponent(
+    summonerId
+  )}?api_key=${API_KEY}`
+
+  try {
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching summoner data:', { error })
+    return undefined
+  }
 }

@@ -19,13 +19,13 @@ import {
 } from '../types'
 
 import { Loading } from '../components/Loading'
-import { LeagueCard } from '../components/LeagueCard'
+// import { LeagueCard } from '../components/LeagueCard'
 
 import { getRegion } from '../utilities/regionSwitcher'
-import { MatchCard } from '../components/MatchCard'
-import MasteryChampionCard from '../components/MasteryChampionCard'
+// import { MatchCard } from '../components/MatchCard'
+// import MasteryChampionCard from '../components/MasteryChampionCard'
 
-import { BiCaretDown } from 'react-icons/bi'
+// import { BiCaretDown } from 'react-icons/bi'
 import { TopSearchBar } from '../components/MiniSearchBar'
 
 const PAGE_SIZE = 6
@@ -215,7 +215,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               runesInfo: runesInfo,
               summoner: summoner,
               server: server,
-              isLoading: isLoading
+              isLoading: isLoading,
+              summonerId: summonerData.id
             }}
           />
         </>

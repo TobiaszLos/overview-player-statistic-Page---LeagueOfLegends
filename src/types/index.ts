@@ -358,3 +358,48 @@ export type Rune = {
   shortDesc: string
   longDesc: string
 }
+
+//// Spectator //
+
+export interface SpectatorData {
+  gameId: number
+  mapId: number
+  gameMode: string
+  gameType: string
+  gameQueueConfigId: number
+  participants: ParticipantSpectator[]
+  // observers: Observers
+  platformId: string
+  bannedChampions: BannedChampion[]
+  gameStartTime: number
+  gameLength: number
+}
+
+export interface BannedChampion {
+  championId: number
+  teamId: number
+  pickTurn: number
+}
+
+// export interface Observers {
+//   encryptionKey: string
+// }
+
+export interface ParticipantSpectator {
+  teamId: number
+  spell1Id: number
+  spell2Id: number
+  championId: number
+  profileIconId: number
+  summonerName: string
+  bot: boolean
+  summonerId: string
+  gameCustomizationObjects: any[]
+  perks: PerksSpectator
+}
+
+export interface PerksSpectator {
+  perkIds: number[]
+  perkStyle: number
+  perkSubStyle: number
+}
