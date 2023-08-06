@@ -367,7 +367,7 @@ export interface SpectatorData {
   gameMode: string
   gameType: string
   gameQueueConfigId: number
-  participants: ParticipantSpectator[]
+  participants: ParticipantSpectatorType[]
   // observers: Observers
   platformId: string
   bannedChampions: BannedChampion[]
@@ -385,7 +385,7 @@ export interface BannedChampion {
 //   encryptionKey: string
 // }
 
-export interface ParticipantSpectator {
+export interface ParticipantSpectatorType {
   teamId: number
   spell1Id: number
   spell2Id: number

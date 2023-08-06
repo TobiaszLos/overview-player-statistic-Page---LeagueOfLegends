@@ -1,42 +1,34 @@
 import { useEffect, useState } from 'react'
-import { fetchChampionsData, fetchSummonerSpectatorData } from '../services'
+import { fetchChampionsData, fetchRunesReforged } from '../services'
 import { useOutletContext } from 'react-router-dom'
-import { ChampionData, Server, SpectatorData } from '../types'
+import {
+  ChampionData,
+  ParticipantSpectatorType,
+  RuneReforged,
+  Server,
+  SpectatorData,
+} from '../types'
 import { getGameType } from '../utilities/gameModeSwich'
 import Countdown from '../utilities/Countdown'
-import { ParticipantsSpectator } from './ParticipantsSpectator'
+import { ParticipantSpectator } from './ParticipantSpectator'
 
 interface spectatorOutletProps {
   server: Server
   summonerId: string
+  isLive: boolean
+  gameData: SpectatorData
 }
 
 export const Spectator = () => {
-  const [live, setLive] = useState(false)
   const [championsData, setChampionsData] =
     useState<Record<string, ChampionData>>()
-  const [gameData, setGameData] = useState<SpectatorData | undefined>()
+
+  const [runesInfo, setRunesInfo] = useState<RuneReforged[]>()
+
   const c = useOutletContext<spectatorOutletProps>()
 
   useEffect(() => {
-    const spectator = async () => {
-      const spectatorData = await fetchSummonerSpectatorData(
-        c.server,
-        c.summonerId
-      )
-
-      console.log(spectatorData, 'spectatorData')
-
-      if (spectatorData) {
-        setLive(true)
-        setGameData(spectatorData)
-      } else {
-        setLive(false)
-        setGameData(undefined)
-      }
-    }
-
-    spectator()
+    console.log(c.gameData, 'ahoi')
   }, [])
 
   useEffect(() => {
@@ -47,22 +39,102 @@ export const Spectator = () => {
     fetchChampions()
   }, [])
 
+  useEffect(() => {
+    getRunesFromAssetsApi()
+  }, [])
+
+  const getRunesFromAssetsApi = async () => {
+    const getRunesInfo = await fetchRunesReforged()
+    console.log(getRunesInfo)
+    setRunesInfo(getRunesInfo!)
+  }
+
+  const selectRunes = (participant: ParticipantSpectatorType) => {
+    const primaryStylePerks = participant.perks.perkStyle
+    const subStylePerks = participant.perks.perkSubStyle
+
+    if (!runesInfo) return
+
+    const selectedPrimaryRune = runesInfo.find(
+      (rune: RuneReforged) => rune.id === primaryStylePerks
+    )
+
+    const selectedSubStyleRune = runesInfo.find(
+      (rune: RuneReforged) => rune.id === subStylePerks
+    )
+
+    if (!selectedPrimaryRune) return
+    if (!selectedSubStyleRune) return
+
+    const selectedPrimarySlot = selectedPrimaryRune.slots[0].runes.find(
+      (slot) => participant.perks.perkIds.find((perk) => perk === slot.id)
+    )
+
+    if (!selectedPrimarySlot) return
+
+    const filteredRunes = {
+      primarySlot: selectedPrimarySlot,
+      subSlot: selectedSubStyleRune,
+    }
+
+    return filteredRunes
+  }
+
+  const blueTeamParticipants = (gameData: SpectatorData) =>
+    gameData.participants.filter((participant) => participant.teamId === 100)
+
+  const redTeamParticipants = (gameData: SpectatorData) =>
+    gameData.participants.filter((participant) => participant.teamId === 200)
+
+  console.log(c.gameData, 'gfame', championsData)
+
   return (
     <div>
-      {!live ? (
+      {!c.isLive ? (
         'Not in Game'
       ) : (
         <>
-          {gameData && (
+          {c.gameData && (
             <div>
-              {' '}
-              <span>{getGameType(gameData.gameQueueConfigId)}</span> |
-              <Countdown gameLength={gameData.gameLength} />
+              <div>
+                <span className="pr-1 font-medium text-lg">
+                  {getGameType(c.gameData.gameQueueConfigId)}
+                </span>
+                (<Countdown gameLength={c.gameData.gameLength} />)
+              </div>
+
               {championsData && (
-                <ParticipantsSpectator
-                  participants={gameData.participants}
-                  champions={championsData}
-                />
+                <div className="mt-2">
+                  <div className="grid grid-cols-5">
+                    {blueTeamParticipants(c.gameData).map((participant) => (
+                      <ParticipantSpectator
+                        key={participant.summonerName}
+                        teamId={participant.teamId}
+                        championsData={championsData}
+                        participant={participant}
+                        selectRunes={selectRunes}
+                        team={'blue'}
+                      />
+                    ))}
+                  </div>
+                  <h2 className=" text-center text-lg font-medium my-2 mb-6">
+                    VS
+                  </h2>
+                  <div>
+                    <div className="grid grid-cols-5">
+                      {redTeamParticipants(c.gameData).map((participant) => (
+                        <ParticipantSpectator
+                          key={participant.summonerName}
+                          teamId={participant.teamId}
+                          championsData={championsData}
+                          participant={participant}
+                          selectRunes={selectRunes}
+                          team={'red'}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}

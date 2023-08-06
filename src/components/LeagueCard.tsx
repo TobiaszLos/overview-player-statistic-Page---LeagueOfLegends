@@ -18,6 +18,8 @@ export const LeagueCard = ({
     return winRate.toFixed() + '%'
   }
 
+
+
   return (
     <div
       className={`mb-1 bg-white bg-opacity-75 ${

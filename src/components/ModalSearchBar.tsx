@@ -82,10 +82,10 @@ export const ModalSearchBar = ({
   const searchSummonerByName = async (name: string, server: Server) => {
     try {
       setLoading(true)
+
       const data = await fetchSummonerDataByName(server, name)
       setLoading(false)
       if (data?.id) {
-        loading
         setSummonerData(data)
       } else {
         setSummonerData(null)
@@ -145,10 +145,12 @@ export const ModalSearchBar = ({
             <div className=" font-medium mb-2 ">{summonerData.name}</div>
             <div className=" w-48 relative ">
               <img
-                className="opacity-75 group-hover:opacity-100 m-auto w-full"
+                className="opacity-75 group-hover:opacity-100 m-auto w-full min-h-[150px]"
                 src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${summonerData.profileIconId}.png`}
+                loading="lazy"
                 alt=""
               />
+
               <div className="absolute bottom-0 bg-black bg-opacity-40 py-2 w-full  ">
                 level {summonerData.summonerLevel}
               </div>

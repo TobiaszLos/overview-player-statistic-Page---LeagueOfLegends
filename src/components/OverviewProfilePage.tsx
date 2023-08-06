@@ -6,7 +6,7 @@ import MasteryChampionCard from './MasteryChampionCard'
 import { MatchCard } from './MatchCard'
 import { useOutletContext } from 'react-router-dom'
 
-interface SummonerPageOutletProps {
+interface OverviewProfilePageProps {
   summonerLeagues: SummonerRankedLeagues
   champions: ChampionMasteryStats[]
   versionPatch: string
@@ -20,9 +20,9 @@ interface SummonerPageOutletProps {
 
 }
 
-export const SummonerPageOutlet = () => {
+export const OverviewProfilePage = () => {
 
- const c = useOutletContext<SummonerPageOutletProps>()
+ const c = useOutletContext<OverviewProfilePageProps>()
 
   return (
     <article className="p-4 lg:grid lg:grid-cols-9 gap-2">

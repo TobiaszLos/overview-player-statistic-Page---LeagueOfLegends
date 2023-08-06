@@ -7,12 +7,14 @@ import {
   fetchRunesReforged,
   fetchSummonerDataByName,
   fetchSummonerLeagueDetails,
+  fetchSummonerSpectatorData,
 } from '../services'
 import {
   ChampionMasteryStats,
   MatchDTO,
   RuneReforged,
   Server,
+  SpectatorData,
   SummonerBasic,
   SummonerLeague,
   SummonerRankedLeagues,
@@ -27,6 +29,8 @@ import { getRegion } from '../utilities/regionSwitcher'
 
 // import { BiCaretDown } from 'react-icons/bi'
 import { TopSearchBar } from '../components/MiniSearchBar'
+
+import { AiOutlineWifi } from 'react-icons/ai'
 
 const PAGE_SIZE = 6
 
@@ -51,6 +55,9 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
   const [champions, setchampions] = useState<ChampionMasteryStats[]>()
 
+  const [live, setLive] = useState(false)
+  const [gameData, setGameData] = useState<SpectatorData | undefined>()
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -62,7 +69,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-  
+
   useEffect(() => {
     getRunesFromAssetsApi()
   }, [])
@@ -73,24 +80,43 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     setRunesInfo(getRunesInfo!)
   }
 
+  const spectator = async (server: Server, summonerData: SummonerBasic) => {
+    const spectatorData = await fetchSummonerSpectatorData(
+      server,
+      summonerData.id
+    )
+
+    console.log(spectatorData, 'spectatorData')
+
+    if (spectatorData) {
+      setLive(true)
+      setGameData(spectatorData)
+    } else {
+      setLive(false)
+      setGameData(undefined)
+    }
+  }
+
   const searchSummonerByName = async (name: string, region: Server) => {
     try {
       const data = await fetchSummonerDataByName(region, name)
       setSummonerData(data)
       if (data?.id) {
         await fetchSummonerLeagueData(data.id, region)
-
+        await spectator(server as Server, data)
         // GET HISTORY LIST OF GAMES
-        const list = await fetchMatchesList(
-          data.puuid,
-          getRegion(server as Server),
-          PAGE_SIZE,
-          pageNumber * PAGE_SIZE
-        )
-        setHistoryList(list)
-        setPageNumber((prevPageNumber) => prevPageNumber + 1) // pagination
 
-        fechChampionsMastery(data.id, region) // Champions Mastery
+        // const list = await fetchMatchesList(
+        //   data.puuid,
+        //   getRegion(server as Server),
+        //   PAGE_SIZE,
+        //   pageNumber * PAGE_SIZE
+        // )
+        //setHistoryList(list)  UN SETTTTTTTTTTTTTTTTTTTTTTT LATER
+
+        setPageNumber((prevPageNumber) => prevPageNumber + 1) 
+
+        fechChampionsMastery(data.id, region) 
       }
     } catch (error) {
       console.log(error)
@@ -102,6 +128,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     region: Server
   ) => {
     await fetchSummonerLeagueDetails(summonerId, region).then((data) => {
+      
       const transformData = () => {
         return data.reduce((acc, currentVal: SummonerLeague) => {
           return {
@@ -198,25 +225,34 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               </h2>
             </div>
           </article>
-          <h2 className="p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">
-            <Link to="">Overview</Link>
-            <Link to="ingame"> Spectator</Link>
-          </h2>
+          <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">
+            <div className=" pr-2">
+              {' '}
+              <Link to="">Overview</Link>
+            </div>
+            <div className={` flex items-center gap-1`}>
+              <Link to="ingame">Spectator</Link>
+              <div className={`${live ? ' text-green-400' : 'text-gray-500'} `}>
+                <AiOutlineWifi size={'1.4rem'} />
+              </div>
+            </div>
+          </div>
 
           <Outlet
             context={{
-              name: 'alberto hawai',
               summonerLeagues: summonerLeagues,
               champions: champions,
               versionPatch: versionPatch,
-              historyList:historyList,
+              historyList: historyList,
               handleLoadMore: handleLoadMore,
               hasNextPage: hasNextPage,
               runesInfo: runesInfo,
               summoner: summoner,
               server: server,
               isLoading: isLoading,
-              summonerId: summonerData.id
+              summonerId: summonerData.id,
+              isLive: live,
+              gameData: gameData,
             }}
           />
         </>
