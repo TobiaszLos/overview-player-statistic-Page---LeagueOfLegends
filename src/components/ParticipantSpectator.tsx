@@ -12,6 +12,8 @@ import { summonerSpells } from '../utilities/getSummonerSpellName'
 import { findChampionNameByKey } from '../utilities/helpers/findChampionNameByKey'
 import { fetchSummonerLeagueDetails } from '../services'
 import { calculateWinRate } from '../utilities/helpers/calculateWinRate'
+import { IconByTier } from '../utilities/IconsComponent'
+import { Link } from 'react-router-dom'
 
 interface ParticipantSpectatorProps {
   teamId: number
@@ -66,16 +68,8 @@ export const ParticipantSpectator = ({
   }
 
   return (
-    <div className="p-1">
-      <div
-        className={`${
-          team === 'red' ? ' bg-red-400' : 'bg-blue-400'
-        } text-center`}
-      >
-        {participant.summonerName}
-      </div>
-
-      <div className="flex">
+    <div className="p-1 grid grid-cols-3 self-center ">
+      <div className="flex gap-1">
         <div>
           <img
             className="w-9 h-9 rounded-full bottom-1"
@@ -86,27 +80,25 @@ export const ParticipantSpectator = ({
             alt=""
           />
         </div>
-        <div>
-          <div className="  flex gap-1">
-            <img
-              className="w-4 h-4 rounded-md "
-              src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
-                summonerSpells[participant.spell1Id!]
-              }.png`}
-              alt={summonerSpells[participant.spell1Id!]}
-            />
 
-            <img
-              className="w-4 h-4 rounded-md"
-              src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
-                summonerSpells[participant.spell2Id!]
-              }.png`}
-              alt={summonerSpells[participant.spell2Id!]}
-            />
-          </div>
+        <div className="grid grid-cols-2 grid-rows-2 self-center gap-1">
+          <img
+            className="w-4 h-4 rounded-md "
+            src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
+              summonerSpells[participant.spell1Id!]
+            }.png`}
+            alt={summonerSpells[participant.spell1Id!]}
+          />
 
+          <img
+            className="w-4 h-4 rounded-md"
+            src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/spell/${
+              summonerSpells[participant.spell2Id!]
+            }.png`}
+            alt={summonerSpells[participant.spell2Id!]}
+          />
           {selectRunes(participant)?.primarySlot.icon && (
-            <div className="pl-1  flex">
+            <>
               <img
                 className="w-4 h-4  bg-slate-700 rounded-full"
                 src={`https://ddragon.leagueoflegends.com/cdn/img/${
@@ -121,20 +113,38 @@ export const ParticipantSpectator = ({
                 }`}
                 alt="icon"
               />
-            </div>
+            </>
           )}
         </div>
+        <div
+          className={`${
+            team === 'red' ? ' text-red-400' : 'text-blue-400'
+          } text-center`}
+        >
+          <Link to={`/EUW1/${participant.summonerName}`}>
+            {' '}
+            {participant.summonerName}
+          </Link>
+        </div>
       </div>
-      {summonerLeagues.RANKED_SOLO_5x5 !== undefined && (
-        <div>
-          <div>
-            <span>{summonerLeagues.RANKED_SOLO_5x5.tier}</span>{' '}
-            <span>{summonerLeagues.RANKED_SOLO_5x5.leaguePoints}LP</span>
+      {summonerLeagues.RANKED_SOLO_5x5 !== undefined ? (
+        <>
+          <div className="flex items-center gap-1 text-xs font-medium">
+            <div className=" w-8">
+              <IconByTier tier={summonerLeagues.RANKED_SOLO_5x5.tier} />
+            </div>
+            <div>
+              {summonerLeagues.RANKED_SOLO_5x5.rank !== 'I' &&
+                summonerLeagues.RANKED_SOLO_5x5.rank}
+            </div>
+            <div className="pr-4">
+              <span>{summonerLeagues.RANKED_SOLO_5x5.tier}</span>{' '}
+              <span>{summonerLeagues.RANKED_SOLO_5x5.leaguePoints}LP</span>
+            </div>
           </div>
-
-          <div>
-            Winratio:{' '}
-            <span
+           
+          <div className='flex items-center gap-1 font-medium text-sm'>
+            <div
               className={`${
                 parseFloat(
                   calculateWinRate(
@@ -149,14 +159,22 @@ export const ParticipantSpectator = ({
               {calculateWinRate(
                 summonerLeagues.RANKED_SOLO_5x5.wins,
                 summonerLeagues.RANKED_SOLO_5x5.losses
-              )}{' '}
-            </span>
-            (
-            {summonerLeagues.RANKED_SOLO_5x5.wins +
-              summonerLeagues.RANKED_SOLO_5x5.losses}
-            Played)
+              )}
+            </div>
+            <div className=" text-gray-400 text-xs">
+              {' '}
+              (
+              {summonerLeagues.RANKED_SOLO_5x5.wins +
+                summonerLeagues.RANKED_SOLO_5x5.losses}{' '}
+              Played)
+            </div>
           </div>
-        </div>
+        </>
+      ): (
+        <>
+        <div className='flex items-center'>-</div>
+        <div>-</div>
+        </>
       )}
     </div>
   )

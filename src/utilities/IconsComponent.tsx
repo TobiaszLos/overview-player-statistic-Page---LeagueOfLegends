@@ -7,6 +7,7 @@ import goldIcon from '../assets/img/rank_Icon/emblem-gold.png'
 import silverIcon from '../assets/img/rank_Icon/emblem-silver.png'
 import bronzeIcon from '../assets/img/rank_Icon/emblem-bronze.png'
 import ironIcon from '../assets/img/rank_Icon/emblem-iron.png'
+import emeraldIcon from '../assets/img/rank_Icon/emerald.webp'
 
 import { Tier } from '../types'
 
@@ -34,6 +35,8 @@ export const IconByTier = ({ tier }: IconTierProps) => {
       return <img src={bronzeIcon} alt="Bronze" />
     case 'IRON':
       return <img src={ironIcon} alt="Iron" />
+    case 'EMERALD':
+      return <img src={emeraldIcon} alt="emeraldIcon" />
     default:
       return null
   }

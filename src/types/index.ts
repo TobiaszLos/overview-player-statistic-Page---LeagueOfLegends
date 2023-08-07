@@ -28,6 +28,7 @@ export type Tier =
   | 'SILVER'
   | 'BRONZE'
   | 'IRON'
+  | 'EMERALD'
 
 export type SummonerBasic = {
   id: string

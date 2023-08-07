@@ -11,7 +11,7 @@ import { getLatestPathVersion } from './services'
 import { Favorites } from './pages/Favorites'
 import { Leaderboards } from './pages/Leaderboards'
 import { OverviewProfilePage } from './components/OverviewProfilePage'
-import { Spectator } from './components/Spectator'
+import { Spectator } from './components/SpectatorPage'
 
 export const App = () => {
   const [darkTheme, setDarkTheme] = useDarkMode()

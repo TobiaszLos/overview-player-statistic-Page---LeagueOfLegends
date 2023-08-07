@@ -96,39 +96,37 @@ export const Spectator = () => {
                 <span className="pr-1 font-medium text-lg">
                   {getGameType(c.gameData.gameQueueConfigId)}
                 </span>
-                (<Countdown gameLength={c.gameData.gameLength} />)
+                | <Countdown gameLength={c.gameData.gameLength} />
               </div>
 
               {championsData && (
                 <div className="mt-2">
-                  <div className="grid grid-cols-5">
-                    {blueTeamParticipants(c.gameData).map((participant) => (
+             
+                  {blueTeamParticipants(c.gameData).map((participant) => (
+                    <ParticipantSpectator
+                      key={participant.summonerName}
+                      teamId={participant.teamId}
+                      championsData={championsData}
+                      participant={participant}
+                      selectRunes={selectRunes}
+                      team={'blue'}
+                    />
+                  ))}
+
+                  <h2 className=" text-center text-lg font-medium my-2 mb-6">
+                    VS
+                  </h2>
+                  <div>
+                    {redTeamParticipants(c.gameData).map((participant) => (
                       <ParticipantSpectator
                         key={participant.summonerName}
                         teamId={participant.teamId}
                         championsData={championsData}
                         participant={participant}
                         selectRunes={selectRunes}
-                        team={'blue'}
+                        team={'red'}
                       />
                     ))}
-                  </div>
-                  <h2 className=" text-center text-lg font-medium my-2 mb-6">
-                    VS
-                  </h2>
-                  <div>
-                    <div className="grid grid-cols-5">
-                      {redTeamParticipants(c.gameData).map((participant) => (
-                        <ParticipantSpectator
-                          key={participant.summonerName}
-                          teamId={participant.teamId}
-                          championsData={championsData}
-                          participant={participant}
-                          selectRunes={selectRunes}
-                          team={'red'}
-                        />
-                      ))}
-                    </div>
                   </div>
                 </div>
               )}
