@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { fetchBestPlayersOfServer, fetchSummonerDataById } from '../services'
 import { Server, SummonerBasic, TopSoloQPlayerPlusIcon } from '../types'
 import { quickSort } from '../utilities/helpers/quickSort'
-import { Loading } from '../components/Loading'
+import { Loading } from '../utilities/Loading'
 import { TopPlayerCard } from '../components/TopPlayerCard'
-import { SelectRegion } from '../components/SelectRegion'
+import { SelectRegion } from '../utilities/SelectRegion'
 
 export const Home = ({ versionPatch }: { versionPatch: string }) => {
   const [loading, setLoading] = useState(true)

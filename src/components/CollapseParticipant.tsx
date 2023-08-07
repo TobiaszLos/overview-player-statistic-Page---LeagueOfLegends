@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { MatchDTO, Participant, RuneReforged, Server } from '../types'
 import { calculateKDA } from '../utilities/helpers/calculateKda'
 import { summonerSpells } from '../utilities/getSummonerSpellName'
-import { ProgressBar } from './ProgressBar'
+import { ProgressBar } from '../utilities/ProgressBar'
 import { getCsPerMinute } from '../utilities/helpers/getCsPerMinute'
 
 interface CollapseParticipant {

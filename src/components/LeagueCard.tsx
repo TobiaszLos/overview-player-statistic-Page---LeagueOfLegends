@@ -1,7 +1,8 @@
 import { SummonerLeague } from '../types'
 import { IconByTier } from '../utilities/IconsComponent'
 import unrankedIcon from '../assets/img/rank_Icon/unranked.webp'
-import { ProgressBar } from './ProgressBar'
+import { ProgressBar } from '../utilities/ProgressBar'
+import { calculateWinRate } from '../utilities/helpers/calculateWinRate'
 
 export const LeagueCard = ({
   nameLeague,
@@ -12,14 +13,6 @@ export const LeagueCard = ({
   value: SummonerLeague | null
   customCss?: string
 }) => {
-  const calculateWinRate = (wins: number, losses: number): string => {
-    const totalGames = wins + losses
-    const winRate = (wins / totalGames) * 100
-    return winRate.toFixed() + '%'
-  }
-
-
-
   return (
     <div
       className={`mb-1 bg-white bg-opacity-75 ${
@@ -50,10 +43,14 @@ export const LeagueCard = ({
               <div className="text-sm  ">
                 {value.tier != 'CHALLENGER' && value.tier !== 'MASTER' ? (
                   <div className="flex space-x-1 font-semibold capitalize">
-                    <span>{value.tier.toLowerCase()} </span> <span>{value.rank}</span>
+                    <span>{value.tier.toLowerCase()} </span>{' '}
+                    <span>{value.rank}</span>
                   </div>
                 ) : (
-                  <div className="font-semibold capitalize text-left "> {value.tier.toLowerCase()} </div>
+                  <div className="font-semibold capitalize text-left ">
+                    {' '}
+                    {value.tier.toLowerCase()}{' '}
+                  </div>
                 )}
               </div>
               <div className="text-left text-xs text-slate-600 dark:text-slate-300">

@@ -20,7 +20,7 @@ import {
   SummonerRankedLeagues,
 } from '../types'
 
-import { Loading } from '../components/Loading'
+import { Loading } from '../utilities/Loading'
 // import { LeagueCard } from '../components/LeagueCard'
 
 import { getRegion } from '../utilities/regionSwitcher'

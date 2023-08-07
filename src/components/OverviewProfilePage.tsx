@@ -1,7 +1,7 @@
 import { BiCaretDown } from 'react-icons/bi'
 import { ChampionMasteryStats, MatchDTO, RuneReforged, Server, SummonerRankedLeagues } from '../types'
 import { LeagueCard } from './LeagueCard'
-import { Loading } from './Loading'
+import { Loading } from '../utilities/Loading'
 import MasteryChampionCard from './MasteryChampionCard'
 import { MatchCard } from './MatchCard'
 import { useOutletContext } from 'react-router-dom'

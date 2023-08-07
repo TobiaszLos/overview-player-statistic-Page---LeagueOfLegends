@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import { Server, SummonerBasic } from '../types'
 import { fetchSummonerDataByName } from '../services'
-import { SelectRegion } from './SelectRegion'
+import { SelectRegion } from '../utilities/SelectRegion'
 import { BiSearch } from 'react-icons/bi'
 import { VscClose } from 'react-icons/vsc'
 

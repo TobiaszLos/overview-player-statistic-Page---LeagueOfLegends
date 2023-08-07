@@ -27,9 +27,7 @@ export const Spectator = () => {
 
   const c = useOutletContext<spectatorOutletProps>()
 
-  useEffect(() => {
-    console.log(c.gameData, 'ahoi')
-  }, [])
+  useEffect(() => {}, [])
 
   useEffect(() => {
     const fetchChampions = async () => {
@@ -86,14 +84,12 @@ export const Spectator = () => {
   const redTeamParticipants = (gameData: SpectatorData) =>
     gameData.participants.filter((participant) => participant.teamId === 200)
 
-  console.log(c.gameData, 'gfame', championsData)
-
   return (
     <div>
       {!c.isLive ? (
         'Not in Game'
       ) : (
-        <>
+        <div className="p-4">
           {c.gameData && (
             <div>
               <div>
@@ -138,7 +134,7 @@ export const Spectator = () => {
               )}
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   )

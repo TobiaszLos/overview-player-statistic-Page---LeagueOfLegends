@@ -11,6 +11,7 @@ import {
 import { summonerSpells } from '../utilities/getSummonerSpellName'
 import { findChampionNameByKey } from '../utilities/helpers/findChampionNameByKey'
 import { fetchSummonerLeagueDetails } from '../services'
+import { calculateWinRate } from '../utilities/helpers/calculateWinRate'
 
 interface ParticipantSpectatorProps {
   teamId: number
@@ -43,7 +44,6 @@ export const ParticipantSpectator = ({
   console.log(participant)
 
   useEffect(() => {
-    console.log('Mamma Mina -AAAAAAAAAAAAA')
     fetchSummonerLeagueData(participant.summonerId, regionEUW1)
   }, [])
 
@@ -105,28 +105,59 @@ export const ParticipantSpectator = ({
             />
           </div>
 
-          <div className="pl-1  flex">
-            <img
-              className="w-4 h-4  bg-slate-700 rounded-full"
-              src={`https://ddragon.leagueoflegends.com/cdn/img/${
-                selectRunes(participant)!.primarySlot.icon
-              }`}
-              alt="icon"
-            />
-            <img
-              className="w-4 h-4 rounded-full" // runes.subSlot.icon
-              src={`https://ddragon.leagueoflegends.com/cdn/img/${
-                selectRunes(participant)!.subSlot.icon
-              }`}
-              alt="icon"
-            />
-          </div>
+          {selectRunes(participant)?.primarySlot.icon && (
+            <div className="pl-1  flex">
+              <img
+                className="w-4 h-4  bg-slate-700 rounded-full"
+                src={`https://ddragon.leagueoflegends.com/cdn/img/${
+                  selectRunes(participant)!.primarySlot.icon
+                }`}
+                alt="icon"
+              />
+              <img
+                className="w-4 h-4 rounded-full" // runes.subSlot.icon
+                src={`https://ddragon.leagueoflegends.com/cdn/img/${
+                  selectRunes(participant)!.subSlot.icon
+                }`}
+                alt="icon"
+              />
+            </div>
+          )}
         </div>
       </div>
-      <div>
-        TIER: {summonerLeagues.RANKED_SOLO_5x5?.tier}
-        LEAGUE POINTS : {summonerLeagues.RANKED_SOLO_5x5?.leaguePoints}
-      </div>
+      {summonerLeagues.RANKED_SOLO_5x5 !== undefined && (
+        <div>
+          <div>
+            <span>{summonerLeagues.RANKED_SOLO_5x5.tier}</span>{' '}
+            <span>{summonerLeagues.RANKED_SOLO_5x5.leaguePoints}LP</span>
+          </div>
+
+          <div>
+            Winratio:{' '}
+            <span
+              className={`${
+                parseFloat(
+                  calculateWinRate(
+                    summonerLeagues.RANKED_SOLO_5x5.wins,
+                    summonerLeagues.RANKED_SOLO_5x5.losses
+                  )
+                ) >= 50
+                  ? ' text-green-400'
+                  : 'text-red-400'
+              } `}
+            >
+              {calculateWinRate(
+                summonerLeagues.RANKED_SOLO_5x5.wins,
+                summonerLeagues.RANKED_SOLO_5x5.losses
+              )}{' '}
+            </span>
+            (
+            {summonerLeagues.RANKED_SOLO_5x5.wins +
+              summonerLeagues.RANKED_SOLO_5x5.losses}
+            Played)
+          </div>
+        </div>
+      )}
     </div>
   )
 }
