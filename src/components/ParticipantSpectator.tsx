@@ -69,10 +69,10 @@ export const ParticipantSpectator = ({
 
   return (
     <div className="p-1 grid grid-cols-3 self-center ">
-      <div className="flex gap-1">
+      <div className="grid grid-flow-col auto-cols-max gap-1">
         <div>
           <img
-            className="w-9 h-9 rounded-full bottom-1"
+            className="w-9 h-9 rounded-full bottom-1 m-0 "
             src={`http://ddragon.leagueoflegends.com/cdn/${versionPatch}/img/champion/${findChampionNameByKey(
               championsData,
               participant.championId.toString()
@@ -119,9 +119,9 @@ export const ParticipantSpectator = ({
         <div
           className={`${
             team === 'red' ? ' text-red-400' : 'text-blue-400'
-          } text-center`}
+          } text-center text-xs md:text-sm flex items-center max-w-[55px] md:max-w-md`}
         >
-          <Link to={`/EUW1/${participant.summonerName}`}>
+          <Link className="truncate" to={`/EUW1/${participant.summonerName}`}>
             {' '}
             {participant.summonerName}
           </Link>
@@ -129,21 +129,29 @@ export const ParticipantSpectator = ({
       </div>
       {summonerLeagues.RANKED_SOLO_5x5 !== undefined ? (
         <>
-          <div className="flex items-center gap-1 text-xs font-medium">
-            <div className=" w-8">
+          <div className="flex items-center gap-1 text-xs font-medium justify-end md:justify-start ">
+            <div className="w-8">
               <IconByTier tier={summonerLeagues.RANKED_SOLO_5x5.tier} />
             </div>
-            <div>
-              {summonerLeagues.RANKED_SOLO_5x5.rank !== 'I' &&
-                summonerLeagues.RANKED_SOLO_5x5.rank}
-            </div>
+
             <div className="pr-4">
-              <span>{summonerLeagues.RANKED_SOLO_5x5.tier}</span>{' '}
-              <span>{summonerLeagues.RANKED_SOLO_5x5.leaguePoints}LP</span>
+              <div className="hidden md:flex gap-1">
+                <span className="hidden md:block ">
+                  {summonerLeagues.RANKED_SOLO_5x5.tier}
+                </span>{' '}
+                {['CHALLENGER', 'GRANDMASTER', 'MASTER'].includes(
+                  summonerLeagues.RANKED_SOLO_5x5.tier
+                )
+                  ? null
+                  : summonerLeagues.RANKED_SOLO_5x5.rank}
+              </div>
+              <span className="text-xs font-normal text-gray-600 dark:text-gray-400">
+                {summonerLeagues.RANKED_SOLO_5x5.leaguePoints}LP
+              </span>
             </div>
           </div>
-           
-          <div className='flex items-center gap-1 font-medium text-sm'>
+
+          <div className="flex items-center gap-1 font-medium text-sm">
             <div
               className={`${
                 parseFloat(
@@ -162,18 +170,17 @@ export const ParticipantSpectator = ({
               )}
             </div>
             <div className=" text-gray-400 text-xs">
-              {' '}
               (
               {summonerLeagues.RANKED_SOLO_5x5.wins +
                 summonerLeagues.RANKED_SOLO_5x5.losses}{' '}
-              Played)
+              Played games)
             </div>
           </div>
         </>
-      ): (
+      ) : (
         <>
-        <div className='flex items-center'>-</div>
-        <div>-</div>
+          <div className="flex items-center">-</div>
+          <div className="flex items-center">-</div>
         </>
       )}
     </div>
