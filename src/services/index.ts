@@ -10,6 +10,7 @@ import {
   ChampionWithMastery,
   RuneReforged,
   SpectatorData,
+
 } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
@@ -128,7 +129,6 @@ export const fetchMatchesList = async (
   }
 }
 
-
 export const fetchChampionsData = async (): Promise<
   Record<string, ChampionData>
 > => {
@@ -196,3 +196,4 @@ export const fetchSummonerSpectatorData = async (
     return undefined
   }
 }
+

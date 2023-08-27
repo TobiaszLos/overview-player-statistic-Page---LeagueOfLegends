@@ -106,13 +106,13 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
         await spectator(server as Server, data)
         // GET HISTORY LIST OF GAMES
 
-        // const list = await fetchMatchesList(
-        //   data.puuid,
-        //   getRegion(server as Server),
-        //   PAGE_SIZE,
-        //   pageNumber * PAGE_SIZE
-        // )
-        //setHistoryList(list)  UN SETTTTTTTTTTTTTTTTTTTTTTT LATER
+        const list = await fetchMatchesList(
+          data.puuid,
+          getRegion(server as Server),
+          PAGE_SIZE,
+          pageNumber * PAGE_SIZE
+        )
+        setHistoryList(list) 
 
         setPageNumber((prevPageNumber) => prevPageNumber + 1) 
 
