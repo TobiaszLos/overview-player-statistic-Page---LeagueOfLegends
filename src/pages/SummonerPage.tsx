@@ -31,6 +31,9 @@ import { getRegion } from '../utilities/regionSwitcher'
 import { TopSearchBar } from '../components/MiniSearchBar'
 
 import { AiOutlineWifi } from 'react-icons/ai'
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { useLocalStorage } from '../hooks/useLocalStorage'
+import useLocalStorageFavorites from '../hooks/useLocalStorageFavorites'
 
 const PAGE_SIZE = 6
 
@@ -58,6 +61,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [live, setLive] = useState(false)
   const [gameData, setGameData] = useState<SpectatorData | undefined>()
 
+  const {favorites, saveFavoriteToLocalStorage} = useLocalStorageFavorites("Profiles")
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -67,7 +72,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   }, [seachedSummoner, seachedSummonerRegion])
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    if (summonerData) window.scrollTo(0, 0)
   }, [])
 
   useEffect(() => {
@@ -80,13 +85,18 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     setRunesInfo(getRunesInfo!)
   }
 
+  const test = (profiles: string, newProfile: string) => {
+    const listOfProfiles = [...profiles, newProfile]
+    return listOfProfiles
+  }
+
   const spectator = async (server: Server, summonerData: SummonerBasic) => {
     const spectatorData = await fetchSummonerSpectatorData(
       server,
       summonerData.id
     )
 
-    console.log(spectatorData, 'spectatorData')
+    // console.log(spectatorData, 'spectatorData')
 
     if (spectatorData) {
       setLive(true)
@@ -112,11 +122,11 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
           PAGE_SIZE,
           pageNumber * PAGE_SIZE
         )
-        setHistoryList(list) 
+        setHistoryList(list)
 
-        setPageNumber((prevPageNumber) => prevPageNumber + 1) 
+        setPageNumber((prevPageNumber) => prevPageNumber + 1)
 
-        fechChampionsMastery(data.id, region) 
+        fechChampionsMastery(data.id, region)
       }
     } catch (error) {
       console.log(error)
@@ -128,7 +138,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     region: Server
   ) => {
     await fetchSummonerLeagueDetails(summonerId, region).then((data) => {
-      
       const transformData = () => {
         return data.reduce((acc, currentVal: SummonerLeague) => {
           return {
@@ -175,6 +184,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       setHasNextPage(false)
     }
   }
+
 
   return (
     <>
@@ -223,6 +233,10 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 {summonerData.name} (
                 {server !== undefined ? server.replace(/\d+/g, '') : ''})
               </h2>
+              <div onClick={() => saveFavoriteToLocalStorage(summonerData.name)}>
+                <MdFavorite />
+              </div>
+              {/* <MdFavoriteBorder  /> */}
             </div>
           </article>
           <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">

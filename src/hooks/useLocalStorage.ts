@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 export const useLocalStorage = (key: string) => {
-  
   const [storedValue, setStoredValue] = useState<string>(() => {
     const item = window.localStorage.getItem(key)
 
@@ -12,12 +11,9 @@ export const useLocalStorage = (key: string) => {
     const valueToStorage: string =
       value instanceof Function ? value(storedValue) : value
 
-      setStoredValue(valueToStorage)                                                                                                                    
+    setStoredValue(valueToStorage)
     window.localStorage.setItem(key, JSON.stringify(valueToStorage))
   }
 
   return [storedValue, setValue] as [string, typeof setValue]
 }
-
-
-       
