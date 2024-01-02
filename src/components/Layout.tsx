@@ -42,7 +42,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </li>
 
           <li>
-            <Link to="/favorites">favorites</Link>
+            <Link to="/bookmarks">Bookmarks</Link>
           </li>
         </ul>
       </div>

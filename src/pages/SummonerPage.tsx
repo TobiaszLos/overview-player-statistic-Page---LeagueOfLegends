@@ -32,7 +32,9 @@ import { TopSearchBar } from '../components/MiniSearchBar'
 
 import { AiOutlineWifi } from 'react-icons/ai'
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { GrFavorite } from 'react-icons/gr'
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
+
 import useLocalStorageFavorites from '../hooks/useLocalStorageFavorites'
 
 const PAGE_SIZE = 6
@@ -61,7 +63,8 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [live, setLive] = useState(false)
   const [gameData, setGameData] = useState<SpectatorData | undefined>()
 
-  const {favorites, saveFavoriteToLocalStorage} = useLocalStorageFavorites("Profiles")
+  const { favorites, saveFavoriteToLocalStorage } =
+    useLocalStorageFavorites('Profiles')
 
   const navigate = useNavigate()
 
@@ -185,7 +188,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-
   return (
     <>
       {summonerData === undefined && (
@@ -228,15 +230,41 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 </span>
               </div>
             </div>
-            <div>
+            <div className="flex flex-col justify-between">
               <h2 className=" text-2xl font-semibold">
                 {summonerData.name} (
                 {server !== undefined ? server.replace(/\d+/g, '') : ''})
               </h2>
-              <div onClick={() => saveFavoriteToLocalStorage(summonerData.name)}>
-                <MdFavorite />
+              <div
+                className={`${
+                  favorites.includes(summonerData.name)
+                    ? ' bg-red-500'
+                    : ' bg-slate-800'
+                } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
+                onClick={() => saveFavoriteToLocalStorage(summonerData.name)}
+              >
+                {favorites.includes(summonerData.name) ? (
+                  <>
+                    {' '}
+                    <FaBookmark /> <span className="pl-2">Bookmarked</span>{' '}
+                    
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <>
+                      {' '}
+                      <FaRegBookmark /> <span className="pl-2">
+                        Bookmark
+                      </span>
+                    </>
+                  </>
+                )}
               </div>
-              {/* <MdFavoriteBorder  /> */}
+              {/* <GrFavorite  size={`1.2rem`}/>
+                <MdFavorite color='pink' size={`2rem`}/> */}
+              {/* </div>
+            <MdFavoriteBorder color='pink' size={`2rem`}  /> */}
             </div>
           </article>
           <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">

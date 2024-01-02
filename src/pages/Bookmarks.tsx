@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import useLocalStorageFavorites from '../hooks/useLocalStorageFavorites'
 
-export const Favorites = () => {
+export const Bookmarks = () => {
   const [profileNames, setProfileNames] = useState<string[]>([])
  
   const {favorites, saveFavoriteToLocalStorage } = useLocalStorageFavorites('Profiles')
