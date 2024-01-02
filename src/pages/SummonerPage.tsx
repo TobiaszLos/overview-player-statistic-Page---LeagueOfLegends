@@ -63,8 +63,11 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
   const [live, setLive] = useState(false)
   const [gameData, setGameData] = useState<SpectatorData | undefined>()
 
-  const { favorites, saveFavoriteToLocalStorage } =
-    useLocalStorageFavorites('Profiles')
+  const {
+    favorites,
+    saveFavoriteToLocalStorage,
+    removeFavoriteFromLocalStorage,
+  } = useLocalStorageFavorites('Profiles')
 
   const navigate = useNavigate()
 
@@ -188,6 +191,17 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
+  const handleToggleFavorite = (name:string) => {
+    const summonerName = name;
+
+    if (favorites.includes(summonerName)) {
+      removeFavoriteFromLocalStorage(summonerName);
+    } else {
+      saveFavoriteToLocalStorage(summonerName);
+    }
+  };
+
+
   return (
     <>
       {summonerData === undefined && (
@@ -241,30 +255,20 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                     ? ' bg-red-500'
                     : ' bg-slate-800'
                 } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
-                onClick={() => saveFavoriteToLocalStorage(summonerData.name)}
+                onClick={() => handleToggleFavorite(summonerData.name)}
               >
                 {favorites.includes(summonerData.name) ? (
                   <>
-                    {' '}
                     <FaBookmark /> <span className="pl-2">Bookmarked</span>{' '}
-                    
                   </>
                 ) : (
                   <>
-                    {' '}
                     <>
-                      {' '}
-                      <FaRegBookmark /> <span className="pl-2">
-                        Bookmark
-                      </span>
+                      <FaRegBookmark /> <span className="pl-2">Bookmark</span>
                     </>
                   </>
                 )}
               </div>
-              {/* <GrFavorite  size={`1.2rem`}/>
-                <MdFavorite color='pink' size={`2rem`}/> */}
-              {/* </div>
-            <MdFavoriteBorder color='pink' size={`2rem`}  /> */}
             </div>
           </article>
           <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">

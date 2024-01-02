@@ -14,9 +14,18 @@ const useLocalStorageFavorites = (key: string) => {
     });
   };
 
+  const removeFavoriteFromLocalStorage = (name: string) => {
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = prevFavorites.filter((favorite) => favorite !== name);
+      window.localStorage.setItem(key, JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
+  };
+
   return {
     favorites,
     saveFavoriteToLocalStorage,
+    removeFavoriteFromLocalStorage,
   };
 };
 
