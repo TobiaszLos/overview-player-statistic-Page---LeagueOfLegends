@@ -3,15 +3,19 @@ import useLocalStorageFavorites from '../hooks/useLocalStorageFavorites'
 import { Link } from 'react-router-dom'
 
 import { IoBrowsersOutline } from 'react-icons/io5'
+import { MdOutlineBookmarks } from 'react-icons/md'
 
 export const Bookmarks = () => {
   const [profileNames, setProfileNames] = useState<string[]>([])
 
-  const { favorites, saveFavoriteToLocalStorage } =
-    useLocalStorageFavorites('Profiles')
+  const {
+    favorites,
+    saveFavoriteToLocalStorage,
+    removeFavoriteFromLocalStorage,
+  } = useLocalStorageFavorites('Profiles')
 
   return (
-    <article className="p-8 flex flex-wrap gap-8 pt-8">
+    <article className="p-8 flex flex-wrap gap-8 pt-8 justify-center">
       {favorites.length !== 0 ? (
         favorites.map((itemObj, index) => (
           <div
@@ -27,7 +31,11 @@ export const Bookmarks = () => {
               width="16"
               height="16"
               fill="currentColor"
-           
+              onClick={() =>
+                confirm(`Confirm deletion of '${itemObj.name}' profile? `)
+                  ? removeFavoriteFromLocalStorage(itemObj.name)
+                  : console.log('false')
+              }
               viewBox="0 0 16 16"
             >
               <path d="M2 14.879L14.879 2 16 3.121 3.121 16 2 14.879zM3.121 2L16 14.879 14.879 16 2 3.121 3.121 2z" />
@@ -35,7 +43,15 @@ export const Bookmarks = () => {
           </div>
         ))
       ) : (
-        <div>not found</div>
+        <div className='flex flex-col justify-center items-center pt-8 gap-4 dark:text-slate-300'>
+          <div>
+            <MdOutlineBookmarks size={`6rem`}/>
+          </div>
+          <div>
+            <h5 className=' font-bold text-center'>No saved bookmarks</h5>
+            <p className=' text-sm font-thin'>Bookmarks you save will be stored here</p>
+          </div>
+        </div>
       )}
     </article>
   )
