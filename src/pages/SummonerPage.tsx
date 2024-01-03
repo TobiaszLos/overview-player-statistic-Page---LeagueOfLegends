@@ -191,16 +191,29 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-  const handleToggleFavorite = (name:string) => {
-    const summonerName = name;
+  // const handleToggleFavorite = (name: string) => {
+  //   const summonerName = name
 
-    if (favorites.includes(summonerName)) {
-      removeFavoriteFromLocalStorage(summonerName);
+  //   if (favorites.includes(summonerName)) {
+  //     removeFavoriteFromLocalStorage(summonerName)
+  //   } else {
+  //     saveFavoriteToLocalStorage(summonerName)
+  //   }
+  // }
+
+  const handleToggleFavorite = (name: string, server: string) => {
+    const summonerName = name
+
+    const isSummonerFavorite = favorites.some(
+      (fav) => fav.name === summonerName
+    )
+
+    if (isSummonerFavorite) {
+      removeFavoriteFromLocalStorage(summonerName)
     } else {
-      saveFavoriteToLocalStorage(summonerName);
+      saveFavoriteToLocalStorage(summonerName, server)
     }
-  };
-
+  }
 
   return (
     <>
@@ -251,6 +264,25 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
               </h2>
               <div
                 className={`${
+                  favorites.some((fav) => fav.name === summonerData.name)
+                    ? ' bg-red-500 dark:bg-red-700'
+                    : ' bg-gray-600 dark:bg-gray-700'
+                } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
+                onClick={() => handleToggleFavorite(summonerData.name, server!)}
+              >
+                {favorites.some((fav) => fav.name === summonerData.name) ? (
+                  <>
+                    <FaBookmark /> <span className="pl-2">Bookmarked</span>{' '}
+                  </>
+                ) : (
+                  <>
+                    <FaRegBookmark /> <span className="pl-2">Bookmark</span>
+                  </>
+                )}
+              </div>
+
+              {/* <div
+                className={`${
                   favorites.includes(summonerData.name)
                     ? ' bg-red-500'
                     : ' bg-slate-800'
@@ -268,7 +300,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                     </>
                   </>
                 )}
-              </div>
+              </div> */}
             </div>
           </article>
           <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">

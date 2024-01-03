@@ -12,7 +12,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
       <nav className="flex justify-between items-center px-8 bg-slate-800 2xl:px-24">
         <Link to="/">
           <div className="text-lg font-bold">
-            <span className="text-orange-600">LOL</span>
+            <span className="text-red-600">LOL</span>
             <span className=" text-slate-100">SEARCH</span>
           </div>
         </Link>
@@ -35,13 +35,13 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </label>
         </div>
       </nav>
-      <div>
-        <ul>
-          <li>
+      <div className=" bg-slate-600  dark:bg-slate-700 text-white">
+        <ul className="flex  space-x-8 p-3 justify-start px-24">
+          <li className=" cursor-pointer hover:opacity-90 font-medium text-sm">
             <Link to="/leaderboards">Leaderboards</Link>
           </li>
 
-          <li>
+          <li className=" cursor-pointer hover:opacity-90 font-medium text-sm">
             <Link to="/bookmarks">Bookmarks</Link>
           </li>
         </ul>
