@@ -6,7 +6,7 @@ import { IoBrowsersOutline } from 'react-icons/io5'
 import { MdOutlineBookmarks } from 'react-icons/md'
 
 export const Bookmarks = () => {
-  const [profileNames, setProfileNames] = useState<string[]>([])
+ // const [profileNames, setProfileNames] = useState<string[]>([])
 
   const {
     favorites,
@@ -16,6 +16,8 @@ export const Bookmarks = () => {
 
   return (
     <article className="p-8 flex flex-wrap gap-8 pt-8 justify-center">
+ 
+
       {favorites.length !== 0 ? (
         favorites.map((itemObj, index) => (
           <div
