@@ -44,34 +44,36 @@ export const Leaderboards = () => {
   return (
     <section className="max-w-6xl m-auto min-h-screen p-4">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Top Solo Queue Players</h1>
-      <table className="min-w-full border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="py-2 px-4 border-r">Rank</th>
-            <th className="py-2 px-4 border-r">Player</th>
-            <th className="py-2 px-4 border-r">LP</th>
-            <th className="py-2 px-4 border-r">Wins</th>
-            <th className="py-2 px-4">Losses</th>
-          </tr>
-        </thead>
-        <tbody>
-          {playersList.map((item, index) => (
-            <tr key={index} className="border-b border-gray-300">
-              <td className="py-2 px-4 border-r">{calculateRank(index)}</td>
-              <td className="py-2 px-4 border-r">
-                <div className="flex items-center">
-                  <span className="font-bold">{item.summonerName}</span>
-                </div>
-              </td>
-              <td className="py-2 px-4 border-r">{item.leaguePoints}</td>
-              <td className="py-2 px-4 border-r">{item.wins}</td>
-              <td className="py-2 px-4">{item.losses}</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border border-gray-300 text-left">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="py-2 px-4 border-r">Rank</th>
+              <th className="py-2 px-4 border-r">Player</th>
+              <th className="py-2 px-4 border-r">LP</th>
+              <th className="py-2 px-4 border-r">Wins</th>
+              <th className="py-2 px-4">Losses</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {playersList.map((item, index) => (
+              <tr key={index} className="border-b border-gray-300">
+                <td className="py-2 px-4 border-r">{calculateRank(index)}</td>
+                <td className="py-2 px-4 border-r">
+                  <div className="flex items-center">
+                    <span className="font-bold">{item.summonerName}</span>
+                  </div>
+                </td>
+                <td className="py-2 px-4 border-r">{item.leaguePoints}</td>
+                <td className="py-2 px-4 border-r">{item.wins}</td>
+                <td className="py-2 px-4">{item.losses}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div className="mt-4 flex justify-between items-center">
+      <div className="mt-4 flex flex-col sm:flex-row justify-between items-center">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

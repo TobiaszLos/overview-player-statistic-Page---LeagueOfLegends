@@ -94,7 +94,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
       </div>
 
       <div className="w-full px-4 ">
-        <h2 className="mt-36 mb-0 text-center text-slate-700 dark:text-slate-300 text-2xl sm:text-3xl my-auto">
+        <h2 className="mt-36 mb-0 text-center font-thin text-slate-700 dark:text-slate-300 text-2xl sm:text-3xl my-auto">
           The best summoners of the region
         </h2>
 

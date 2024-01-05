@@ -6,7 +6,7 @@ import { IoBrowsersOutline } from 'react-icons/io5'
 import { MdOutlineBookmarks } from 'react-icons/md'
 
 export const Bookmarks = () => {
- // const [profileNames, setProfileNames] = useState<string[]>([])
+  // const [profileNames, setProfileNames] = useState<string[]>([])
 
   const {
     favorites,
@@ -16,17 +16,21 @@ export const Bookmarks = () => {
 
   return (
     <article className="p-8 flex flex-wrap gap-8 pt-8 justify-center">
- 
-
       {favorites.length !== 0 ? (
         favorites.map((itemObj, index) => (
           <div
             key={`${itemObj} ${index}`}
             className="flex-shrink-0 border  border-slate-400 text-sm font-bold rounded-2xl px-4 py-2 flex items-center space-x-4 cursor-pointer hover:bg-slate-300  dark:hover:bg-slate-800"
           >
+            <img
+              src={`http://ddragon.leagueoflegends.com/cdn/13.24.1/img/profileicon/${itemObj.icon}.png`}
+              alt=""
+              className="w-full rounded-lg"
+            />
             <Link to={`/${itemObj.server}/${itemObj.name}/`} target="_blank">
               <div className="">{itemObj.name}</div>
             </Link>
+
             <svg
               className=" text-slate-400 hover:text-red-500"
               xmlns="http://www.w3.org/2000/svg"
@@ -45,13 +49,15 @@ export const Bookmarks = () => {
           </div>
         ))
       ) : (
-        <div className='flex flex-col justify-center items-center pt-8 gap-4 dark:text-slate-300'>
+        <div className="flex flex-col justify-center items-center pt-8 gap-4 dark:text-slate-300">
           <div>
-            <MdOutlineBookmarks size={`6rem`}/>
+            <MdOutlineBookmarks size={`6rem`} />
           </div>
           <div>
-            <h5 className=' font-bold text-center'>No saved bookmarks</h5>
-            <p className=' text-sm font-thin'>Bookmarks you save will be stored here</p>
+            <h5 className=" font-bold text-center">No saved bookmarks</h5>
+            <p className=" text-sm font-thin">
+              Bookmarks you save will be stored here
+            </p>
           </div>
         </div>
       )}

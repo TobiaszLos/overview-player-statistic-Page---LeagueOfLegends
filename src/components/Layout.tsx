@@ -37,12 +37,18 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
       </nav>
       <div className=" bg-slate-600  dark:bg-slate-700 text-white">
         <ul className="flex  space-x-8 p-3 justify-start px-24">
-          <li className=" cursor-pointer hover:opacity-90 font-medium text-sm">
+          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+            <Link to="/">Home</Link>
+          </li>
+          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
             <Link to="/leaderboards">Leaderboards</Link>
           </li>
 
-          <li className=" cursor-pointer hover:opacity-90 font-medium text-sm">
+          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
             <Link to="/bookmarks">Bookmarks</Link>
+          </li> 
+          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+            <Link to="/bookmarks">Live games</Link>
           </li>
         </ul>
       </div>

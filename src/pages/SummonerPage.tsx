@@ -21,18 +21,13 @@ import {
 } from '../types'
 
 import { Loading } from '../utilities/Loading'
-// import { LeagueCard } from '../components/LeagueCard'
 
 import { getRegion } from '../utilities/regionSwitcher'
-// import { MatchCard } from '../components/MatchCard'
-// import MasteryChampionCard from '../components/MasteryChampionCard'
 
-// import { BiCaretDown } from 'react-icons/bi'
 import { TopSearchBar } from '../components/MiniSearchBar'
 
 import { AiOutlineWifi } from 'react-icons/ai'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
-import { GrFavorite } from 'react-icons/gr'
+
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 
 import useLocalStorageFavorites from '../hooks/useLocalStorageFavorites'
@@ -101,8 +96,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
       server,
       summonerData.id
     )
-
-    // console.log(spectatorData, 'spectatorData')
 
     if (spectatorData) {
       setLive(true)
@@ -191,17 +184,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-  // const handleToggleFavorite = (name: string) => {
-  //   const summonerName = name
-
-  //   if (favorites.includes(summonerName)) {
-  //     removeFavoriteFromLocalStorage(summonerName)
-  //   } else {
-  //     saveFavoriteToLocalStorage(summonerName)
-  //   }
-  // }
-
-  const handleToggleFavorite = (name: string, server: string) => {
+  const handleToggleFavorite = (name: string, server: string, icon:number) => {
     const summonerName = name
 
     const isSummonerFavorite = favorites.some(
@@ -211,7 +194,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     if (isSummonerFavorite) {
       removeFavoriteFromLocalStorage(summonerName)
     } else {
-      saveFavoriteToLocalStorage(summonerName, server)
+      saveFavoriteToLocalStorage(summonerName, server, icon)
     }
   }
 
@@ -262,13 +245,14 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                 {summonerData.name} (
                 {server !== undefined ? server.replace(/\d+/g, '') : ''})
               </h2>
+
               <div
                 className={`${
                   favorites.some((fav) => fav.name === summonerData.name)
                     ? ' bg-red-500 dark:bg-red-700'
                     : ' bg-gray-600 dark:bg-gray-700'
                 } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
-                onClick={() => handleToggleFavorite(summonerData.name, server!)}
+                onClick={() => handleToggleFavorite(summonerData.name, server!, summonerData.profileIconId)}
               >
                 {favorites.some((fav) => fav.name === summonerData.name) ? (
                   <>
@@ -280,27 +264,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                   </>
                 )}
               </div>
-
-              {/* <div
-                className={`${
-                  favorites.includes(summonerData.name)
-                    ? ' bg-red-500'
-                    : ' bg-slate-800'
-                } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
-                onClick={() => handleToggleFavorite(summonerData.name)}
-              >
-                {favorites.includes(summonerData.name) ? (
-                  <>
-                    <FaBookmark /> <span className="pl-2">Bookmarked</span>{' '}
-                  </>
-                ) : (
-                  <>
-                    <>
-                      <FaRegBookmark /> <span className="pl-2">Bookmark</span>
-                    </>
-                  </>
-                )}
-              </div> */}
             </div>
           </article>
           <div className="flex p-4 font-medium tracking-wide text-slate-700  dark:text-slate-300 ">

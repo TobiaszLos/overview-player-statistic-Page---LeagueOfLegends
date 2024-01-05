@@ -8,11 +8,11 @@ const useLocalStorageFavorites = (key: string) => {
     return profilesFromLocalStorage ? JSON.parse(profilesFromLocalStorage) : []
   })
 
-  const saveFavoriteToLocalStorage = (newName: string, server: string) => {
+  const saveFavoriteToLocalStorage = (newName: string, server: string, icon:number) => {
     setFavorites((prevFavorites) => {
       const listOfFavoritesProfiles = [
         ...prevFavorites,
-        { name: newName, server: server },
+        { name: newName, server: server, icon:icon },
       ]
       window.localStorage.setItem(key, JSON.stringify(listOfFavoritesProfiles))
       return listOfFavoritesProfiles
