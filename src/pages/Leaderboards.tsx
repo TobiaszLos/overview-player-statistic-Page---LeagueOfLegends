@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { fetchBestPlayersOfServer } from '../services';
 import { Server, TopSoloQPlayer } from '../types';
 import { quickSort } from '../utilities/helpers/quickSort';
+import { Link } from 'react-router-dom';
 
 export const Leaderboards = () => {
-  const itemsPerPage = 10;
+  const itemsPerPage = 100;
   const [loading, setLoading] = useState(true);
   const [server, setServer] = useState<Server>('EUW1');
   const [playersList, setPlayersList] = useState<TopSoloQPlayer[]>([]);
@@ -42,7 +43,7 @@ export const Leaderboards = () => {
   };
 
   return (
-    <section className="max-w-6xl m-auto min-h-screen p-4">
+    <section className="max-w-6xl m-auto min-h-screen p-4 text-xs">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Top Solo Queue Players</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 text-left">
@@ -61,7 +62,16 @@ export const Leaderboards = () => {
                 <td className="py-2 px-4 border-r">{calculateRank(index)}</td>
                 <td className="py-2 px-4 border-r">
                   <div className="flex items-center">
-                    <span className="font-bold">{item.summonerName}</span>
+                  <Link
+                to={`/EUW1/${item.summonerName}/`}
+                target="_blank"
+                 className=' hover:text-blue-400'
+              > 
+                <span className="font-bold">{item.summonerName}</span>
+              
+              </Link>
+                  
+                  
                   </div>
                 </td>
                 <td className="py-2 px-4 border-r">{item.leaguePoints}</td>

@@ -86,11 +86,6 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     setRunesInfo(getRunesInfo!)
   }
 
-  const test = (profiles: string, newProfile: string) => {
-    const listOfProfiles = [...profiles, newProfile]
-    return listOfProfiles
-  }
-
   const spectator = async (server: Server, summonerData: SummonerBasic) => {
     const spectatorData = await fetchSummonerSpectatorData(
       server,
