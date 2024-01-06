@@ -45,46 +45,67 @@ export const Leaderboards = () => {
   }
 
   return (
-    <section className="max-w-6xl m-auto min-h-screen p-4 text-xs">
-      <h1 className="text-2xl font-bold text-slate-800 my-6">Leaderboards</h1>
+    <section className="max-w-4xl m-auto min-h-screen p-4 ">
+      <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 my-6">
+        Leaderboards
+      </h1>
       <div>
         <SelectRegion
           onChangeEvent={(e) =>
             fetchTopPlayersList(e.currentTarget.value as Server, currentPage)
           }
-          style="p-2 mx-auto border-2 m-10 dark:border-slate-400 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
+          style="p-2 mx-auto border-2 m-10 dark:border-slate-500 border-slate-600 rounded-lg bg-transparent py-2 font-bold focus:outline-none text-sm dark:text-slate-400 md:px-4"
         />
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 text-left">
+        <table className="min-w-full border border-gray-300 text-left dark:border-gray-500 text-xs">
           <thead>
-            <tr className="bg-gray-200">
-              <th className="py-2 px-4 border-r">Rank</th>
-              <th className="py-2 px-4 border-r">Player</th>
-              <th className="py-2 px-4 border-r">LP</th>
-              <th className="py-2 px-4 border-r">Wins</th>
+            <tr className="bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400">
+              <th className="py-2 px-4 border-r dark:border-gray-600">Rank</th>
+              <th className="py-2 px-4 border-r dark:border-gray-600 ">
+                Player
+              </th>
+              <th className="py-2 px-4 border-r dark:border-gray-600">Tier</th>
+              <th className="py-2 px-4 border-r dark:border-gray-600">LP</th>
+              <th className="py-2 px-4 border-r dark:border-gray-600">Wins</th>
               <th className="py-2 px-4">Losses</th>
             </tr>
           </thead>
           {playersList ? (
-            <tbody>
+            <tbody className="text-xs">
               {playersList.map((item, index) => (
-                <tr key={index} className="border-b border-gray-300">
-                  <td className="py-2 px-4 border-r">{calculateRank(index)}</td>
-                  <td className="py-2 px-4 border-r">
+                <tr
+                  key={index}
+                  className="border-b border-gray-300 dark:border-gray-500 text-slate-700 dark:text-slate-300"
+                >
+                  <td className="py-2 px-4 border-r dark:border-slate-900  font-medium">
+                    {calculateRank(index)}
+                  </td>
+                  <td className="py-2 px-4 border-r dark:border-slate-900 ">
                     <div className="flex items-center">
                       <Link
-                        to={`/EUW1/${item.summonerName}/`}
+                        to={`/${server}/${item.summonerName}/`}
                         target="_blank"
                         className=" hover:text-blue-400"
                       >
-                        <span className="font-bold">{item.summonerName}</span>
+                        <span className="  font-medium">
+                          {item.summonerName}
+                        </span>
                       </Link>
                     </div>
                   </td>
-                  <td className="py-2 px-4 border-r">{item.leaguePoints}</td>
-                  <td className="py-2 px-4 border-r">{item.wins}</td>
-                  <td className="py-2 px-4">{item.losses}</td>
+                  <td className="py-2 px-4 border-r dark:border-slate-900  font-medium">
+                    Challenger
+                  </td>
+                  <td className="py-2 px-4 border-r dark:border-slate-900 font-medium">
+                    {item.leaguePoints}
+                  </td>
+                  <td className="py-2 px-4 border-r dark:border-slate-900  font-medium">
+                    {item.wins}
+                  </td>
+                  <td className="py-2 px-4 dark:border-slate-900  font-medium">
+                    {item.losses}
+                  </td>
                 </tr>
               ))}
             </tbody>
