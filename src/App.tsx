@@ -39,7 +39,7 @@ export const App = () => {
           element={<Layout darkTheme={darkTheme} setDarkTheme={setDarkTheme} />}
         >
           <Route path="/" element={<Home versionPatch={versionPatch} />} />
-          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/bookmarks" element={<Bookmarks versionPatch={versionPatch} />} />
           <Route path="/Leaderboards" element={<Leaderboards />} />
           <Route
             path="/:server/:summoner"

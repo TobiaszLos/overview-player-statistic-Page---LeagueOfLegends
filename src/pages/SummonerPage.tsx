@@ -184,7 +184,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     }
   }
 
-  const handleToggleFavorite = (name: string, server: string, icon:number) => {
+  const handleToggleFavorite = (name: string, server: string, icon: number) => {
     const summonerName = name
 
     const isSummonerFavorite = favorites.some(
@@ -252,7 +252,13 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
                     ? ' bg-red-500 dark:bg-red-700'
                     : ' bg-gray-600 dark:bg-gray-700'
                 } text-white text-sm cursor-pointer hover:opacity-90   rounded inline-flex justify-center items-center py-2 px-4`}
-                onClick={() => handleToggleFavorite(summonerData.name, server!, summonerData.profileIconId)}
+                onClick={() =>
+                  handleToggleFavorite(
+                    summonerData.name,
+                    server!,
+                    summonerData.profileIconId
+                  )
+                }
               >
                 {favorites.some((fav) => fav.name === summonerData.name) ? (
                   <>

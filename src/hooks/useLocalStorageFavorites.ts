@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
+import { SummonerBasic } from '../types'; 
+
 const useLocalStorageFavorites = (key: string) => {
   const [favorites, setFavorites] = useState<
-    { name: string; server: string }[]
+    { name: string; server: string, icon:number}[]
   >(() => {
     const profilesFromLocalStorage = window.localStorage.getItem(key)
     return profilesFromLocalStorage ? JSON.parse(profilesFromLocalStorage) : []
@@ -12,7 +14,7 @@ const useLocalStorageFavorites = (key: string) => {
     setFavorites((prevFavorites) => {
       const listOfFavoritesProfiles = [
         ...prevFavorites,
-        { name: newName, server: server, icon:icon },
+        { name: newName, server: server, icon:icon},
       ]
       window.localStorage.setItem(key, JSON.stringify(listOfFavoritesProfiles))
       return listOfFavoritesProfiles
@@ -37,3 +39,5 @@ const useLocalStorageFavorites = (key: string) => {
 }
 
 export default useLocalStorageFavorites
+
+ 

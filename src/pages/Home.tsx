@@ -111,7 +111,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
               <TopPlayerCard
                 key={player.summonerId}
                 player={player}
-                versionPath={versionPatch}
+                versionPatch={versionPatch}
                 server={server}
                 rank={index}
               />
