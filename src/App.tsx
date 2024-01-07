@@ -11,6 +11,7 @@ import { getLatestPathVersion } from './services'
 import { Bookmarks } from './pages/Bookmarks'
 import { Leaderboards } from './pages/Leaderboards'
 import { OverviewProfilePage } from './components/OverviewProfilePage'
+import { LiveGames } from './pages/LiveGames'
 import { Spectator } from './components/SpectatorPage'
 
 export const App = () => {
@@ -40,7 +41,8 @@ export const App = () => {
         >
           <Route path="/" element={<Home versionPatch={versionPatch} />} />
           <Route path="/bookmarks" element={<Bookmarks versionPatch={versionPatch} />} />
-          <Route path="/Leaderboards" element={<Leaderboards />} />
+          <Route path="/leaderboards" element={<Leaderboards />} />
+          <Route path="/live-games" element={<LiveGames />} />
           <Route
             path="/:server/:summoner"
             element={<SummonerPage versionPatch={versionPatch} />}

@@ -48,7 +48,7 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
             <Link to="/bookmarks">Bookmarks</Link>
           </li> 
           <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
-            <Link to="/bookmarks">Live games</Link>
+            <Link to="/live-games">Live games</Link>
           </li>
         </ul>
       </div>

@@ -87,7 +87,7 @@ export const Home = ({ versionPatch }: { versionPatch: string }) => {
             type="text"
             className="border border-slate-400  focus:outline-none w-full pl-3 text-sm text-slate-600 font-bold"
           />
-          <button className="text-white bg-red-500 w-16 rounded-r-lg hover:bg-orange-500">
+          <button className="text-white bg-red-500 w-16 rounded-r-lg hover:bg-red-600">
             <BiSearch size={'24px'} className="mx-auto" />
           </button>
         </form>

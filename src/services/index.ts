@@ -10,7 +10,6 @@ import {
   ChampionWithMastery,
   RuneReforged,
   SpectatorData,
-
 } from '../types'
 
 const API_KEY = import.meta.env.VITE_TAPI_KEY
@@ -140,11 +139,11 @@ export const fetchChampionsData = async (): Promise<
 }
 // CHAMPION MASTERY //
 export const fetchChampionsMasteriesWithName = async (
-  summonerId: string,
+  puuid: string,
   server: Server,
   count = 10
 ): Promise<Array<ChampionWithMastery>> => {
-  const championMasteryURL = `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}/top?count=${count}&api_key=${API_KEY}`
+  const championMasteryURL = `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${puuid}/top?count=${count}&api_key=${API_KEY}`
 
   try {
     const championMasteryResponse = await fetch(championMasteryURL)
@@ -197,3 +196,20 @@ export const fetchSummonerSpectatorData = async (
   }
 }
 
+//spectator featured-games (GET RANDOM GAMES)
+export const fetchFeaturedGames = async (
+  server: Server
+)=> {
+  const url = `https://euw1.api.riotgames.com/lol/spectator/v4/featured-games?api_key=RGAPI-7a9d116c-900c-4d24-93a0-f78b3f17d336`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+  
+}
+
+fetchFeaturedGames('EUW1')

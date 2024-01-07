@@ -7,7 +7,7 @@ import { SelectRegion } from '../utilities/SelectRegion'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 export const Leaderboards = () => {
-  const itemsPerPage = 10
+  const itemsPerPage = 20
   const [loading, setLoading] = useState(true)
   const [server, setServer] = useState<Server>('EUW1')
   const [playersList, setPlayersList] = useState<TopSoloQPlayer[]>([])
