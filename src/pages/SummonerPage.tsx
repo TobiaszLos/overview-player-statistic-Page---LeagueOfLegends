@@ -120,7 +120,7 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
 
         setPageNumber((prevPageNumber) => prevPageNumber + 1)
 
-        fechChampionsMastery(data.id, region)
+        fechChampionsMastery(data.puuid, region)
       }
     } catch (error) {
       console.log(error)
@@ -151,9 +151,9 @@ export const SummonerPage = ({ versionPatch }: { versionPatch: string }) => {
     navigate(`/${server}/${name}`)
   }
 
-  const fechChampionsMastery = async (summonerId: string, server: Server) => {
+  const fechChampionsMastery = async (puuid: string, server: Server) => {
     const championsFetched = await fetchChampionsMasteriesWithName(
-      summonerId,
+      puuid,
       server,
       7
     )

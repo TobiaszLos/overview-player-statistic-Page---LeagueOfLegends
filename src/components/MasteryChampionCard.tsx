@@ -10,9 +10,6 @@ export const MasteryChampionCard = ({
   versionPatch: string
   customCss?: string
 }) => {
-
-
-   console.log(champions, 'champions')
   return (
     <div
       className={`mb-4 pb-2 bg-white bg-opacity-75 ${
