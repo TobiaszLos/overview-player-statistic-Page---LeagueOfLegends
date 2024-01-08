@@ -35,23 +35,25 @@ export const Layout = ({ darkTheme, setDarkTheme }: LayoutProps) => {
           </label>
         </div>
       </nav>
-      <div className=" bg-slate-600  dark:bg-slate-700 text-white">
-        <ul className="flex  space-x-8 p-3 justify-start px-24">
-          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+
+      <section className=" bg-slate-600  dark:bg-slate-700 text-white  ">
+        <ul className="flex  justify-start max-w-6xl m-auto ">
+          <li className=" cursor-pointer text-sm  p-3  hover:bg-opacity-20 hover:bg-black   transition ">
             <Link to="/">Home</Link>
           </li>
-          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+          <li className=" cursor-pointer  hover:bg-opacity-20 hover:bg-black  text-sm  p-3 transition">
             <Link to="/leaderboards">Leaderboards</Link>
           </li>
 
-          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+          <li className=" cursor-pointer  hover:bg-opacity-20 hover:bg-black   text-sm  p-3 transition">
             <Link to="/bookmarks">Bookmarks</Link>
-          </li> 
-          <li className=" cursor-pointer hover:opacity-90 font-normal text-sm">
+          </li>
+          <li className=" cursor-pointer hover:bg-opacity-20 hover:bg-black     text-sm  p-3 transition">
             <Link to="/live-games">Live games</Link>
           </li>
         </ul>
-      </div>
+      </section>
+
       {/* ------------ CHILDREN ------------*/}
 
       <section className=" max-w-6xl m-auto min-h-screen ">

@@ -87,7 +87,7 @@ export const Spectator = () => {
   return (
     <div>
       {!c.isLive ? (
-        'Not in Game'
+        <div className=' text-center mt-12'>The Summoner is not in-game right now.</div> 
       ) : (
         <div className="p-4">
           {c.gameData && (
